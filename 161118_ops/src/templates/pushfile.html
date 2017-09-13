@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>AdminX</title>
+
+  <!--ios7-->
+    <link rel="stylesheet" type="text/css" href="{{ static_url('js/ios-switch/switchery.css') }}" />
+
+    <!--icheck-->
+    <link href="{{ static_url('js/iCheck/skins/minimal/minimal.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/minimal/red.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/minimal/green.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/minimal/blue.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/minimal/yellow.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/minimal/purple.css') }}" rel="stylesheet">
+
+    <link href="{{ static_url('js/iCheck/skins/square/square.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/square/red.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/square/green.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/square/blue.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/square/yellow.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/square/purple.css') }}" rel="stylesheet">
+
+    <link href="{{ static_url('js/iCheck/skins/flat/grey.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/flat/red.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/flat/green.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/flat/blue.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/flat/yellow.css') }}" rel="stylesheet">
+    <link href="{{ static_url('js/iCheck/skins/flat/purple.css') }}" rel="stylesheet">
+
+    <!--multi-select-->
+    <link rel="stylesheet" type="text/css" href="{{ static_url('js/jquery-multi-select/css/multi-select.css') }}" />
+
+    <!--file upload-->
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/bootstrap-fileupload.min.css') }}" />
+
+    <!--tags input-->
+    <link rel="stylesheet" type="text/css" href="{{ static_url('js/jquery-tags-input/jquery.tagsinput.css') }}" />
+
+
+
+  <link href="{{ static_url('css/style.css') }}" rel="stylesheet">
+  <link href="{{ static_url('css/style-responsive.css') }}" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js') }}"></script>
+  <script src="js/respond.min.js') }}"></script>
+  <![endif]-->
+  
+  
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="{{ static_url('images/logo.png') }}" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="{{ static_url('images/logo_icon.png') }}" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+        <div class="left-side-inner">
+			<div class="media logged-user">
+				<img alt="" src="{{ static_url('images/photos/user-avatar.png') }}" class="media-object">
+				<div class="media-body">
+					<h4><a href="#">纸鸢</a></h4>
+					<span>"业务运维"</span>
+				</div>
+			</div>
+			<!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <!-- <li class="active"><a href="/"><i class="fa fa-home"></i> <span>系统状态</span></a></li> -->
+                <li><a href="/"><i class="fa fa-plus"></i> <span>机器列表</span></a></li>
+				<li><a href="/comtask"><i class="fa fa-star"></i> <span>执行作业</span></a></li>
+				<li><a href="/pfiletask"><i class="fa fa-cloud-download"></i> <span>下发文件</span></a></li>
+				<li><a href="/"><i class="fa fa-th-list"></i> <span>配置管理</span></a></li>
+				<li><a href="/"><i class="fa fa-list-alt"></i> <span>脚本管理</span></a></li>
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+    <div class="main-content" >
+		<div class="header-section">
+
+        <!--toggle button start-->
+        <a class="toggle-btn menu-collapsed"><i class="fa fa-bars"></i></a>
+        <!--toggle button end-->
+
+        <!--search start-->
+        
+        <!--search end-->
+
+        <!--notification menu start -->
+        <div class="menu-right">
+            <ul class="notification-menu">
+				<!-- 警告提示开始-->
+                <li>
+                    <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="badge">4</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-head pull-right">
+                        <h5 class="title">提示</h5>
+                        <ul class="dropdown-list normal-list">
+                            <li class="new">
+                                <a href="">
+                                    <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                                    <span class="name">2.2.2.2(广东电信) 报错.  </span>
+                                    <em class="small">34 mins</em>
+                                </a>
+                            </li>
+                            <li class="new">
+                                <a href="">
+                                    <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                                    <span class="name">1.1.1.1(上海联通) #3 异常.  </span>
+                                    <em class="small">1 hrs</em>
+                                </a>
+                            </li>
+                            <li class="new"><a href="">查看所有报警</a></li>
+                        </ul>
+                    </div>
+                </li>
+				<!-- 警告提示结束-->
+				
+				<!-- 用户信息开始-->
+                <li>
+                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{ static_url('images/photos/user-avatar.png') }}" alt="">
+                        纸鸢
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                        <li><a href="#"><i class="fa fa-user"></i>  信息</a></li>
+                        <li><a href="#"><i class="fa fa-cog"></i>  设置</a></li>
+						
+						<form id="subform" name="subform" method="post" action="/logout" onsubmit="return InputCheck(this)">
+						{% raw xsrf_form_html() %}
+						</form>
+                        <li>
+							<a href="#" onclick="document.getElementById('subform').submit();return false"><i class="fa fa-sign-out"></i>  退出</a>
+						</li>
+						
+                    </ul>
+                </li>
+				<!-- 用户信息结束-->
+
+            </ul>
+        </div>
+        <!--notification menu end -->
+
+        </div>
+		
+		<div class="wrapper">
+		  <div class="row">
+                <div class="container col-md-10 col-sm-10">
+					<section class="panel">
+						<div class="panel-body">
+							<form id="do_task" name="do_task" class="form-horizontal" role="form">
+								<div class="form-group">
+									<label for="taskname" class="col-md-4 col-sm-4 control-label">任务名称：</label>
+									<div class="col-md-6 col-sm-6">
+										<input type="email" class="form-control" name="taskname" id="taskname">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="inputPassword1" class="col-md-4 col-sm-4 control-label">目标机器：</label>
+									<div class="col-md-6 col-sm-6">
+										<a id="choose_host" href="#myModal" data-toggle="modal" class="btn btn-primary btn-sm" href="#"><i class="fa fa-desktop"></i>&nbsp;&nbsp;选择机器</a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputPassword1" class="col-md-4 col-sm-4 control-label">文件来源：</label>
+									<div class="col-md-6 col-sm-6">
+										<label>
+                                    <input type="radio" name="shelltype" value="manual" checked>
+                                    已存在文件
+                                </label>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="s_file_path" class="col-md-4 col-sm-4 control-label">源文件路径：</label>
+									<div class="col-md-6 col-sm-6">
+										<input type="email" class="form-control" name="s_file_path" id="s_file_path">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="d_file_path" class="col-md-4 col-sm-4 control-label">目标文件路径：</label>
+									<div class="col-md-6 col-sm-6">
+										<input type="email" class="form-control" name="d_file_path" id="d_file_path">
+									</div>
+								</div>
+								
+								
+								<div class="form-group">
+									<div class="col-lg-offset-4 col-sm-offset-4 col-md-offset-4 col-md-4 col-sm-4">
+										<a id="dotask" class="btn btn-primary" >执行推送</a>
+									</div>
+								</div>
+								
+								<!-- Modal -->
+							<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+											<h4 class="modal-title">选择目标机器</h4>
+										</div>
+										
+										<!-- Modal body-->
+										<div class="modal-body">
+													<div class="panel-body">
+														<div class="row">
+															<div class="col-sm-12">
+																<section class="panel">
+																	
+																	<div class="panel-body">
+																		<table class="table table-hover general-table">
+																			<thead>
+																			<tr>
+																				<th><input type="checkbox" id="check_all"></th>
+																				<th>IP</th>
+																				<th>状态</th>
+																				<th>主机名</th>
+																			</tr>
+																			</thead>
+																			<tbody id="msg">
+
+																			</tbody>
+																		</table>
+																	</div>
+																</section>
+															</div>	
+														</div><!--div row 结束-->
+													</div><!--div panel-body 结束-->
+										</div><!-- Modal body ned-->
+										
+										<div class="modal-footer">
+											<button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+											<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- modal -->
+							</form>
+							
+						</div>
+						
+						
+						
+						
+					</section>
+					
+
+					<div class="panel">
+						<div class="panel-body">
+							<div class="form-group">
+								<div class="col-lg-8 col-md-8 col-sm-8">
+									<textarea id="shellres" name="shellres"  style="width:100%; height: 500px;" disabled></textarea>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-4">
+									<textarea id="shellres_fail" name="shellres_fail"  style="width:100%; height: 500px;" disabled></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+      </div>
+	  <div id="ajaxDiv" class="wrapper">
+	  </div>
+		
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="{{ static_url('js/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ static_url('js/jquery-ui-1.9.2.custom.min.js') }}"></script>
+<script src="{{ static_url('js/jquery-migrate-1.2.1.min.js') }}"></script>
+<script src="{{ static_url('js/bootstrap.min.js') }}"></script>
+<script src="{{ static_url('js/modernizr.min.js') }}"></script>
+<script src="{{ static_url('js/jquery.nicescroll.js') }}"></script>
+
+<!--ios7-->
+<script src="{{ static_url('js/ios-switch/switchery.js') }}" ></script>
+<script src="{{ static_url('js/ios-switch/ios-init.js') }}" ></script>
+
+<!--icheck -->
+<script src="{{ static_url('js/iCheck/jquery.icheck.js') }}"></script>
+<script src="{{ static_url('js/icheck-init.js') }}"></script>
+<!--multi-select-->
+<script type="text/javascript" src="{{ static_url('js/jquery-multi-select/js/jquery.multi-select.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/jquery-multi-select/js/jquery.quicksearch.js') }}"></script>
+<script src="{{ static_url('js/multi-select-init.js') }}"></script>
+<!--spinner-->
+<script type="text/javascript" src="{{ static_url('js/fuelux/js/spinner.min.js') }}"></script>
+<script src="{{ static_url('js/spinner-init.js') }}"></script>
+<!--file upload-->
+<script type="text/javascript" src="{{ static_url('js/bootstrap-fileupload.min.js') }}"></script>
+<!--tags input-->
+<script src="{{ static_url('js/jquery-tags-input/jquery.tagsinput.js') }}"></script>
+<script src="{{ static_url('js/tagsinput-init.js') }}"></script>
+<!--bootstrap input mask-->
+<script type="text/javascript" src="{{ static_url('js/bootstrap-inputmask/bootstrap-inputmask.min.js') }}"></script>
+
+
+<!--common scripts for all pages-->
+<script src="{{ static_url('js/scripts.js') }}"></script>
+
+
+<script>
+	var checked=false;
+	$(function(){
+		$('.btn-success').click(function(){
+			var checked_item=get_checked();
+			//alert(JSON.stringify(checked_item));
+		});
+		
+		$('#dotask').click(function(e){
+			e.preventDefault();
+			doFind();
+		});
+		$('#choose_host').click(function(e){
+			get_host_devs();
+		});
+		
+		$('#check_all').click(function(){
+			 if(checked){
+				checked=false;
+			 }else{
+				checked=true;
+			 }
+			$('[type="checkbox"]').attr('checked',checked);
+		});
+	})
+	
+	var ips=[];
+	function get_checked(){
+		var ip_data=[];
+		ips=[];
+		$('[type="checkbox"]').each(function(index,e){
+			var $this=$(e);
+			if($this.attr('checked')=="checked"){
+				var v=$this.val();
+				var ip=$this.attr('ip');
+				if(v&&ip){
+					ip_data[ip_data.length]=v;
+					ips[ips.length]=ip;
+				}
+				
+			}
+		})
+		return ip_data;
+	}
+	
+	//_xsrf加强cookie安全
+	function getCookie(name) {
+		var c = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+		return c ? c[1] : undefined;
+	}
+	
+	var timestamp;
+	function doFind(){
+		timestamp=new Date().getTime();
+		//val = "<input type="checkbox" name="timekey" value="+timestamp+">"
+		//$("#keytime").append(val); 
+		var data =$('#do_task').serializeArray();
+		data.push({name:"timekey",value:timestamp});
+		data.push({name:"_xsrf",value:getCookie("_xsrf")});
+		$.ajax({
+			cache: false,
+			type: "POST",
+			async:false,
+            dataType: 'json',
+			url:"/pushfile",	//把表单数据发送到ajax.jsp
+			//data:$('#do_task').serializeArray(),	//要发送的是ajaxFrm表单中的数据
+			//data:$('#do_task').serializeArray(),
+			data:data,
+			async: false,
+            success:function(data){
+                if(data.status == true){
+                        //alert(data.value);
+                        $("#shellres").append(data.value);
+                       	                                   
+                } else {
+                        //alert(data.value);
+                        $("#shellres").append(data.value);
+                                                                
+                }
+                                
+            },
+            error: function () {
+                        alert("后台有处理错误");
+                                                    
+            }
+		});
+		start_roll();
+		//$("keytime").slideDown();
+		
+	
+	}
+	
+	var timer_id=null;
+	var return_ips=[];
+	function start_roll(){
+		$("#shellres").empty();
+		$("#shellres_fail").empty();
+		return_ips=[];
+		clear_roll();
+		timer_id= window.setInterval("timer()",500);       
+	}
+	
+	
+	function clear_roll(){
+		if(timer_id!=null){
+			window.clearInterval(timer_id);
+			timer_id=null;
+		}
+	}
+	
+
+	function timer(){
+		//timestamp
+		//data
+		//判断取不取得到数据，取不到就下次循环
+		//如果全部都获取到了，就把计时器停止
+		var ip_data=ips;
+		for(var i in ip_data){
+			var ip=ip_data[i];
+			console.log(ip);
+			if(!(return_ips[ip])){
+				return_ips[ip]=false;
+			}
+			if(return_ips[ip]!=true){
+				//post
+				console.log("timer:xxxxxxxxx post");
+				(function(timestamp,ip){
+					get_result(timestamp,ip);
+				})(timestamp,ip);
+			}else{
+				console.log("timer:no post");
+			}
+		}
+		
+		//判断是否都返回了，都返回了就停止计时器
+		var return_num=0;
+		for(var j in return_ips){
+			if(return_ips[j]){
+				return_num++;
+			}
+		}
+		if(return_num==ip_data.length){
+			clear_roll();
+		}
+	}
+	
+	function append_result_div(html){
+		 $("#shellres").append(html);
+	}
+	function append_failed_result_div(html){
+		 $("#shellres_fail").append(html);
+	}
+	
+	function get_result(timestamp,ip){
+		data=[{name:"timestamp",value:timestamp},{name:"ip",value:ip}];
+		data.push({name:"_xsrf",value:getCookie("_xsrf")});
+		$.ajax({
+			cache: false,
+			async:false,
+			type: "POST",
+            dataType: 'json',
+			url:"/get_task_res",
+			data:data,
+            success:function(rs){
+                if(rs.status==1){
+					return_ips[ip]=true;
+					append_result_div(rs.html);
+				}else{
+					return_ips[ip]=true;
+					append_failed_result_div(rs.html);
+				}               
+            },
+            error: function () {
+                                                   
+            }
+		});
+	}
+	
+	function get_host_devs(){
+		//$.ajax({
+			$.get("/get_host_devs", function(data){
+			var rs=null;
+			$("#msg").empty();
+			for(var index in data){
+				rs=data[index];
+				if(rs){
+				var txt="<tr>"
+					+"<td>"
+					+"	<input ip='"+rs.ip+"' name=\"devsarr\" id=\""+rs.id+"\" value=\""+rs.id+"\"type=\"checkbox\">"
+					+"</td>"
+					+"<td>"+rs.ip+"</td>"
+					+"<td><span class=\"label label-success label-mini\">正常</span></td>"
+					+"<td>"+rs.dev_desc+"</td></tr>"
+				$("#msg").append(txt);
+				 
+			 }
+			}
+			
+
+		  },'JSON');
+	}
+  
+  </script>
+
+</body>
+</html>

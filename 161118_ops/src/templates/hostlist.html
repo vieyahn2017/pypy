@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>Editable Table</title>
+
+  <!--data table-->
+  <link rel="stylesheet" href="{{ static_url('js/data-tables/DT_bootstrap.css') }}" />
+
+  <link href="{{ static_url('css/style.css') }}" rel="stylesheet">
+  <link href="{{ static_url('css/style-responsive.css') }}" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="{{ static_url('images/logo.png') }}" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="{{ static_url('images/logo_icon.png') }}" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+        <div class="left-side-inner">
+			<div class="media logged-user">
+				<img alt="" src="{{ static_url('images/photos/user-avatar.png') }}" class="media-object">
+				<div class="media-body">
+					<h4><a href="#">纸鸢</a></h4>
+					<span>"业务运维"</span>
+				</div>
+			</div>
+			<!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <!-- <li class="active"><a href="/"><i class="fa fa-home"></i> <span>系统状态</span></a></li> -->
+                <li><a href="/"><i class="fa fa-plus"></i> <span>机器列表</span></a></li>
+				<li><a href="/comtask"><i class="fa fa-star"></i> <span>执行作业</span></a></li>
+				<li><a href="/pfiletask"><i class="fa fa-cloud-download"></i> <span>下发文件</span></a></li>
+				<li><a href="/"><i class="fa fa-th-list"></i> <span>配置管理</span></a></li>
+				<li><a href="/"><i class="fa fa-list-alt"></i> <span>脚本管理</span></a></li>
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+        <!--toggle button start-->
+        <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+        <!--toggle button end-->
+
+        <!--search start 
+        <form class="searchform" action="index.html" method="post">
+            <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+        </form>
+        
+		 search end-->
+
+        <!--notification menu start -->
+        <div class="menu-right">
+            <ul class="notification-menu">
+				<!-- 警告提示开始-->
+                <li>
+                    <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="badge">4</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-head pull-right">
+                        <h5 class="title">提示</h5>
+                        <ul class="dropdown-list normal-list">
+                            <li class="new">
+                                <a href="">
+                                    <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                                    <span class="name">2.2.2.2(广东电信) 报错.  </span>
+                                    <em class="small">34 mins</em>
+                                </a>
+                            </li>
+                            <li class="new">
+                                <a href="">
+                                    <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                                    <span class="name">1.1.1.1(上海联通) #3 异常.  </span>
+                                    <em class="small">1 hrs</em>
+                                </a>
+                            </li>
+                            <li class="new"><a href="">查看所有报警</a></li>
+                        </ul>
+                    </div>
+                </li>
+				<!-- 警告提示结束-->
+				
+				<!-- 用户信息开始-->
+                <li>
+                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{ static_url('images/photos/user-avatar.png') }}" alt="">
+                        纸鸢
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                        <li><a href="#"><i class="fa fa-user"></i>  信息</a></li>
+                        <li><a href="#"><i class="fa fa-cog"></i>  设置</a></li>
+						
+						<form id="subform" name="subform" method="post" action="/logout" onsubmit="return InputCheck(this)">
+						{% raw xsrf_form_html() %}
+						</form>
+                        <li>
+							<a href="#" onclick="document.getElementById('subform').submit();return false"><i class="fa fa-sign-out"></i>  退出</a>
+						</li>
+						
+                    </ul>
+                </li>
+				<!-- 用户信息结束-->
+
+            </ul>
+        </div>
+        <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+             <div class="row">
+                <div class="col-sm-12">
+                <section class="panel">
+                <header class="panel-heading">
+                    机器列表
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                     </span>
+                </header>
+                <div class="panel-body">
+                <div class="adv-table editable-table ">
+                <div class="clearfix">
+                    <!-- <div class="btn-group">
+                        <button id="editable-sample_new" class="btn btn-primary">
+                            添加 <i class="fa fa-plus"></i>
+                        </button>
+                    </div> -->
+					
+                    <div class="btn-group pull-right">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="findhost" class="btn" >扫描新机器</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="space15"></div>
+                <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                <thead>
+                <tr>
+                    <th>IP地址</th>
+                    <th>描述</th>
+                    <th>分组</th>
+                    <th>编辑</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                <tbody>
+				{% for host in hosts %}
+                <tr id={{host["id"]}} name={{host["id"]}}>
+                    <td>{{host["ip"]}}</td>
+                    <td>{{host["dev_desc"]}}</td>
+                    <td>{{host["dev_grp"]}}</td>
+                    <td><a class="edit" href="javascript:;">Edit</a></td>
+                    <td><a class="delete" href="javascript:;">Delete</a></td>
+                </tr>
+				{% end %}
+                
+                </tbody>
+                </table>
+                </div>
+                </div>
+                </section>
+                </div>
+                </div>
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer>
+            2015 &copy; Admin By cnkedao
+        </footer>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="{{ static_url('js/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ static_url('js/jquery-ui-1.9.2.custom.min.js') }}"></script>
+<script src="{{ static_url('js/jquery-migrate-1.2.1.min.js') }}"></script>
+<script src="{{ static_url('js/bootstrap.min.js') }}"></script>
+<script src="{{ static_url('js/modernizr.min.js') }}"></script>
+<script src="{{ static_url('js/jquery.nicescroll.js') }}"></script>
+
+<!--data table-->
+<script type="text/javascript" src="{{ static_url('js/data-tables/jquery.dataTables.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/data-tables/DT_bootstrap.js') }}"></script>
+
+<!--common scripts for all pages-->
+<script src="{{ static_url('js/scripts.js') }}"></script>
+
+<!--script for editable table-->
+<script src="{{ static_url('js/editable-table.js') }}"></script>
+
+<!-- END JAVASCRIPTS -->
+<script>
+    jQuery(document).ready(function() {
+        EditableTable.init();
+    });
+</script>
+<script>
+$(function(){
+	$('#findhost').click(function(e){
+		e.preventDefault();
+		AutoFindHost();
+	});
+})
+
+//_xsrf加强cookie安全
+	function getCookie(name) {
+		var c = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+		return c ? c[1] : undefined;
+	}
+
+function AutoFindHost(){
+		$.ajax({
+			cache: false,
+			type: "GET",
+			url:"/auto_add_host",	//把表单数据发送到ajax.jsp
+			async: true,
+            //success:function(data){
+                //alert('OK');         
+            //},
+            //error: function () {
+                //alert("后台有处理错误");                                  
+            //}
+		});
+
+	}
+</script>
+
+</body>
+</html>

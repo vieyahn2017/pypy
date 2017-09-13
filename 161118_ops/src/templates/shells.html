@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>AdminX</title>
+
+  <!--ios7-->
+    <link rel="stylesheet" type="text/css" href="js/ios-switch/switchery.css" />
+
+    <!--icheck-->
+    <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+    <link href="js/iCheck/skins/minimal/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/minimal/green.css" rel="stylesheet">
+    <link href="js/iCheck/skins/minimal/blue.css" rel="stylesheet">
+    <link href="js/iCheck/skins/minimal/yellow.css" rel="stylesheet">
+    <link href="js/iCheck/skins/minimal/purple.css" rel="stylesheet">
+
+    <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/green.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/yellow.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/purple.css" rel="stylesheet">
+
+    <link href="js/iCheck/skins/flat/grey.css" rel="stylesheet">
+    <link href="js/iCheck/skins/flat/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="js/iCheck/skins/flat/blue.css" rel="stylesheet">
+    <link href="js/iCheck/skins/flat/yellow.css" rel="stylesheet">
+    <link href="js/iCheck/skins/flat/purple.css" rel="stylesheet">
+
+    <!--multi-select-->
+    <link rel="stylesheet" type="text/css" href="js/jquery-multi-select/css/multi-select.css" />
+
+    <!--file upload-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-fileupload.min.css" />
+
+    <!--tags input-->
+    <link rel="stylesheet" type="text/css" href="js/jquery-tags-input/jquery.tagsinput.css" />
+
+
+
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/style-responsive.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="images/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="images/logo_icon.png" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+        <div class="left-side-inner">
+			<div class="media logged-user">
+				<img alt="" src="images/photos/user-avatar.png" class="media-object">
+				<div class="media-body">
+					<h4><a href="#">纸鸢</a></h4>
+					<span>"业务运维"</span>
+				</div>
+			</div>
+			<!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="active"><a href="index.html"><i class="fa fa-home"></i> <span>系统状态</span></a></li>
+                <li><a href="add_host2.html"><i class="fa fa-plus"></i> <span>机器列表</span></a></li>
+				<li><a href="task.html"><i class="fa fa-star"></i> <span>执行作业</span></a></li>
+				<li><a href="pushfile.html"><i class="fa fa-cloud-download"></i> <span>下发文件</span></a></li>
+				<li><a href="pullconf.html"><i class="fa fa-th-list"></i> <span>配置管理</span></a></li>
+				<li><a href="shells.html"><i class="fa fa-list-alt"></i> <span>脚本管理</span></a></li>
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+    <div class="main-content" >
+		<div class="header-section">
+
+        <!--toggle button start-->
+        <a class="toggle-btn menu-collapsed"><i class="fa fa-bars"></i></a>
+        <!--toggle button end-->
+
+        <!--search start-->
+        
+        <!--search end-->
+
+        <!--notification menu start -->
+        <div class="menu-right">
+            <ul class="notification-menu">
+				<!-- 警告提示开始-->
+                <li>
+                    <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="badge">4</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-head pull-right">
+                        <h5 class="title">提示</h5>
+                        <ul class="dropdown-list normal-list">
+                            <li class="new">
+                                <a href="">
+                                    <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                                    <span class="name">2.2.2.2(广东电信) 报错.  </span>
+                                    <em class="small">34 mins</em>
+                                </a>
+                            </li>
+                            <li class="new">
+                                <a href="">
+                                    <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                                    <span class="name">1.1.1.1(上海联通) #3 异常.  </span>
+                                    <em class="small">1 hrs</em>
+                                </a>
+                            </li>
+                            <li class="new"><a href="">查看所有报警</a></li>
+                        </ul>
+                    </div>
+                </li>
+				<!-- 警告提示结束-->
+				
+				<!-- 用户信息开始-->
+                <li>
+                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <img src="images/photos/user-avatar.png" alt="">
+                        纸鸢
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                        <li><a href="#"><i class="fa fa-user"></i>  信息</a></li>
+                        <li><a href="#"><i class="fa fa-cog"></i>  设置</a></li>
+                        <li><a href="#"><i class="fa fa-sign-out"></i> 退出</a></li>
+                    </ul>
+                </li>
+				<!-- 用户信息结束-->
+
+            </ul>
+        </div>
+        <!--notification menu end -->
+
+        </div>
+		
+		<div class="wrapper">
+		  <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            主机列表
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                        </header>
+                        <div class="panel-body">
+                            <table class="table  table-hover general-table">
+                                <thead>
+                                <tr>
+                                    <th> IP</th>
+                                    <th class="hidden-phone">描述</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            123.222.112.222
+                                        </a>
+                                    </td>
+                                    <td class="hidden-phone">广东节点</td>
+                                    <td><a href="#myModal" data-toggle="modal" class="label label-primary label-mini" style="color:#ffffff">
+                                        下发
+                                    </a>
+									</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            123.222.112.223
+                                        </a>
+                                    </td>
+                                    <td class="hidden-phone">广东节点</td>
+                                    <td><a href="#myModal" data-toggle="modal" class="label label-primary label-mini" style="color:#ffffff">
+                                        下发
+                                    </a>
+									</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">123.222.112.227</a></td>
+                                    <td class="hidden-phone">广东节点</td>
+                                    <td><a href="#myModal" data-toggle="modal" class="label label-primary label-mini" style="color:#ffffff">
+                                        下发
+                                    </a>
+									</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            123.222.112.224
+                                        </a>
+                                    </td>
+                                    <td class="hidden-phone">广东节点</td>
+                                    <td><a href="#myModal" data-toggle="modal" class="label label-primary label-mini" style="color:#ffffff">
+                                        下发
+                                    </a>
+									</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">123.222.112.226</a></td>
+                                    <td class="hidden-phone">广东节点</td>
+                                    <td><a href="#myModal" data-toggle="modal" class="label label-primary label-mini" style="color:#ffffff">
+                                        下发
+                                    </a>
+									</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            123.222.112.225
+                                        </a>
+                                    </td>
+                                    <td class="hidden-phone">广东节点</td>
+                                    <td><a href="#myModal" data-toggle="modal" class="label label-primary label-mini" style="color:#ffffff">
+                                        下发
+                                    </a>
+									</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+						<!-- Modal -->
+							<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+											<h4 class="modal-title">下载配置</h4>
+										</div>
+										
+										<!-- Modal body-->
+										<div class="modal-body">
+													<div class="panel-body">
+														<div class="row">
+														
+															<!-- 单选checkbox -类型 -->
+															<div class="col-md-6">
+																<form class="form-horizontal bucket-form" method="get">
+																	<div class="form-group">
+																		<label class="col-sm-3 control-label">类型:</label>
+								
+																		<div class="col-sm-9 icheck ">
+								
+																			<div class="flat-grey single-row">
+																				<div class="radio ">
+																					<input tabindex="3" type="radio"  name="demo-radio" >
+																					<label>CDN</label>
+																				</div>
+																			</div>
+																			<div class="flat-red single-row">
+																				<div class="radio ">
+																					<input tabindex="3" type="radio"  name="demo-radio">
+																					<label>ACache</label>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</form>
+															</div>
+															<!-- 单选checkbox -类型 结束-->
+														
+															<!--多选checkbox  选项-->
+															<div class="col-md-6">
+																<form class="form-horizontal bucket-form" method="get">
+																	<div class="form-group">
+																		<label class="col-sm-3 control-label">选择:</label>
+								
+																		<div class="col-sm-9 icheck ">
+								
+																			<div class="flat-grey single-row">
+																				<div class="radio ">
+																					<input type="checkbox" checked>
+																					<label>缓存配置</label>
+																				</div>
+																			</div>
+																			<div class="flat-red single-row">
+																				<div class="radio ">
+																					<input type="checkbox" checked>
+																					<label>remap配置</label>
+																				</div>
+																			</div>
+																			<div class="flat-purple single-row">
+																				<div class="radio ">
+																					<input type="checkbox" checked>
+																					<label>C插件</label>
+																				</div>
+																			</div>
+								
+																			<div class="flat-green single-row">
+																				<div class="radio ">
+																					<input type="checkbox" checked>
+																					<label>Lua插件</label>
+																				</div>
+																			</div>
+								
+																			<div class="flat-blue single-row">
+																				<div class="radio ">
+																					<input type="checkbox" checked>
+																					<label>核心配置</label>
+																				</div>
+																			</div>
+								
+																			<div class="flat-yellow single-row">
+																				<div class="radio ">
+																					<input type="checkbox" checked>
+																					<label>sysctl.conf</label>
+																				</div>
+																			</div>
+								
+																			<div class="flat-purple single-row">
+																				<div class="radio ">
+																					<input type="checkbox" checked>
+																					<label>/sysconfig</label>
+																				</div>
+																			</div>
+																			<div class="flat-grey single-row">
+																				<div class="radio ">
+																					<input type="checkbox" checked>
+																					<label>iptables</label>
+																				</div>
+																			</div>
+																			
+																			
+																		</div>
+																	</div>
+																</form>
+															</div>
+															<!--多选checkbox 选项 结束-->
+
+														</div><!--div row 结束-->
+													</div><!--div panel-body 结束-->
+										</div><!-- Modal body ned-->
+										
+										<div class="modal-footer">
+											<button type="button" class="btn btn-success">开始安装</button>
+											<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- modal -->
+                    </section>
+                </div>
+            </div>
+      </div>
+		
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+<!--ios7-->
+<script src="js/ios-switch/switchery.js" ></script>
+<script src="js/ios-switch/ios-init.js" ></script>
+
+<!--icheck -->
+<script src="js/iCheck/jquery.icheck.js"></script>
+<script src="js/icheck-init.js"></script>
+<!--multi-select-->
+<script type="text/javascript" src="js/jquery-multi-select/js/jquery.multi-select.js"></script>
+<script type="text/javascript" src="js/jquery-multi-select/js/jquery.quicksearch.js"></script>
+<script src="js/multi-select-init.js"></script>
+<!--spinner-->
+<script type="text/javascript" src="js/fuelux/js/spinner.min.js"></script>
+<script src="js/spinner-init.js"></script>
+<!--file upload-->
+<script type="text/javascript" src="js/bootstrap-fileupload.min.js"></script>
+<!--tags input-->
+<script src="js/jquery-tags-input/jquery.tagsinput.js"></script>
+<script src="js/tagsinput-init.js"></script>
+<!--bootstrap input mask-->
+<script type="text/javascript" src="js/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+
+
+</body>
+</html>
