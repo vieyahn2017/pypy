@@ -1,0 +1,10 @@
+*/secret.*
+*/__pycache__
+*.pyc
+*.egg-info
+*.err
+nohup.out
+log/*
+env/*
+dist/*
+build/
