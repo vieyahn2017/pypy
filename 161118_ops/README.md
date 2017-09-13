@@ -1,4 +1,4 @@
-#tornado写的运维管理后台
+# tornado写的运维管理后台
 
 from celery import Celery,platforms   
 celery做了测试   

@@ -1,1 +1,1 @@
-#Python的语法
+# Python的语法
