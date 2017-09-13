@@ -1,14 +1,19 @@
 # -*- coding:utf-8 -*-
-#!/usr/bin/env python
+# !/usr/bin/env python
 """Post data streamer for tornadoweb 4.0"""
 import os
 import re
-import random
 import tempfile
+
+from config import STATIC_PATH
+
+UPLOAD_PATH = os.path.join(STATIC_PATH, "uploads")
+
 
 class SizeLimitError(Exception):
     """This exception is raised when the size of a single field exceeds the allowed limit."""
     pass
+
 
 class PostDataStreamer:
     """Parse a stream of multpart/form-data.
@@ -25,7 +30,7 @@ class PostDataStreamer:
     # be parsed without a valid encoding.
     header_encoding = "UTF-8"
 
-    def __init__(self, total, tmpdir=None):
+    def __init__(self, total, tmpdir=UPLOAD_PATH):
         self.buf = b""
         self.dlen = None
         self.delimiter = None
@@ -36,10 +41,10 @@ class PostDataStreamer:
         self.received = 0
         self.tmpdir = tmpdir
 
-    def _get_raw_header(self,data):
+    def _get_raw_header(self, data):
         idx = data.find(self.SEP)
-        if idx>=0:
-            return (data[:idx], data[idx+self.LSEP:])
+        if idx >= 0:
+            return (data[:idx], data[idx + self.LSEP:])
         else:
             return (None, data)
 
@@ -51,24 +56,24 @@ class PostDataStreamer:
         if not self.delimiter:
             self.delimiter, self.buf = self._get_raw_header(self.buf)
             if self.delimiter:
-                self.delimiter+=self.SEP
+                self.delimiter += self.SEP
                 self.dlen = len(self.delimiter)
-            elif len(self.buf)>1000:
+            elif len(self.buf) > 1000:
                 raise Exception("Cannot find multipart delimiter")
             else:
                 return
 
         while True:
             if self.in_data:
-                if (len(self.buf)>3*self.dlen):
-                    idx = self.buf.find(self.SEP+self.delimiter)
-                    if idx>=0:
+                if (len(self.buf) > 3 * self.dlen):
+                    idx = self.buf.find(self.SEP + self.delimiter)
+                    if idx >= 0:
                         self.feed_part(self.buf[:idx])
                         self.end_part()
-                        self.buf = self.buf[idx+len(self.SEP+self.delimiter):]
+                        self.buf = self.buf[idx + len(self.SEP + self.delimiter):]
                         self.in_data = False
                     else:
-                        limit = len(self.buf)-2*self.dlen
+                        limit = len(self.buf) - 2 * self.dlen
                         self.feed_part(self.buf[:limit])
                         self.buf = self.buf[limit:]
                         return
@@ -77,8 +82,8 @@ class PostDataStreamer:
             if not self.in_data:
                 while True:
                     header, self.buf = self._get_raw_header(self.buf)
-                    if header==b"":
-                        assert(self.delimiter)
+                    if header == b"":
+                        assert (self.delimiter)
                         self.in_data = True
                         self.begin_part(self.headers)
                         self.headers = []
@@ -89,35 +94,35 @@ class PostDataStreamer:
                         # Header is None, not enough data yet
                         return
 
-    def parse_header(self,header):
+    def parse_header(self, header):
         header = header.decode(self.header_encoding)
         res = self.PAT_HEADERVALUE.match(header)
         if res:
-            name,value,tail = res.groups()
+            name, value, tail = res.groups()
             params = {}
-            hdr = {"name":name,"value":value,"params":params}
+            hdr = {"name": name, "value": value, "params": params}
             while True:
                 res = self.PAT_HEADERPARAMS.match(tail)
                 if not res:
                     break
-                fname,fvalue,tail = res.groups()
+                fname, fvalue, tail = res.groups()
                 params[fname] = fvalue
             return hdr
         else:
-            return {"value":header}
+            return {"value": header}
 
-    def begin_part(self,headers):
+    def begin_part(self, headers):
         """Internal method called when a new part is started."""
         self.fout = tempfile.NamedTemporaryFile(
             dir=self.tmpdir, delete=False)
         self.part = {
-            "headers":headers,
-            "size":0,
-            "tmpfile":self.fout
+            "headers": headers,
+            "size": 0,
+            "tmpfile": self.fout
         }
         self.parts.append(self.part)
 
-    def feed_part(self,data):
+    def feed_part(self, data):
         """Internal method called when content is added to the current part."""
         self.fout.write(data)
         self.part["size"] += len(data)
@@ -125,8 +130,8 @@ class PostDataStreamer:
     def end_part(self):
         """Internal method called when receiving the current part has finished."""
         # Will not close the file here, so we will be able to read later.
-        #self.fout.close()            
-        #self.fout.flush() This is not needed because we update part["size"]
+        # self.fout.close()
+        # self.fout.flush() This is not needed because we update part["size"]
         pass
 
     def finish_receive(self):
@@ -134,82 +139,16 @@ class PostDataStreamer:
 
         You MUST call this before using the parts."""
         if self.in_data:
-            idx = self.buf.rfind(self.SEP+self.delimiter[:-2])
-            if idx>0:
+            idx = self.buf.rfind(self.SEP + self.delimiter[:-2])
+            if idx > 0:
                 self.feed_part(self.buf[:idx])
             self.end_part()
-
-    def save_parts(self,psdb):
-        """Call this to save files  to database."""
-        parts_chunk = []
-
-        def checkinvalid0(filename):
-            if len(filename) == 0:return True
-            #这个函数目前只这样简单写了，以后需要完善
-
-        #这才是合乎范式的代码啊!!!
-        def checkinvalid(filename):
-            if len(filename) == 0:
-                raise Exception(">! file name check error !!!")
-
-        #for idx,part in enumerate(self.parts):  #内置的enumerate函数是取序列号
-        for part in self.parts:  
-            try:
-                part_chunk_={}
-                part_chunk_['username'] ='admin' #以后完善时候，需要从页面读取文件上传者
-                part_chunk_['size'] = part["size"]
-                part_chunk_['location'] = part["tmpfile"].name
-                params = part["headers"][0].get("params",None) 
-                filename = params['filename']
-                #if checkinvalid0(filename):
-                    #raise Exception(" file name  check error")
-                checkinvalid(filename)
-
-                part_chunk_['filename'] = filename
-                part_chunk_['contenttype'] = part["headers"][1].get("value", "text/plain") 
-                parts_chunk.append(part_chunk_)
-                print part_chunk_
-                part["tmpfile"].close()
-
-            except Exception,e:
-                print "Error: %s" % e
-                part["tmpfile"].close()
-                os.unlink(part["tmpfile"].name) #DELETE FILE
-                #continue  #不需要这个
-
-        """
-        import tornpg
-        POSTGRES_HOST = "localhost"
-        POSTGRES_USER = "lcic"
-        POSTGRES_DB   = "lcic_db"
-        POSTGRES_PWD  = "123456"
-
-        psdb = tornpg.Connection(
-                    host = POSTGRES_HOST,database = POSTGRES_DB,
-                    user = POSTGRES_USER,password = POSTGRES_PWD)
-
-        #后，改成直接从handler传入psdb
-        """
-
-
-        for part_c in parts_chunk:
-            try:
-                psdb.insert("""INSERT INTO y_file_chunk(filename,location,contenttype,size,username) 
-                                VALUES( %s,%s,%s,%s,%s) RETURNING id;""",
-                                part_c['filename'],
-                                part_c['location'],
-                                part_c['contenttype'],
-                                part_c['size'],
-                                part_c['username'])
-                psdb.commit()
-            except Exception,e:
-                print "Error: %s" % e
 
     def release_parts(self):
         """Call this to remove the temporary files."""
         for part in self.parts:
             part["tmpfile"].close()
-            os.unlink(part["tmpfile"].name) #DELETE FILES
+            os.unlink(part["tmpfile"].name)  # DELETE FILES
 
     def get_part_payload(self, part):
         """Return the contents of a part.
@@ -225,8 +164,8 @@ class PostDataStreamer:
         If there is no content-disposition header then it returns an
         empty list."""
         for header in part["headers"]:
-            if header.get("name","").lower().strip()=="content-disposition":
-                return header.get("params",[])
+            if header.get("name", "").lower().strip() == "content-disposition":
+                return header.get("params", [])
         return []
 
     def get_part_ct_param(self, part, pname, defval=None):
@@ -238,7 +177,7 @@ class PostDataStreamer:
         """
         ct_params = self.get_part_ct_params(part)
         for name in ct_params:
-            if name.lower().strip()==pname:
+            if name.lower().strip() == pname:
                 return ct_params[name]
         return defval
 
@@ -258,11 +197,11 @@ class PostDataStreamer:
         res = []
         for part in self.parts:
             name = self.get_part_name(part)
-            if name==pname:
+            if name == pname:
                 res.append(part)
         return res
 
-    def get_values(self, fnames, size_limit=10*1024):
+    def get_values(self, fnames, size_limit=10 * 1024):
         """Return a dictionary of values for the given field names.
 
         @param fnames: A list of field names.
@@ -280,12 +219,37 @@ class PostDataStreamer:
         for fname in fnames:
             parts = self.get_parts_by_name(fname)
             if not parts:
-                raise KeyError("No such field: %s"%fname)
+                raise KeyError("No such field: %s" % fname)
             size = parts[0]["size"]
-            if size>size_limit:
-                raise SizeLimitError("Part size=%s > limit=%s"%(size, limit))
+            if size > size_limit:
+                raise SizeLimitError("Part size=%s > limit=%s" % (size, limit))
             res[fname] = self.get_part_payload(parts[0])
         return res
+
+    def get_value(self, fname):
+        """我根据上一个方法get_values改的
+        比如这样用可以
+            print(self.ps.get_values(self.ps.get_nonfile_names()))
+            输出所有非file filed
+        但是
+            print(self.ps.get_values(u"username"))就要出错，
+        只能print(self.ps.get_values([u"username",]))
+
+        至于print(self.ps.get_parts_by_name(u"username"))
+        得到的是
+        [{'headers': [{'params': {u'name': u'username'}, 'name': u'Content-Disposition',
+          'value': u'form-data'}], 'tmpfile': <open file '<fdopen>', mode 'w+b' at 0x000000000368C420>, 'size': 4}]
+        很明显使用起来不方便
+        """
+        res = {}
+        parts = self.get_parts_by_name(fname)
+        if not parts:
+            raise KeyError("No such field: %s" % fname)
+        res[fname] = self.get_part_payload(parts[0])
+        return res
+
+    def get_argument(self, name):  # 重载这个名字函数，与handler保持一致
+        return self.get_value(name)[name]
 
     def get_nonfile_names(self):
         """Get a list of part names are originally not files.
@@ -304,30 +268,29 @@ class PostDataStreamer:
     def examine(self):
         """Debugging method for examining received data."""
         print("============= structure =============")
-        for idx,part in enumerate(self.parts):
-            print("PART #",idx)
+        for idx, part in enumerate(self.parts):
+            print("PART #", idx)
             print("    HEADERS")
-            #print part["headers"]
+            # print part["headers"]
 
             for header in part["headers"]:
-                print("        ",repr(header.get("name","")),"===",repr(header.get("value","")))
-                params = header.get("params",None)
+                print("        ", repr(header.get("name", "")), "===", repr(header.get("value", "")))
+                params = header.get("params", None)
                 if params:
                     for pname in params:
-                        print("            ",repr(pname),"=",repr(params[pname]))
+                        print("            ", repr(pname), "=", repr(params[pname]))
             print("    DATA")
             print("        SIZE", part["size"])
-            print("        LOCATION",part["tmpfile"].name)
-            #print("        PAYLOAD:",repr(self.get_part_payload(part)))
+            print("        LOCATION", part["tmpfile"].name)
+            # print("        PAYLOAD:",repr(self.get_part_payload(part)))
 
-            if part["size"]<80:
-                print("        PAYLOAD:",repr(self.get_part_payload(part)))
+            if part["size"] < 80:
+                print("        PAYLOAD:", repr(self.get_part_payload(part)))
             else:
-                print("        PAYLOAD:","<too long...>")
+                print("        PAYLOAD:", "<too long...>")
         print("========== non-file values ==========")
         print(self.get_values(self.get_nonfile_names()))
 
-
     def on_progress(self):
         """Override this function to handle progress of receiving data."""
-        pass # Received <self.received> of <self.total>
+        pass  # Received <self.received> of <self.total>

@@ -12,4 +12,5 @@ http_client = AsyncHTTPClient()
 for url in urls:
     print ('Starting %s' % url)
     http_client.fetch(url, print_head)
+    
 ioloop.IOLoop.instance().start()

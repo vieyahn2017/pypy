@@ -19,17 +19,17 @@
 
 from __future__ import absolute_import, division, with_statement
 
-import copy
 import itertools
 import logging
-import os
 import time
+
+import os
 
 try:
     import psycopg2
     import psycopg2.extensions
     from psycopg2.extensions import (connection as base_connection,
-        cursor as base_cursor)
+                                     cursor as base_cursor)
 except ImportError:
     # If psycopg2 isn't available this module won't actually be useable,
     # but we want it to at least be importable on readthedocs.org,
@@ -43,6 +43,7 @@ version = "0.1"
 version_info = (0, 1, 2, 0)
 
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
+
 
 class Connection(object):
     """A lightweight wrapper around psycopg2 DB-API connections.
@@ -60,6 +61,7 @@ class Connection(object):
     --We explicitly set the timezone to UTC and the character encoding to
     --UTF-8 on all connections to avoid time zone and encoding errors.
     """
+
     def __init__(self, host, database, port=None, user=None, password=None,
                  max_idle_time=2 * 3600, connect_timeout=0,
                  connection_factory=None):
@@ -109,7 +111,7 @@ class Connection(object):
         self.close()
         self._db = psycopg2.connect(**self._db_args)
         # It's not a good idea to autocommit
-        #self._db.autocommit = True
+        # self._db.autocommit = True
 
     def commit(self):
         """Commit any pending transaction to the database.
@@ -168,7 +170,6 @@ class Connection(object):
         try:
             self._execute(cursor, query, parameters, kwparameters)
             return cursor.fetchone()
-            #return cursor.lastrowid
         finally:
             cursor.close()
 
@@ -196,7 +197,8 @@ class Connection(object):
         cursor = self._cursor()
         try:
             cursor.executemany(query, parameters)
-            return cursor.lastrowid
+            return cursor.fetchone()
+            # return cursor.lastrowid
         finally:
             cursor.close()
 
@@ -225,7 +227,7 @@ class Connection(object):
         # this case by preemptively closing and reopening the connection
         # if it has been idle for too long (7 hours by default).
         if (self._db is None or
-            (time.time() - self._last_use_time > self.max_idle_time)):
+                (time.time() - self._last_use_time > self.max_idle_time)):
             self.reconnect()
         self._last_use_time = time.time()
 
@@ -241,14 +243,24 @@ class Connection(object):
             self.close()
             raise
 
+    def original_execute(self, query, *args, **kwargs):
+        cursor = self._cursor()
+        try:
+            self._execute(cursor, query, args, kwargs)
+            return cursor.fetchall()
+        finally:
+            cursor.close()
+
 
 class Row(dict):
     """A dict that allows for object-like property access syntax."""
+
     def __getattr__(self, name):
         try:
             return self[name]
         except KeyError:
             raise AttributeError(name)
+
 
 IntegrityError = psycopg2.IntegrityError
 OperationalError = psycopg2.OperationalError

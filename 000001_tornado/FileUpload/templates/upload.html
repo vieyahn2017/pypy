@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+   <head>
+   	  <meta charset="utf-8"/>
+      <title>file upload</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- 引入 Bootstrap -->
+      <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+      <!--   <link href="style.css" rel="stylesheet">   -->
+
+      <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+      <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+      <!--[if lt IE 9]>
+         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+      <style type="text/css">
+         #speed{
+            padding: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+            background: #f4f4f4;
+         }
+         .bar{
+            height: 13px;
+            margin-top: 4px;
+            width: 15%;
+         }
+      </style>
+
+   </head>
+   <body>
+      <div style="text-align: center; padding: 40px 0px;"  height=600>
+      </div>
+
+   	<div class="container" >
+	   	<div style="text-align: center; padding: 40px 0px;">
+	   	</div>
+
+
+	<form class="form-horizontal"  id="fileform" role="form" action="/file/upload" enctype="multipart/form-data" method="POST">  <!--  -->
+        {% raw xsrf_form_html() %}
+        
+        <div class="form-group"> 
+            <h2>表单测试</h2>
+            <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">username:</label>
+                  <div class="col-sm-2">
+                      <input name="username" id="username" placeholder="test"></div>
+            </div>
+            <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">sex:</label>
+                  <div class="col-sm-2">
+                      <input name="usersex"  id="usersex" placeholder="man"/></div>
+            </div>
+
+             <div class="form-group">
+              <label for="" class="col-sm-2 control-label">已婚?</label>
+                <div class="col-sm-10">
+                   <input type="checkbox" name="married">
+                </div>
+            </div> 
+            <div class="form-group">
+              <label for="" class="col-sm-2 control-label">驾驶汽车品牌</label>
+              <div class="col-sm-2"> 
+                  <select name="car" class="form-control">
+                    <option value="volvo">volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="fiat">Fiat</option>
+                    <option value="audi">Audi</option>
+                  </select>
+              </div>
+         </div>
+
+		    <div class="form-group"> 
+		        <div class="col-sm-10"> 
+              <input class="form-control" id="fileupload" name="filename" onChange="_file_show()" type="file">
+		        </div> 
+		    </div>
+
+		    <div class="form-group" style="text-align: center;"> 
+
+                 <div class="col-sm-10 col-sm-offset-2">      
+                  <div id='speed' class="hidden">
+                        <div class="pull-left">
+                           <span class="file">xxxxx.text (40.01m)</span>&nbsp; &nbsp; 
+                        </div>
+                        <div class="progress pull-left bar">
+                         <!-- <div id="progressCounter" class="progress-bar progress-bar-info" style="width: 50%;">
+                          </div> -->
+                          <progress id="progressCounter" value="0" max="100"> </progress>
+                        </div>
+                         <div class="pull-left">
+                           &nbsp; <span>100</span>kb/s <span>00:00:20</span> &nbsp;
+                        </div>
+                        <div class="pull-left" >         
+                           <span id="endContent"></span> <a id="delete_upload" href="#" >删除</a>
+                        </div>
+                  </div> 
+
+                 </div>  <!-- class="col-sm-10 col-sm-offset-2"  -->
+
+
+              <a href="#" class="btn btn-success" id="ajax_upload" >上传文件</a>
+
+          </div>  <!-- class="form-group"  -->
+
+      </form>
+
+   	</div>
+
+
+
+
+         <script src="https://code.jquery.com/jquery.js"></script>
+
+          <script type="text/javascript" >
+
+              $.ajaxSetup({
+                  beforeSend: function(jqXHR, settings) {
+                      type = settings.type
+                      if (type != 'GET' && type != 'HEAD' && type != 'OPTIONS') {
+                          var pattern = /(.+; *)?_xsrf *= *([^;" ]+)/;
+                          var xsrf = pattern.exec(document.cookie);
+                          /*
+                          xsrf
+                            ["__guid=96992031.780696353206751600.1472717221660.608;username="2|1:0|10:1473326136|8:username|8:YWRtaW4=|d7dce1bfb1f831347d080d3bd06163e466ac43d02b00c2ec44347ddb83a192c7";_xsrf=2|6c844e1c|f9f1317b6220fb7dff9542b5c254482e|1473390277",
+                            "__guid=96992031.780696353206751600.1472717221660.608;username="2|1:0|10:1473326136|8:username|8:YWRtaW4=|d7dce1bfb1f831347d080d3bd06163e466ac43d02b00c2ec44347ddb83a192c7"; ",
+                            "2|6c844e1c|f9f1317b6220fb7dff9542b5c254482e|1473390277"]
+                          * */
+                          var _xsrf = xsrf[2];
+                          //var _xsrf = $("input[name='_xsrf']").val();
+                          if (xsrf) {
+                              jqXHR.setRequestHeader("X-CSRFToken", _xsrf);  //现在对了？
+                              //从 cookie 中获取 _xsrf 字段，然后在 AJAX 请求时加上这个参数，或者放在 X-Xsrftoken 或 X-Csrftoken 请求头里即可。
+                          }
+                      }
+                  }
+              });
+
+
+              function _file_show() {
+                  var f = document.getElementById('fileupload').files;
+                  $("#speed").removeClass('hidden');
+
+                  _size_num = f[0].size/1024;
+                  num = Math.ceil(_size_num);
+                  measure ='kb';
+                  if(num<100){ num = _size_num.toFixed(1);}
+                  else if(num>1024*1024){ measure ='G';num = (_size_num/1024/1024).toFixed(2);}
+                  else if(num>1024){ measure ='M';num = (_size_num/1024).toFixed(1);}
+
+                  $("#speed span.file").text(f[0].name + '(' +  num + measure+ ')');
+                  $("#endContent").html('');
+                  var progressElem = $('#progressCounter');
+                  progressElem.attr('value', 0);
+              }
+
+              $("#delete_upload").click(function(){
+                  $("#speed").addClass('hidden');
+                  $('#filename').prop('value',''); //删除还需要让已经选择的文件清空，
+                    //这句原生的实现 document.getElementById('filename').value='';
+              });
+
+              function formstreamer(fileid, formselector){
+                  //先从文件域取值，然后从个表单取值（只取input和select），暂时没做什么label，textarea等使用少的控件
+                  var f = document.getElementById(fileid).files;
+                  var formdata = new FormData();
+                  for(i=0;i<f.length;i++){
+                      formdata.append('file'+i,f[i]);
+                  }
+                  $(formselector).find("select").each(function(){
+                      formdata.append($(this).prop("name"), $(this).prop("value"));
+                  });
+                  $(formselector).find("input[type='radio']").each(function(){
+                      formdata.append($(this).prop("name"), $(this).prop("checked"));
+                  }); //radio的value永远是on，要保存值，得用checked
+                  $(formselector).find("input").not("input[type='file']").each(function(){
+                      formdata.append($(this).prop("name"), $(this).prop("value"));
+                  });
+                  // 表单遇到同name的项，先到先取值，后面的被自动忽略？测试是如此。所以上面的input循环没必要再排除radio
+                  // 比如我即便这样对username再赋值，username依然是之前是each所取得的值
+                  //formdata.append('username', "---hhaa----" )
+                  //formdata.append('userage', 15) //也可以直接这样传自定义的值
+                  return formdata;
+              }
+
+
+               $("#ajax_upload").click(function(){
+                   formdata = formstreamer('fileupload', "#fileform")
+                   var url = "/file/ajax";
+
+                     $.ajax({
+                        type : "post",
+                        //async : false,  //同步请求
+                        url : url,
+
+                        data: formdata,
+                        processData: false,  // tell jQuery not to process the data
+                        contentType: false,  // tell jQuery not to set contentType
+                        //timeout:1000,
+
+                        xhr: function(){ //获取原生的xhr对象
+                                        var xhr = jQuery.ajaxSettings.xhr();
+                                        var progressElem = $('#progressCounter');
+                                        xhr.upload.onload = function (){ }
+                                        xhr.upload.onprogress = function (ev) {
+                                            if(ev.lengthComputable) {
+                                                var percent = 100 * ev.loaded/ev.total;
+                                                progressElem.attr('value', percent);
+                                              //console.log(ev)   //XMLHttpRequestProgressEvent
+                                            }
+                                        }
+                                        return xhr;
+                                      },
+                     }).done(function(datas){                     
+                           $("#endContent").html(datas);
+                           $('#filename').prop('value','');
+                        }).fail(function(){
+                              $("#endContent").html("失败，请稍后再试！");
+                              //console.log(formdata)
+                        });
+                  });
+            </script>
+
+	</body>
+</html>
+

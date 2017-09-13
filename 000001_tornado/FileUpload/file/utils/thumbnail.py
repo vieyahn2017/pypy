@@ -10,7 +10,7 @@ import os
 from PIL import Image
 
 
-def thumb(imgFile,outputDir="thumb/",size=200):
+def thumb(imgFile, outputDir="thumb/", size=200):
     """
     imgFile 原始图片文件
     在原始图片目录，新建thumb文件夹作为缩略图存放文件夹
@@ -29,8 +29,8 @@ def thumb(imgFile,outputDir="thumb/",size=200):
     _size = (size, size)
     #region.resize(_size, Image.ANTIALIAS)
     region.thumbnail(_size, Image.ANTIALIAS)
-    (shotname,extension) = getFilenameAndExt(imgFile)
-    outputFile = os.path.join(outputDir, shotname+'_'+str(size)+'x'+str(size)+extension )
+    (shotname, extension) = getFilenameAndExt(imgFile)
+    outputFile = os.path.join(outputDir, "{0}_{1}x{2}{3}".format(shotname, str(size), str(size), extension))
     region.save(outputFile) 
     return outputFile
 
@@ -50,9 +50,9 @@ def clipimage(size):
     return box
 
 def getFilenameAndExt(filename):
-    (filepath,tmpfilename) = os.path.split(filename)
-    (shotname,extension) = os.path.splitext(tmpfilename)
-    return shotname,extension
+    (filepath, tmpfilename) = os.path.split(filename)
+    (shotname, extension) = os.path.splitext(tmpfilename)
+    return shotname, extension
 
 
 #print getFilenameAndExt("D://12//345.jpg")

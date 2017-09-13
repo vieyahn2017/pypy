@@ -1,0 +1,128 @@
+D:\mygithub\python_trial_collections\000001_tornado\FileUpload>python app.py
+[I 170913 23:56:13 app:62] Listen on port 9030...
+[E 170913 23:56:13 ioloop:721] set_blocking_signal_threshold requires a signal m
+odule with the setitimer method
+[I 170913 23:56:17 web:1908] 200 GET /file/upload (127.0.0.1) 6.00ms
+[the size of data] 1809908449
+('progress', 1)
+('progress', 2L)
+('progress', 3L)
+('progress', 4L)
+('progress', 5L)
+('progress', 6L)
+('progress', 7L)
+('progress', 8L)
+('progress', 9L)
+('progress', 10L)
+('progress', 11L)
+('progress', 12L)
+('progress', 13L)
+('progress', 14L)
+('progress', 15L)
+('progress', 16L)
+('progress', 17L)
+('progress', 18L)
+('progress', 19L)
+('progress', 20L)
+('progress', 21L)
+('progress', 22L)
+('progress', 23L)
+('progress', 24L)
+('progress', 25L)
+('progress', 26L)
+('progress', 27L)
+('progress', 28L)
+('progress', 29L)
+('progress', 30L)
+('progress', 31L)
+('progress', 32L)
+('progress', 33L)
+('progress', 34L)
+('progress', 35L)
+('progress', 36L)
+('progress', 37L)
+('progress', 38L)
+('progress', 39L)
+('progress', 40L)
+('progress', 41L)
+('progress', 42L)
+('progress', 43L)
+('progress', 44L)
+('progress', 45L)
+('progress', 46L)
+('progress', 47L)
+('progress', 48L)
+('progress', 49L)
+('progress', 50L)
+('progress', 51L)
+('progress', 52L)
+('progress', 53L)
+('progress', 54L)
+('progress', 55L)
+('progress', 56L)
+('progress', 57L)
+('progress', 58L)
+('progress', 59L)
+('progress', 60L)
+('progress', 61L)
+('progress', 62L)
+('progress', 63L)
+('progress', 64L)
+('progress', 65L)
+('progress', 66L)
+('progress', 67L)
+('progress', 68L)
+('progress', 69L)
+('progress', 70L)
+('progress', 71L)
+('progress', 72L)
+('progress', 73L)
+('progress', 74L)
+('progress', 75L)
+('progress', 76L)
+('progress', 77L)
+('progress', 78L)
+('progress', 79L)
+('progress', 80L)
+('progress', 81L)
+('progress', 82L)
+('progress', 83L)
+('progress', 84L)
+('progress', 85L)
+('progress', 86L)
+('progress', 87L)
+('progress', 88L)
+('progress', 89L)
+('progress', 90L)
+('progress', 91L)
+('progress', 92L)
+('progress', 93L)
+('progress', 94L)
+('progress', 95L)
+('progress', 96L)
+('progress', 97L)
+('progress', 98L)
+('progress', 99L)
+('progress', 100L)
+{u'username': '', u'car': 'volvo', u'married': 'on', u'usersex': '', u'_xsrf': '
+2|98367cca|a1f2e66b9f995aa08c21f707df320695|1505316579'}
+
+volvo
+{'username': 'admin', 'contenttype': u'application/octet-stream', 'thumb': None,
+ 'filename': u'ubuntu-14.04-s003.vmdk', 'location': u'D:\\mygithub\\python_trial
+_collections\\000001_tornado\\FileUpload\\static\\uploads\\2017\\9\\13\\20170913
+_235821__ubuntu-14.04-s003.vmdk', 'size': 1809907712}
+poststreamer.parts process --- Not File Field : {u'name': u'car'}
+poststreamer.parts process --- Not File Field : {u'name': u'_xsrf'}
+poststreamer.parts process --- Not File Field : {u'name': u'username'}
+poststreamer.parts process --- Not File Field : {u'name': u'usersex'}
+poststreamer.parts process --- Not File Field : {u'name': u'married'}
+--File Field--------- [{'username': 'admin', 'contenttype': u'application/octet-
+stream', 'thumb': None, 'filename': u'ubuntu-14.04-s003.vmdk', 'location': u'D:\
+\mygithub\\python_trial_collections\\000001_tornado\\FileUpload\\static\\uploads
+\\2017\\9\\13\\20170913_235821__ubuntu-14.04-s003.vmdk', 'size': 1809907712}]
+DB Insert Error: relation "file_upload_test" does not exist
+LINE 1: INSERT INTO file_upload_test(filename,location,contenttype,t...
+                    ^
+
+[I 170913 23:58:21 web:1908] 200 POST /file/ajax (127.0.0.1) 118927.00ms
