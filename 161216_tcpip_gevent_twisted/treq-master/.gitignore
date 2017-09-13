@@ -1,0 +1,15 @@
+.DS_Store
+*.pyc
+*.pyo
+*.egg-info
+_build
+build
+dist
+/docs/html
+MANIFEST
+.coverage
+coverage
+htmlcov
+_trial_temp
+.tox
+_trial_temp.lock

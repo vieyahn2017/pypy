@@ -1,0 +1,1722 @@
+<div itemprop="articleBody">
+            
+  <div class="section" id="functions">
+<h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
+<p>Functions are used to transform, combine, and perform computations on <a class="reference internal" href="terminology.html#term-series"><span class="xref std std-term">series</span></a> data. Functions are
+applied using the Composer interface or by manipulating the <code class="docutils literal"><span class="pre">target</span></code> parameters in the
+<a class="reference internal" href="render_api.html"><span class="doc">Render API</span></a>.</p>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Most functions are applied to one <a class="reference internal" href="terminology.html#term-series-list"><span class="xref std std-term">series list</span></a>. Functions with the parameter
+<code class="docutils literal"><span class="pre">*seriesLists</span></code> can take an arbitrary number of series lists. To pass multiple series lists
+to a function which only takes one, use the <code class="xref py py-func docutils literal"><span class="pre">group()</span></code> function.</p>
+</div>
+<div class="section" id="module-graphite.render.functions">
+<span id="id1"></span><span id="list-of-functions"></span><h2>List of functions<a class="headerlink" href="#module-graphite.render.functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="graphite.render.functions.absolute">
+<code class="descname">absolute</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.absolute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList and applies the mathematical abs function to each
+datapoint transforming it to its absolute value.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=absolute(Server.instance01.threads.busy)
+&amp;target=absolute(Server.instance*.threads.busy)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.aggregateLine">
+<code class="descname">aggregateLine</code><span class="sig-paren">(</span><em>seriesList</em>, <em>func='avg'</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.aggregateLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a metric or wildcard seriesList and draws a horizontal line
+based on the function applied to each series.</p>
+<p>Note: By default, the graphite renderer consolidates data points by
+averaging data points over time. If you are using the ‘min’ or ‘max’
+function for aggregateLine, this can cause an unusual gap in the
+line drawn by this function and the data itself. To fix this, you
+should use the consolidateBy() function with the same function
+argument you are using for aggregateLine. This will ensure that the
+proper data points are retained and the graph should line up
+correctly.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=aggregateLine(server01.connections.total, 'avg')
+&amp;target=aggregateLine(server*.connections.total, 'avg')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.alias">
+<code class="descname">alias</code><span class="sig-paren">(</span><em>seriesList</em>, <em>newName</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList and a string in quotes.
+Prints the string instead of the metric name in the legend.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=alias(Sales.widgets.largeBlue,"Large Blue Widgets")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.aliasByMetric">
+<code class="descname">aliasByMetric</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.aliasByMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a seriesList and applies an alias derived from the base metric name.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=aliasByMetric(carbon.agents.graphite.creates)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.aliasByNode">
+<code class="descname">aliasByNode</code><span class="sig-paren">(</span><em>seriesList</em>, <em>*nodes</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.aliasByNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a seriesList and applies an alias derived from one or more “node”
+portion/s of the target name. Node indices are 0 indexed.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=aliasByNode(ganglia.*.cpu.load5,1)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.aliasByTags">
+<code class="descname">aliasByTags</code><span class="sig-paren">(</span><em>seriesList</em>, <em>*tags</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.aliasByTags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a seriesList and applies an alias derived from one or more tags</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=aliasByTags(seriesByTag('name=cpu'), 'server', 'name')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.aliasQuery">
+<code class="descname">aliasQuery</code><span class="sig-paren">(</span><em>seriesList</em>, <em>search</em>, <em>replace</em>, <em>newName</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.aliasQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a query to alias the metrics in seriesList.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=aliasQuery(channel.power.*,"channel\.power\.([0-9]+)","channel.frequency.\1", "Channel %d MHz")
+</pre></div>
+</div>
+<p>The series in seriesList will be aliased by first translating the series names using
+the search &amp; replace parameters, then using the last value of the resulting series
+to construct the alias using sprintf-style syntax.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.aliasSub">
+<code class="descname">aliasSub</code><span class="sig-paren">(</span><em>seriesList</em>, <em>search</em>, <em>replace</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.aliasSub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs series names through a regex search/replace.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=aliasSub(ip.*TCP*,"^.*TCP(\d+)","\1")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.alpha">
+<code class="descname">alpha</code><span class="sig-paren">(</span><em>seriesList</em>, <em>alpha</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns the given alpha transparency setting to the series. Takes a float value between 0 and 1.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.applyByNode">
+<code class="descname">applyByNode</code><span class="sig-paren">(</span><em>seriesList</em>, <em>nodeNum</em>, <em>templateFunction</em>, <em>newName=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.applyByNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a seriesList and applies some complicated function (described by a string), replacing templates with unique
+prefixes of keys from the seriesList (the key is all nodes up to the index given as <cite>nodeNum</cite>).</p>
+<p>If the <cite>newName</cite> parameter is provided, the name of the resulting series will be given by that parameter, with any
+“%” characters replaced by the unique prefix.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=applyByNode(servers.*.disk.bytes_free,1,"divideSeries(%.disk.bytes_free,sumSeries(%.disk.bytes_*))")
+</pre></div>
+</div>
+<p>Would find all series which match <cite>servers.*.disk.bytes_free</cite>, then trim them down to unique series up to the node
+given by nodeNum, then fill them into the template function provided (replacing % by the prefixes).</p>
+<p>Additional Examples:</p>
+<p>Given keys of</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>stats.counts.haproxy.web.2XX</cite></li>
+<li><cite>stats.counts.haproxy.web.3XX</cite></li>
+<li><cite>stats.counts.haproxy.web.5XX</cite></li>
+<li><cite>stats.counts.haproxy.microservice.2XX</cite></li>
+<li><cite>stats.counts.haproxy.microservice.3XX</cite></li>
+<li><cite>stats.counts.haproxy.microservice.5XX</cite></li>
+</ul>
+</div></blockquote>
+<p>The following will return the rate of 5XX’s per service:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>applyByNode(stats.counts.haproxy.*.*XX, 3, "asPercent(%.5XX, sumSeries(%.*XX))", "%.pct_5XX")
+</pre></div>
+</div>
+<p>The output series would have keys <cite>stats.counts.haproxy.web.pct_5XX</cite> and <cite>stats.counts.haproxy.microservice.pct_5XX</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.areaBetween">
+<code class="descname">areaBetween</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.areaBetween" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the vertical area in between the two series in seriesList. Useful for
+visualizing a range such as the minimum and maximum latency for a service.</p>
+<p>areaBetween expects <strong>exactly one argument</strong> that results in exactly two series
+(see example below). The order of the lower and higher values series does not
+matter. The visualization only works when used in conjunction with
+<code class="docutils literal"><span class="pre">areaMode=stacked</span></code>.</p>
+<p>Most likely use case is to provide a band within which another metric should
+move. In such case applying an <code class="docutils literal"><span class="pre">alpha()</span></code>, as in the second example, gives
+best visual results.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=areaBetween(service.latency.{min,max})&amp;areaMode=stacked
+
+&amp;target=alpha(areaBetween(service.latency.{min,max}),0.3)&amp;areaMode=stacked
+</pre></div>
+</div>
+<p>If for instance, you need to build a seriesList, you should use the <code class="docutils literal"><span class="pre">group</span></code>
+function, like so:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=areaBetween(group(minSeries(a.*.min),maxSeries(a.*.max)))
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.asPercent">
+<code class="descname">asPercent</code><span class="sig-paren">(</span><em>seriesList</em>, <em>total=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.asPercent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates a percentage of the total of a wildcard series. If <cite>total</cite> is specified,
+each series will be calculated as a percentage of that total. If <cite>total</cite> is not specified,
+the sum of all points in the wildcard series will be used instead.</p>
+<p>The <cite>total</cite> parameter may be a single series, reference the same number of series as <cite>seriesList</cite> or a numeric value.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=asPercent(Server01.connections.{failed,succeeded}, Server01.connections.attempted)
+&amp;target=asPercent(Server*.connections.{failed,succeeded}, Server*.connections.attempted)
+&amp;target=asPercent(apache01.threads.busy,1500)
+&amp;target=asPercent(Server01.cpu.*.jiffies)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.averageAbove">
+<code class="descname">averageAbove</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.averageAbove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Out of all metrics passed, draws only the metrics with an average value
+above N for the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=averageAbove(server*.instance*.threads.busy,25)
+</pre></div>
+</div>
+<p>Draws the servers with average values above 25.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.averageBelow">
+<code class="descname">averageBelow</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.averageBelow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Out of all metrics passed, draws only the metrics with an average value
+below N for the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=averageBelow(server*.instance*.threads.busy,25)
+</pre></div>
+</div>
+<p>Draws the servers with average values below 25.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.averageOutsidePercentile">
+<code class="descname">averageOutsidePercentile</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.averageOutsidePercentile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes functions lying inside an average percentile interval</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.averageSeries">
+<code class="descname">averageSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.averageSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short Alias: avg()</p>
+<p>Takes one metric or a wildcard seriesList.
+Draws the average value of all metrics passed at each time.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=averageSeries(company.server.*.threads.busy)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.averageSeriesWithWildcards">
+<code class="descname">averageSeriesWithWildcards</code><span class="sig-paren">(</span><em>seriesList</em>, <em>*position</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.averageSeriesWithWildcards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call averageSeries after inserting wildcards at the given position(s).</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=averageSeriesWithWildcards(host.cpu-[0-7].cpu-{user,system}.value, 1)
+</pre></div>
+</div>
+<p>This would be the equivalent of
+<code class="docutils literal"><span class="pre">target=averageSeries(host.*.cpu-user.value)&amp;target=averageSeries(host.*.cpu-system.value)</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.cactiStyle">
+<code class="descname">cactiStyle</code><span class="sig-paren">(</span><em>seriesList</em>, <em>system=None</em>, <em>units=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.cactiStyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a series list and modifies the aliases to provide column aligned
+output with Current, Max, and Min values in the style of cacti. Optionally
+takes a “system” value to apply unit formatting in the same style as the
+Y-axis, or a “unit” string to append an arbitrary unit suffix.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=cactiStyle(ganglia.*.net.bytes_out,"si")
+&amp;target=cactiStyle(ganglia.*.net.bytes_out,"si","b")
+</pre></div>
+</div>
+<p>A possible value for <code class="docutils literal"><span class="pre">system</span></code> is <code class="docutils literal"><span class="pre">si</span></code>, which would express your values in
+multiples of a thousand. A second option is to use <code class="docutils literal"><span class="pre">binary</span></code> which will
+instead express your values in multiples of 1024 (useful for network devices).</p>
+<p>Column alignment of the Current, Max, Min values works under two conditions:
+you use a monospace font such as terminus and use a single cactiStyle call, as
+separate cactiStyle calls are not aware of each other. In case you have
+different targets for which you would like to have cactiStyle to line up, you
+can use <code class="docutils literal"><span class="pre">group()</span></code> to combine them before applying cactiStyle, such as:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=cactiStyle(group(metricA,metricB))
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.changed">
+<code class="descname">changed</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.changed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.
+Output 1 when the value changed, 0 when null or the same</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=changed(Server01.connections.handled)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.color">
+<code class="descname">color</code><span class="sig-paren">(</span><em>seriesList</em>, <em>theColor</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns the given color to the seriesList</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=color(collectd.hostname.cpu.0.user, 'green')
+&amp;target=color(collectd.hostname.cpu.0.system, 'ff0000')
+&amp;target=color(collectd.hostname.cpu.0.idle, 'gray')
+&amp;target=color(collectd.hostname.cpu.0.idle, '6464ffaa')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.consolidateBy">
+<code class="descname">consolidateBy</code><span class="sig-paren">(</span><em>seriesList</em>, <em>consolidationFunc</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.consolidateBy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList and a consolidation function name.</p>
+<p>Valid function names are ‘sum’, ‘average’, ‘min’, and ‘max’.</p>
+<p>When a graph is drawn where width of the graph size in pixels is smaller than
+the number of datapoints to be graphed, Graphite consolidates the values to
+to prevent line overlap. The consolidateBy() function changes the consolidation
+function from the default of ‘average’ to one of ‘sum’, ‘max’, ‘min’, ‘first’, or ‘last’.
+This is especially useful in sales graphs, where fractional values make no sense and a ‘sum’
+of consolidated values is appropriate.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=consolidateBy(Sales.widgets.largeBlue, 'sum')
+&amp;target=consolidateBy(Servers.web01.sda1.free_space, 'max')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.constantLine">
+<code class="descname">constantLine</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.constantLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a float F.</p>
+<p>Draws a horizontal line at value F across the graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=constantLine(123.456)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.countSeries">
+<code class="descname">countSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.countSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws a horizontal line representing the number of nodes found in the seriesList.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=countSeries(carbon.agents.*.*)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.cumulative">
+<code class="descname">cumulative</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.cumulative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.</p>
+<p>When a graph is drawn where width of the graph size in pixels is smaller than
+the number of datapoints to be graphed, Graphite consolidates the values to
+to prevent line overlap. The cumulative() function changes the consolidation
+function from the default of ‘average’ to ‘sum’. This is especially useful in
+sales graphs, where fractional values make no sense and a ‘sum’ of consolidated
+values is appropriate.</p>
+<p>Alias for <a class="reference internal" href="#graphite.render.functions.consolidateBy" title="graphite.render.functions.consolidateBy"><code class="xref py py-func docutils literal"><span class="pre">consolidateBy(series,</span> <span class="pre">'sum')</span></code></a></p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=cumulative(Sales.widgets.largeBlue)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.currentAbove">
+<code class="descname">currentAbove</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.currentAbove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Out of all metrics passed, draws only the  metrics whose value is above N
+at the end of the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=currentAbove(server*.instance*.threads.busy,50)
+</pre></div>
+</div>
+<p>Draws the servers with more than 50 busy threads.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.currentBelow">
+<code class="descname">currentBelow</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.currentBelow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Out of all metrics passed, draws only the  metrics whose value is below N
+at the end of the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=currentBelow(server*.instance*.threads.busy,3)
+</pre></div>
+</div>
+<p>Draws the servers with less than 3 busy threads.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.dashed">
+<code class="descname">dashed</code><span class="sig-paren">(</span><em>*seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.dashed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, followed by a float F.</p>
+<p>Draw the selected metrics with a dotted line with segments of length F
+If omitted, the default length of the segments is 5.0</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=dashed(server01.instance01.memory.free,2.5)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.delay">
+<code class="descname">delay</code><span class="sig-paren">(</span><em>seriesList</em>, <em>steps</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.delay" title="Permalink to this definition">¶</a></dt>
+<dd><p>This shifts all samples later by an integer number of steps. This can be
+used for custom derivative calculations, among other things. Note: this
+will pad the early end of the data with None for every step shifted.</p>
+<p>This complements other time-displacement functions such as timeShift and
+timeSlice, in that this function is indifferent about the step intervals
+being shifted.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=divideSeries(server.FreeSpace,delay(server.FreeSpace,1))
+</pre></div>
+</div>
+<p>This computes the change in server free space as a percentage of the previous
+free space.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.derivative">
+<code class="descname">derivative</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.derivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the opposite of the integral function.  This is useful for taking a
+running total metric and calculating the delta between subsequent data points.</p>
+<p>This function does not normalize for periods of time, as a true derivative would.
+Instead see the perSecond() function to calculate a rate of change over time.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=derivative(company.server.application01.ifconfig.TXPackets)
+</pre></div>
+</div>
+<p>Each time you run ifconfig, the RX and TXPackets are higher (assuming there
+is network traffic.) By applying the derivative function, you can get an
+idea of the packets per minute sent or received, even though you’re only
+recording the total.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.diffSeries">
+<code class="descname">diffSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.diffSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtracts series 2 through n from series 1.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=diffSeries(service.connections.total,service.connections.failed)
+</pre></div>
+</div>
+<p>To diff a series and a constant, one should use offset instead of (or in
+addition to) diffSeries</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=offset(service.connections.total,-5)
+
+&amp;target=offset(diffSeries(service.connections.total,service.connections.failed),-4)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.divideSeries">
+<code class="descname">divideSeries</code><span class="sig-paren">(</span><em>dividendSeriesList</em>, <em>divisorSeries</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.divideSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a dividend metric and a divisor metric and draws the division result.
+A constant may <em>not</em> be passed. To divide by a constant, use the scale()
+function (which is essentially a multiplication operation) and use the inverse
+of the dividend. (Division by 8 = multiplication by 1/8 or 0.125)</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=divideSeries(Series.dividends,Series.divisors)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.divideSeriesLists">
+<code class="descname">divideSeriesLists</code><span class="sig-paren">(</span><em>dividendSeriesList</em>, <em>divisorSeriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.divideSeriesLists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates over a two lists and divides list1[0] by list2[0], list1[1] by list2[1] and so on.
+The lists need to be the same length</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.drawAsInfinite">
+<code class="descname">drawAsInfinite</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.drawAsInfinite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.
+If the value is zero, draw the line at 0.  If the value is above zero, draw
+the line at infinity. If the value is null or less than zero, do not draw
+the line.</p>
+<p>Useful for displaying on/off metrics, such as exit codes. (0 = success,
+anything else = failure.)</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>drawAsInfinite(Testing.script.exitCode)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.events">
+<code class="descname">events</code><span class="sig-paren">(</span><em>*tags</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of events at this point in time. Usable with
+drawAsInfinite.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=events("tag-one", "tag-two")
+&amp;target=events("*")
+</pre></div>
+</div>
+<p>Returns all events tagged as “tag-one” and “tag-two” and the second one
+returns all events.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.exclude">
+<code class="descname">exclude</code><span class="sig-paren">(</span><em>seriesList</em>, <em>pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.exclude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a metric or a wildcard seriesList, followed by a regular expression
+in double quotes.  Excludes metrics that match the regular expression.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=exclude(servers*.instance*.threads.busy,"server02")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.exponentialMovingAverage">
+<code class="descname">exponentialMovingAverage</code><span class="sig-paren">(</span><em>seriesList</em>, <em>windowSize</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.exponentialMovingAverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a series of values and a window size and produces an exponential moving
+average utilizing the following formula:</p>
+<blockquote>
+<div><p>ema(current) = constant * (Current Value) + (1 - constant) * ema(previous)</p>
+<p>The Constant is calculated as:</p>
+<blockquote>
+<div>constant = 2 / (windowSize + 1)</div></blockquote>
+<p>The first period EMA uses a simple moving average for its value.</p>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=exponentialMovingAverage(*.transactions.count, 10)
+&amp;target=exponentialMovingAverage(*.transactions.count, '-10s')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.fallbackSeries">
+<code class="descname">fallbackSeries</code><span class="sig-paren">(</span><em>seriesList</em>, <em>fallback</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.fallbackSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a wildcard seriesList, and a second fallback metric.
+If the wildcard does not match any series, draws the fallback metric.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=fallbackSeries(server*.requests_per_second, constantLine(0))
+</pre></div>
+</div>
+<p>Draws a 0 line when server metric does not exist.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.grep">
+<code class="descname">grep</code><span class="sig-paren">(</span><em>seriesList</em>, <em>pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.grep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a metric or a wildcard seriesList, followed by a regular expression
+in double quotes.  Excludes metrics that don’t match the regular expression.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=grep(servers*.instance*.threads.busy,"server02")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.group">
+<code class="descname">group</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes an arbitrary number of seriesLists and adds them to a single seriesList. This is used
+to pass multiple seriesLists to a function which only takes one</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.groupByNode">
+<code class="descname">groupByNode</code><span class="sig-paren">(</span><em>seriesList</em>, <em>nodeNum</em>, <em>callback</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.groupByNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a serieslist and maps a callback to subgroups within as defined by a common node</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=groupByNode(ganglia.by-function.*.*.cpu.load5,2,"sumSeries")
+</pre></div>
+</div>
+<p>Would return multiple series which are each the result of applying the “sumSeries” function
+to groups joined on the second node (0 indexed) resulting in a list of targets like</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>sumSeries(ganglia.by-function.server1.*.cpu.load5),sumSeries(ganglia.by-function.server2.*.cpu.load5),...
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.groupByNodes">
+<code class="descname">groupByNodes</code><span class="sig-paren">(</span><em>seriesList</em>, <em>callback</em>, <em>*nodes</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.groupByNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a serieslist and maps a callback to subgroups within as defined by multiple nodes</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=groupByNodes(ganglia.server*.*.cpu.load*,"sumSeries",1,4)
+</pre></div>
+</div>
+<p>Would return multiple series which are each the result of applying the “sumSeries” function
+to groups joined on the nodes’ list (0 indexed) resulting in a list of targets like</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>sumSeries(ganglia.server1.*.cpu.load5),sumSeries(ganglia.server1.*.cpu.load10),sumSeries(ganglia.server1.*.cpu.load15),sumSeries(ganglia.server2.*.cpu.load5),sumSeries(ganglia.server2.*.cpu.load10),sumSeries(ganglia.server2.*.cpu.load15),...
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.groupByTags">
+<code class="descname">groupByTags</code><span class="sig-paren">(</span><em>seriesList</em>, <em>callback</em>, <em>*tags</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.groupByTags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a serieslist and maps a callback to subgroups within as defined by multiple tags</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=groupByTags(seriesByTag("name=cpu"),"averageSeries", "dc")
+</pre></div>
+</div>
+<p>Would return multiple series which are each the result of applying the “averageSeries” function
+to groups joined on the specified tags resulting in a list of targets like</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>averageSeries(seriesByTag("name=cpu", "dc=dc1")),averageSeries(seriesByTag("name=cpu", "dc=dc2")),...
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.highestAverage">
+<code class="descname">highestAverage</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.highestAverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Out of all metrics passed, draws only the top N metrics with the highest
+average value for the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=highestAverage(server*.instance*.threads.busy,5)
+</pre></div>
+</div>
+<p>Draws the top 5 servers with the highest average value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.highestCurrent">
+<code class="descname">highestCurrent</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.highestCurrent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Out of all metrics passed, draws only the N metrics with the highest value
+at the end of the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=highestCurrent(server*.instance*.threads.busy,5)
+</pre></div>
+</div>
+<p>Draws the 5 servers with the highest busy threads.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.highestMax">
+<code class="descname">highestMax</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.highestMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.</p>
+<p>Out of all metrics passed, draws only the N metrics with the highest maximum
+value in the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=highestMax(server*.instance*.threads.busy,5)
+</pre></div>
+</div>
+<p>Draws the top 5 servers who have had the most busy threads during the time
+period specified.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.hitcount">
+<code class="descname">hitcount</code><span class="sig-paren">(</span><em>seriesList</em>, <em>intervalString</em>, <em>alignToInterval=False</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.hitcount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate hit counts from a list of time series.</p>
+<p>This function assumes the values in each time series represent
+hits per second.  It calculates hits per some larger interval
+such as per day or per hour.  This function is like summarize(),
+except that it compensates automatically for different time scales
+(so that a similar graph results from using either fine-grained
+or coarse-grained records) and handles rarely-occurring events
+gracefully.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.holtWintersAberration">
+<code class="descname">holtWintersAberration</code><span class="sig-paren">(</span><em>seriesList</em>, <em>delta=3</em>, <em>bootstrapInterval='7d'</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.holtWintersAberration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Holt-Winters forecast using the series as input data and plots the
+positive or negative deviation of the series data from the forecast.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.holtWintersConfidenceArea">
+<code class="descname">holtWintersConfidenceArea</code><span class="sig-paren">(</span><em>seriesList</em>, <em>delta=3</em>, <em>bootstrapInterval='7d'</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.holtWintersConfidenceArea" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Holt-Winters forecast using the series as input data and plots the
+area between the upper and lower bands of the predicted forecast deviations.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.holtWintersConfidenceBands">
+<code class="descname">holtWintersConfidenceBands</code><span class="sig-paren">(</span><em>seriesList</em>, <em>delta=3</em>, <em>bootstrapInterval='7d'</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.holtWintersConfidenceBands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Holt-Winters forecast using the series as input data and plots
+upper and lower bands with the predicted forecast deviations.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.holtWintersForecast">
+<code class="descname">holtWintersForecast</code><span class="sig-paren">(</span><em>seriesList</em>, <em>bootstrapInterval='7d'</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.holtWintersForecast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Holt-Winters forecast using the series as input data. Data from
+<cite>bootstrapInterval</cite> (one week by default) previous to the series is used to bootstrap the initial forecast.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.identity">
+<code class="descname">identity</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identity function:
+Returns datapoints where the value equals the timestamp of the datapoint.
+Useful when you have another series where the value is a timestamp, and
+you want to compare it to the time of the datapoint, to render an age</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=identity("The.time.series")
+</pre></div>
+</div>
+<p>This would create a series named “The.time.series” that contains points where
+x(t) == t.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.integral">
+<code class="descname">integral</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.integral" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will show the sum over time, sort of like a continuous addition function.
+Useful for finding totals or trends in metrics that are collected per minute.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=integral(company.sales.perMinute)
+</pre></div>
+</div>
+<p>This would start at zero on the left side of the graph, adding the sales each
+minute, and show the total sales for the time period selected at the right
+side, (time now, or the time specified by ‘&amp;until=’).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.integralByInterval">
+<code class="descname">integralByInterval</code><span class="sig-paren">(</span><em>seriesList</em>, <em>intervalUnit</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.integralByInterval" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will do the same as integral() funcion, except resetting the total to 0
+at the given time in the parameter “from”
+Useful for finding totals per hour/day/week/..</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=integralByInterval(company.sales.perMinute, "1d")&amp;from=midnight-10days
+</pre></div>
+</div>
+<p>This would start at zero on the left side of the graph, adding the sales each
+minute, and show the evolution of sales per day during the last 10 days.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.interpolate">
+<code class="descname">interpolate</code><span class="sig-paren">(</span><em>seriesList</em>, <em>limit=inf</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, and optionally a limit to the number of ‘None’ values to skip over.
+Continues the line with the last received value when gaps (‘None’ values) appear in your data, rather than breaking your line.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=interpolate(Server01.connections.handled)
+&amp;target=interpolate(Server01.connections.handled, 10)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.invert">
+<code class="descname">invert</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.invert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, and inverts each datapoint (i.e. 1/x).</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=invert(Server.instance01.threads.busy)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.isNonNull">
+<code class="descname">isNonNull</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.isNonNull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a metric or wildcard seriesList and counts up the number of non-null
+values.  This is useful for understanding the number of metrics that have data
+at a given point in time (i.e. to count which servers are alive).</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=isNonNull(webapp.pages.*.views)
+</pre></div>
+</div>
+<p>Returns a seriesList where 1 is specified for non-null values, and
+0 is specified for null values.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.keepLastValue">
+<code class="descname">keepLastValue</code><span class="sig-paren">(</span><em>seriesList</em>, <em>limit=inf</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.keepLastValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, and optionally a limit to the number of ‘None’ values to skip over.
+Continues the line with the last received value when gaps (‘None’ values) appear in your data, rather than breaking your line.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=keepLastValue(Server01.connections.handled)
+&amp;target=keepLastValue(Server01.connections.handled, 10)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.legendValue">
+<code class="descname">legendValue</code><span class="sig-paren">(</span><em>seriesList</em>, <em>*valueTypes</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.legendValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList and a string in quotes.
+Appends a value to the metric name in the legend.  Currently one or several of: <cite>last</cite>, <cite>avg</cite>,
+<cite>total</cite>, <cite>min</cite>, <cite>max</cite>.
+The last argument can be <cite>si</cite> (default) or <cite>binary</cite>, in that case values will be formatted in the
+corresponding system.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=legendValue(Sales.widgets.largeBlue, 'avg', 'max', 'si')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.limit">
+<code class="descname">limit</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.</p>
+<p>Only draw the first N metrics.  Useful when testing a wildcard in a metric.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=limit(server*.instance*.memory.free,5)
+</pre></div>
+</div>
+<p>Draws only the first 5 instance’s memory free.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.lineWidth">
+<code class="descname">lineWidth</code><span class="sig-paren">(</span><em>seriesList</em>, <em>width</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.lineWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, followed by a float F.</p>
+<p>Draw the selected metrics with a line width of F, overriding the default
+value of 1, or the &amp;lineWidth=X.X parameter.</p>
+<p>Useful for highlighting a single metric out of many, or having multiple
+line widths in one graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=lineWidth(server01.instance01.memory.free,5)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.linearRegression">
+<code class="descname">linearRegression</code><span class="sig-paren">(</span><em>seriesList</em>, <em>startSourceAt=None</em>, <em>endSourceAt=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.linearRegression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graphs the liner regression function by least squares method.</p>
+<p>Takes one metric or a wildcard seriesList, followed by a quoted string with the
+time to start the line and another quoted string with the time to end the line.
+The start and end times are inclusive (default range is from to until). See
+<code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span> <span class="pre">until</span></code> in the render_api_ for examples of time formats. Datapoints
+in the range is used to regression.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=linearRegression(Server.instance01.threads.busy, '-1d')
+&amp;target=linearRegression(Server.instance*.threads.busy, "00:00 20140101","11:59 20140630")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.linearRegressionAnalysis">
+<code class="descname">linearRegressionAnalysis</code><span class="sig-paren">(</span><em>series</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.linearRegressionAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns factor and offset of linear regression function by least squares method.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.logarithm">
+<code class="descname">logarithm</code><span class="sig-paren">(</span><em>seriesList</em>, <em>base=10</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.logarithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, a base, and draws the y-axis in logarithmic
+format.  If base is omitted, the function defaults to base 10.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=log(carbon.agents.hostname.avgUpdateTime,2)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.lowestAverage">
+<code class="descname">lowestAverage</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.lowestAverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Out of all metrics passed, draws only the bottom N metrics with the lowest
+average value for the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=lowestAverage(server*.instance*.threads.busy,5)
+</pre></div>
+</div>
+<p>Draws the bottom 5 servers with the lowest average value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.lowestCurrent">
+<code class="descname">lowestCurrent</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.lowestCurrent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Out of all metrics passed, draws only the N metrics with the lowest value at
+the end of the time period specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=lowestCurrent(server*.instance*.threads.busy,5)
+</pre></div>
+</div>
+<p>Draws the 5 servers with the least busy threads right now.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.mapSeries">
+<code class="descname">mapSeries</code><span class="sig-paren">(</span><em>seriesList</em>, <em>mapNode</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.mapSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short form: <code class="docutils literal"><span class="pre">map()</span></code></p>
+<p>Takes a seriesList and maps it to a list of seriesList. Each seriesList has the
+given mapNode in common.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is not very useful alone. It should be used with <a class="reference internal" href="#graphite.render.functions.reduceSeries" title="graphite.render.functions.reduceSeries"><code class="xref py py-func docutils literal"><span class="pre">reduceSeries()</span></code></a></p>
+</div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>mapSeries(servers.*.cpu.*,1) =&gt;
+
+  [
+    servers.server1.cpu.*,
+    servers.server2.cpu.*,
+    ...
+    servers.serverN.cpu.*
+  ]
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.maxSeries">
+<code class="descname">maxSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.maxSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.
+For each datapoint from each metric passed in, pick the maximum value and graph it.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=maxSeries(Server*.connections.total)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.maximumAbove">
+<code class="descname">maximumAbove</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.maximumAbove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by a constant n.
+Draws only the metrics with a maximum value above n.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=maximumAbove(system.interface.eth*.packetsSent,1000)
+</pre></div>
+</div>
+<p>This would only display interfaces which sent more than 1000 packets/min.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.maximumBelow">
+<code class="descname">maximumBelow</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.maximumBelow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by a constant n.
+Draws only the metrics with a maximum value below n.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=maximumBelow(system.interface.eth*.packetsSent,1000)
+</pre></div>
+</div>
+<p>This would only display interfaces which sent less than 1000 packets/min.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.minMax">
+<code class="descname">minMax</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.minMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the popular min max normalization technique, which takes
+each point and applies the following normalization transformation
+to it: normalized = (point - min) / (max - min).</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=minMax(Server.instance01.threads.busy)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.minSeries">
+<code class="descname">minSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.minSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.
+For each datapoint from each metric passed in, pick the minimum value and graph it.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=minSeries(Server*.connections.total)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.minimumAbove">
+<code class="descname">minimumAbove</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.minimumAbove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by a constant n.
+Draws only the metrics with a minimum value above n.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=minimumAbove(system.interface.eth*.packetsSent,1000)
+</pre></div>
+</div>
+<p>This would only display interfaces which sent more than 1000 packets/min.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.minimumBelow">
+<code class="descname">minimumBelow</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.minimumBelow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by a constant n.
+Draws only the metrics with a minimum value below n.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=minimumBelow(system.interface.eth*.packetsSent,1000)
+</pre></div>
+</div>
+<p>This would only display interfaces which at one point sent less than 1000 packets/min.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.mostDeviant">
+<code class="descname">mostDeviant</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.mostDeviant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Draws the N most deviant metrics.
+To find the deviants, the standard deviation (sigma) of each series
+is taken and ranked. The top N standard deviations are returned.</p>
+<blockquote>
+<div>Example:</div></blockquote>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=mostDeviant(server*.instance*.memory.free, 5)
+</pre></div>
+</div>
+<p>Draws the 5 instances furthest from the average memory free.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.movingAverage">
+<code class="descname">movingAverage</code><span class="sig-paren">(</span><em>seriesList</em>, <em>windowSize</em>, <em>xFilesFactor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.movingAverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graphs the moving average of a metric (or metrics) over a fixed number of
+past points, or a time interval.</p>
+<p>Takes one metric or a wildcard seriesList followed by a number N of datapoints
+or a quoted string with a length of time like ‘1hour’ or ‘5min’ (See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span>
+<span class="pre">until</span></code> in the render_api_ for examples of time formats), and an xFilesFactor value to specify
+how many points in the window must be non-null for the output to be considered valid. Graphs the
+average of the preceeding datapoints for each point on the graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=movingAverage(Server.instance01.threads.busy,10)
+&amp;target=movingAverage(Server.instance*.threads.idle,'5min')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.movingMax">
+<code class="descname">movingMax</code><span class="sig-paren">(</span><em>seriesList</em>, <em>windowSize</em>, <em>xFilesFactor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.movingMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graphs the moving maximum of a metric (or metrics) over a fixed number of
+past points, or a time interval.</p>
+<p>Takes one metric or a wildcard seriesList followed by a number N of datapoints
+or a quoted string with a length of time like ‘1hour’ or ‘5min’ (See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span>
+<span class="pre">until</span></code> in the render_api_ for examples of time formats), and an xFilesFactor value to specify
+how many points in the window must be non-null for the output to be considered valid. Graphs the
+maximum of the preceeding datapoints for each point on the graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=movingMax(Server.instance01.requests,10)
+&amp;target=movingMax(Server.instance*.errors,'5min')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.movingMedian">
+<code class="descname">movingMedian</code><span class="sig-paren">(</span><em>seriesList</em>, <em>windowSize</em>, <em>xFilesFactor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.movingMedian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graphs the moving median of a metric (or metrics) over a fixed number of
+past points, or a time interval.</p>
+<p>Takes one metric or a wildcard seriesList followed by a number N of datapoints
+or a quoted string with a length of time like ‘1hour’ or ‘5min’ (See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span>
+<span class="pre">until</span></code> in the render_api_ for examples of time formats), and an xFilesFactor value to specify
+how many points in the window must be non-null for the output to be considered valid. Graphs the
+median of the preceeding datapoints for each point on the graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=movingMedian(Server.instance01.threads.busy,10)
+&amp;target=movingMedian(Server.instance*.threads.idle,'5min')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.movingMin">
+<code class="descname">movingMin</code><span class="sig-paren">(</span><em>seriesList</em>, <em>windowSize</em>, <em>xFilesFactor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.movingMin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graphs the moving minimum of a metric (or metrics) over a fixed number of
+past points, or a time interval.</p>
+<p>Takes one metric or a wildcard seriesList followed by a number N of datapoints
+or a quoted string with a length of time like ‘1hour’ or ‘5min’ (See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span>
+<span class="pre">until</span></code> in the render_api_ for examples of time formats), and an xFilesFactor value to specify
+how many points in the window must be non-null for the output to be considered valid. Graphs the
+minimum of the preceeding datapoints for each point on the graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=movingMin(Server.instance01.requests,10)
+&amp;target=movingMin(Server.instance*.errors,'5min')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.movingSum">
+<code class="descname">movingSum</code><span class="sig-paren">(</span><em>seriesList</em>, <em>windowSize</em>, <em>xFilesFactor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.movingSum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graphs the moving sum of a metric (or metrics) over a fixed number of
+past points, or a time interval.</p>
+<p>Takes one metric or a wildcard seriesList followed by a number N of datapoints
+or a quoted string with a length of time like ‘1hour’ or ‘5min’ (See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span>
+<span class="pre">until</span></code> in the render_api_ for examples of time formats), and an xFilesFactor value to specify
+how many points in the window must be non-null for the output to be considered valid. Graphs the
+sum of the preceeding datapoints for each point on the graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=movingSum(Server.instance01.requests,10)
+&amp;target=movingSum(Server.instance*.errors,'5min')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.movingWindow">
+<code class="descname">movingWindow</code><span class="sig-paren">(</span><em>seriesList</em>, <em>windowSize</em>, <em>func='average'</em>, <em>xFilesFactor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.movingWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graphs a moving window function of a metric (or metrics) over a fixed number of
+past points, or a time interval.</p>
+<p>Takes one metric or a wildcard seriesList, a number N of datapoints
+or a quoted string with a length of time like ‘1hour’ or ‘5min’ (See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span>
+<span class="pre">until</span></code> in the render_api_ for examples of time formats), a function to apply to the points
+in the window to produce the output, and an xFilesFactor value to specify how many points in the
+window must be non-null for the output to be considered valid. Graphs the
+output of the function for the preceeding datapoints for each point on the graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=movingWindow(Server.instance01.threads.busy,10)
+&amp;target=movingWindow(Server.instance*.threads.idle,'5min','median',0.5)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.multiplySeries">
+<code class="descname">multiplySeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.multiplySeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes two or more series and multiplies their points. A constant may not be
+used. To multiply by a constant, use the scale() function.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=multiplySeries(Series.dividends,Series.divisors)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.multiplySeriesWithWildcards">
+<code class="descname">multiplySeriesWithWildcards</code><span class="sig-paren">(</span><em>seriesList</em>, <em>*position</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.multiplySeriesWithWildcards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call multiplySeries after inserting wildcards at the given position(s).</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=multiplySeriesWithWildcards(web.host-[0-7].{avg-response,total-request}.value, 2)
+</pre></div>
+</div>
+<p>This would be the equivalent of</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=multiplySeries(web.host-0.{avg-response,total-request}.value)&amp;target=multiplySeries(web.host-1.{avg-response,total-request}.value)...
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.nPercentile">
+<code class="descname">nPercentile</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.nPercentile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns n-percent of each series in the seriesList.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.nonNegativeDerivative">
+<code class="descname">nonNegativeDerivative</code><span class="sig-paren">(</span><em>seriesList</em>, <em>maxValue=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.nonNegativeDerivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as the derivative function above, but ignores datapoints that trend
+down.  Useful for counters that increase for a long time, then wrap or
+reset. (Such as if a network interface is destroyed and recreated by unloading
+and re-loading a kernel module, common with USB / WiFi cards.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=nonNegativederivative(company.server.application01.ifconfig.TXPackets)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.offset">
+<code class="descname">offset</code><span class="sig-paren">(</span><em>seriesList</em>, <em>factor</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by a constant, and adds the constant to
+each datapoint.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=offset(Server.instance01.threads.busy,10)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.offsetToZero">
+<code class="descname">offsetToZero</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.offsetToZero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Offsets a metric or wildcard seriesList by subtracting the minimum
+value in the series from each datapoint.</p>
+<p>Useful to compare different series where the values in each series
+may be higher or lower on average but you’re only interested in the
+relative difference.</p>
+<p>An example use case is for comparing different round trip time
+results. When measuring RTT (like pinging a server), different
+devices may come back with consistently different results due to
+network latency which will be different depending on how many
+network hops between the probe and the device. To compare different
+devices in the same graph, the network latency to each has to be
+factored out of the results. This is a shortcut that takes the
+fastest response (lowest number in the series) and sets that to zero
+and then offsets all of the other datapoints in that series by that
+amount. This makes the assumption that the lowest response is the
+fastest the device can respond, of course the more datapoints that
+are in the series the more accurate this assumption is.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=offsetToZero(Server.instance01.responseTime)
+&amp;target=offsetToZero(Server.instance*.responseTime)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.perSecond">
+<code class="descname">perSecond</code><span class="sig-paren">(</span><em>seriesList</em>, <em>maxValue=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.perSecond" title="Permalink to this definition">¶</a></dt>
+<dd><p>NonNegativeDerivative adjusted for the series time interval
+This is useful for taking a running total metric and showing how many requests
+per second were handled.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=perSecond(company.server.application01.ifconfig.TXPackets)
+</pre></div>
+</div>
+<p>Each time you run ifconfig, the RX and TXPackets are higher (assuming there
+is network traffic.) By applying the nonNegativeDerivative function, you can get an
+idea of the packets per minute sent or received, even though you’re only
+recording the total.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.percentileOfSeries">
+<code class="descname">percentileOfSeries</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em>, <em>interpolate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.percentileOfSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>percentileOfSeries returns a single series which is composed of the n-percentile
+values taken across a wildcard series at each point. Unless <cite>interpolate</cite> is
+set to True, percentile values are actual values contained in one of the
+supplied series.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.pow">
+<code class="descname">pow</code><span class="sig-paren">(</span><em>seriesList</em>, <em>factor</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.pow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by a constant, and raises the datapoint
+by the power of the constant provided at each point.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=pow(Server.instance01.threads.busy,10)
+&amp;target=pow(Server.instance*.threads.busy,10)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.powSeries">
+<code class="descname">powSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.powSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes two or more series and pows their points. A constant line may be
+used.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=powSeries(Server.instance01.app.requests, Server.instance01.app.replies)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.randomWalkFunction">
+<code class="descname">randomWalkFunction</code><span class="sig-paren">(</span><em>name</em>, <em>step=60</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.randomWalkFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short Alias: randomWalk()</p>
+<p>Returns a random walk starting at 0. This is great for testing when there is
+no real data in whisper.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=randomWalk("The.time.series")
+</pre></div>
+</div>
+<p>This would create a series named “The.time.series” that contains points where
+x(t) == x(t-1)+random()-0.5, and x(0) == 0.
+Accepts optional second argument as ‘step’ parameter (default step is 60 sec)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.rangeOfSeries">
+<code class="descname">rangeOfSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.rangeOfSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a wildcard seriesList.
+Distills down a set of inputs into the range of the series</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=rangeOfSeries(Server*.connections.total)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.reduceSeries">
+<code class="descname">reduceSeries</code><span class="sig-paren">(</span><em>seriesLists</em>, <em>reduceFunction</em>, <em>reduceNode</em>, <em>*reduceMatchers</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.reduceSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short form: <code class="docutils literal"><span class="pre">reduce()</span></code></p>
+<p>Takes a list of seriesLists and reduces it to a list of series by means of the reduceFunction.</p>
+<p>Reduction is performed by matching the reduceNode in each series against the list of
+reduceMatchers. Then each series is passed to the reduceFunction as arguments in the order
+given by reduceMatchers. The reduceFunction should yield a single series.</p>
+<p>The resulting list of series are aliased so that they can easily be nested in other functions.</p>
+<p><strong>Example</strong>: Map/Reduce asPercent(bytes_used,total_bytes) for each server</p>
+<p>Assume that metrics in the form below exist:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>servers.server1.disk.bytes_used
+servers.server1.disk.total_bytes
+servers.server2.disk.bytes_used
+servers.server2.disk.total_bytes
+servers.server3.disk.bytes_used
+servers.server3.disk.total_bytes
+...
+servers.serverN.disk.bytes_used
+servers.serverN.disk.total_bytes
+</pre></div>
+</div>
+<p>To get the percentage of disk used for each server:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>reduceSeries(mapSeries(servers.*.disk.*,1),"asPercent",3,"bytes_used","total_bytes") =&gt;
+
+  alias(asPercent(servers.server1.disk.bytes_used,servers.server1.disk.total_bytes),"servers.server1.disk.reduce.asPercent"),
+  alias(asPercent(servers.server2.disk.bytes_used,servers.server2.disk.total_bytes),"servers.server2.disk.reduce.asPercent"),
+  alias(asPercent(servers.server3.disk.bytes_used,servers.server3.disk.total_bytes),"servers.server3.disk.reduce.asPercent"),
+  ...
+  alias(asPercent(servers.serverN.disk.bytes_used,servers.serverN.disk.total_bytes),"servers.serverN.disk.reduce.asPercent")
+</pre></div>
+</div>
+<p>In other words, we will get back the following metrics:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">servers</span><span class="o">.</span><span class="n">server1</span><span class="o">.</span><span class="n">disk</span><span class="o">.</span><span class="n">reduce</span><span class="o">.</span><span class="n">asPercent</span>
+<span class="n">servers</span><span class="o">.</span><span class="n">server2</span><span class="o">.</span><span class="n">disk</span><span class="o">.</span><span class="n">reduce</span><span class="o">.</span><span class="n">asPercent</span>
+<span class="n">servers</span><span class="o">.</span><span class="n">server3</span><span class="o">.</span><span class="n">disk</span><span class="o">.</span><span class="n">reduce</span><span class="o">.</span><span class="n">asPercent</span>
+<span class="o">...</span>
+<span class="n">servers</span><span class="o">.</span><span class="n">serverN</span><span class="o">.</span><span class="n">disk</span><span class="o">.</span><span class="n">reduce</span><span class="o">.</span><span class="n">asPercent</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#graphite.render.functions.mapSeries" title="graphite.render.functions.mapSeries"><code class="xref py py-func docutils literal"><span class="pre">mapSeries()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.removeAbovePercentile">
+<code class="descname">removeAbovePercentile</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.removeAbovePercentile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes data above the nth percentile from the series or list of series provided.
+Values above this percentile are assigned a value of None.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.removeAboveValue">
+<code class="descname">removeAboveValue</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.removeAboveValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes data above the given threshold from the series or list of series provided.
+Values above this threshold are assigned a value of None.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.removeBelowPercentile">
+<code class="descname">removeBelowPercentile</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.removeBelowPercentile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes data below the nth percentile from the series or list of series provided.
+Values below this percentile are assigned a value of None.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.removeBelowValue">
+<code class="descname">removeBelowValue</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.removeBelowValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes data below the given threshold from the series or list of series provided.
+Values below this threshold are assigned a value of None.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.removeBetweenPercentile">
+<code class="descname">removeBetweenPercentile</code><span class="sig-paren">(</span><em>seriesList</em>, <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.removeBetweenPercentile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes lines who do not have an value lying in the x-percentile of all the values at a moment</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.removeEmptySeries">
+<code class="descname">removeEmptySeries</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.removeEmptySeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.
+Out of all metrics passed, draws only the metrics with not empty data</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=removeEmptySeries(server*.instance*.threads.busy)
+</pre></div>
+</div>
+<p>Draws only live servers with not empty data.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.roundFunction">
+<code class="descname">roundFunction</code><span class="sig-paren">(</span><em>seriesList</em>, <em>precision=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.roundFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList optionally followed by a precision, and rounds each
+datapoint to the specified precision.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=round(Server.instance01.threads.busy)
+&amp;target=round(Server.instance01.threads.busy,2)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.scale">
+<code class="descname">scale</code><span class="sig-paren">(</span><em>seriesList</em>, <em>factor</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by a constant, and multiplies the datapoint
+by the constant provided at each point.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=scale(Server.instance01.threads.busy,10)
+&amp;target=scale(Server.instance*.threads.busy,10)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.scaleToSeconds">
+<code class="descname">scaleToSeconds</code><span class="sig-paren">(</span><em>seriesList</em>, <em>seconds</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.scaleToSeconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList and returns “value per seconds” where
+seconds is a last argument to this functions.</p>
+<p>Useful in conjunction with derivative or integral function if you want
+to normalize its result to a known resolution for arbitrary retentions</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.secondYAxis">
+<code class="descname">secondYAxis</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.secondYAxis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graph the series on the secondary Y axis.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.seriesByTag">
+<code class="descname">seriesByTag</code><span class="sig-paren">(</span><em>*tagExpressions</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.seriesByTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a SeriesList of all series matching the specified tag expressions</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=seriesByTag("tag1=value1", "tag2!=value2")
+</pre></div>
+</div>
+<p>Returns a seriesList containing all matching series.</p>
+<p>Tags specifiers are strings, and may have the following formats:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>tag=spec    tag value exactly matches spec
+tag!=spec   tag value does not exactly match spec
+tag=~value  tag value matches the regular expression spec
+tag!=~spec  tag value does not match the regular expression spec
+</pre></div>
+</div>
+<p>Any tag spec that matches an empty value is considered to match series that don’t have that tag.</p>
+<p>At least one tag spec must require a non-empty value.</p>
+<p>Regular expression conditions are treated as being anchored at the start of the value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.sinFunction">
+<code class="descname">sinFunction</code><span class="sig-paren">(</span><em>name</em>, <em>amplitude=1</em>, <em>step=60</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.sinFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short Alias: sin()</p>
+<p>Just returns the sine of the current time. The optional amplitude parameter
+changes the amplitude of the wave.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=sin("The.time.series", 2)
+</pre></div>
+</div>
+<p>This would create a series named “The.time.series” that contains sin(x)*2.
+Accepts optional second argument as ‘amplitude’ parameter (default amplitude is 1)
+Accepts optional third argument as ‘step’ parameter (default step is 60 sec)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.smartSummarize">
+<code class="descname">smartSummarize</code><span class="sig-paren">(</span><em>seriesList</em>, <em>intervalString</em>, <em>func='sum'</em>, <em>alignTo=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.smartSummarize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smarter experimental version of summarize.</p>
+<p>The alignToFrom boolean parameter has been replaced by alignTo and no longer has any effect.
+Alignment can be to years, months, weeks, days, hours, and minutes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.sortByMaxima">
+<code class="descname">sortByMaxima</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.sortByMaxima" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.</p>
+<p>Sorts the list of metrics by the maximum value across the time period
+specified.  Useful with the &amp;areaMode=all parameter, to keep the
+lowest value lines visible.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=sortByMaxima(server*.instance*.memory.free)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.sortByMinima">
+<code class="descname">sortByMinima</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.sortByMinima" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.</p>
+<p>Sorts the list of metrics by the lowest value across the time period
+specified.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=sortByMinima(server*.instance*.memory.free)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.sortByName">
+<code class="descname">sortByName</code><span class="sig-paren">(</span><em>seriesList</em>, <em>natural=False</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.sortByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.
+Sorts the list of metrics by the metric name using either alphabetical order or natural sorting.
+Natural sorting allows names containing numbers to be sorted more naturally, e.g:
+- Alphabetical sorting: server1, server11, server12, server2
+- Natural sorting: server1, server2, server11, server12</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.sortByTotal">
+<code class="descname">sortByTotal</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.sortByTotal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.</p>
+<p>Sorts the list of metrics by the sum of values across the time period
+specified.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.squareRoot">
+<code class="descname">squareRoot</code><span class="sig-paren">(</span><em>seriesList</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.squareRoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, and computes the square root of each datapoint.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=squareRoot(Server.instance01.threads.busy)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.stacked">
+<code class="descname">stacked</code><span class="sig-paren">(</span><em>seriesLists</em>, <em>stackName='__DEFAULT__'</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.stacked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList and change them so they are
+stacked. This is a way of stacking just a couple of metrics without having
+to use the stacked area mode (that stacks everything). By means of this a mixed
+stacked and non stacked graph can be made</p>
+<p>It can also take an optional argument with a name of the stack, in case there is
+more than one, e.g. for input and output metrics.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=stacked(company.server.application01.ifconfig.TXPackets, 'tx')
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.stddevSeries">
+<code class="descname">stddevSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.stddevSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList.
+Draws the standard deviation of all metrics passed at each time.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=stddevSeries(company.server.*.threads.busy)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.stdev">
+<code class="descname">stdev</code><span class="sig-paren">(</span><em>seriesList</em>, <em>points</em>, <em>windowTolerance=0.1</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.stdev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by an integer N.
+Draw the Standard Deviation of all metrics passed for the past N datapoints.
+If the ratio of null points in the window is greater than windowTolerance,
+skip the calculation. The default for windowTolerance is 0.1 (up to 10% of points
+in the window can be missing). Note that if this is set to 0.0, it will cause large
+gaps in the output anywhere a single point is missing.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=stdev(server*.instance*.threads.busy,30)
+&amp;target=stdev(server*.instance*.cpu.system,30,0.0)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.substr">
+<code class="descname">substr</code><span class="sig-paren">(</span><em>seriesList</em>, <em>start=0</em>, <em>stop=0</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.substr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList followed by 1 or 2 integers.  Assume that the
+metric name is a list or array, with each element separated by dots.  Prints
+n - length elements of the array (if only one integer n is passed) or n - m
+elements of the array (if two integers n and m are passed).  The list starts
+with element 0 and ends with element (length - 1).</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=substr(carbon.agents.hostname.avgUpdateTime,2,4)
+</pre></div>
+</div>
+<p>The label would be printed as “hostname.avgUpdateTime”.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.sumSeries">
+<code class="descname">sumSeries</code><span class="sig-paren">(</span><em>*seriesLists</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.sumSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short form: sum()</p>
+<p>This will add metrics together and return the sum at each datapoint. (See
+integral for a sum over time)</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=sum(company.server.application*.requestsHandled)
+</pre></div>
+</div>
+<p>This would show the sum of all requests handled per minute (provided
+requestsHandled are collected once a minute).   If metrics with different
+retention rates are combined, the coarsest metric is graphed, and the sum
+of the other metrics is averaged for the metrics with finer retention rates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.sumSeriesWithWildcards">
+<code class="descname">sumSeriesWithWildcards</code><span class="sig-paren">(</span><em>seriesList</em>, <em>*position</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.sumSeriesWithWildcards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call sumSeries after inserting wildcards at the given position(s).</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=sumSeriesWithWildcards(host.cpu-[0-7].cpu-{user,system}.value, 1)
+</pre></div>
+</div>
+<p>This would be the equivalent of
+<code class="docutils literal"><span class="pre">target=sumSeries(host.cpu-[0-7].cpu-user.value)&amp;target=sumSeries(host.cpu-[0-7].cpu-system.value)</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.summarize">
+<code class="descname">summarize</code><span class="sig-paren">(</span><em>seriesList</em>, <em>intervalString</em>, <em>func='sum'</em>, <em>alignToFrom=False</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.summarize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summarize the data into interval buckets of a certain size.</p>
+<p>By default, the contents of each interval bucket are summed together. This is
+useful for counters where each increment represents a discrete event and
+retrieving a “per X” value requires summing all the events in that interval.</p>
+<p>Specifying ‘avg’ instead will return the mean for each bucket, which can be more
+useful when the value is a gauge that represents a certain value in time.</p>
+<p>‘max’, ‘min’ or ‘last’ can also be specified.</p>
+<p>By default, buckets are calculated by rounding to the nearest interval. This
+works well for intervals smaller than a day. For example, 22:32 will end up
+in the bucket 22:00-23:00 when the interval=1hour.</p>
+<p>Passing alignToFrom=true will instead create buckets starting at the from
+time. In this case, the bucket for 22:32 depends on the from time. If
+from=6:30 then the 1hour bucket for 22:32 is 22:30-23:30.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=summarize(counter.errors, "1hour") # total errors per hour
+&amp;target=summarize(nonNegativeDerivative(gauge.num_users), "1week") # new users per week
+&amp;target=summarize(queue.size, "1hour", "avg") # average queue size per hour
+&amp;target=summarize(queue.size, "1hour", "max") # maximum queue size during each hour
+&amp;target=summarize(metric, "13week", "avg", true)&amp;from=midnight+20100101 # 2010 Q1-4
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.threshold">
+<code class="descname">threshold</code><span class="sig-paren">(</span><em>value</em>, <em>label=None</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a float F, followed by a label (in double quotes) and a color.
+(See <code class="docutils literal"><span class="pre">bgcolor</span></code> in the render_api_ for valid color names &amp; formats.)</p>
+<p>Draws a horizontal line at value F across the graph.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=threshold(123.456, "omgwtfbbq", "red")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.timeFunction">
+<code class="descname">timeFunction</code><span class="sig-paren">(</span><em>name</em>, <em>step=60</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.timeFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short Alias: time()</p>
+<p>Just returns the timestamp for each X value. T</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=time("The.time.series")
+</pre></div>
+</div>
+<p>This would create a series named “The.time.series” that contains in Y the same
+value (in seconds) as X.
+Accepts optional second argument as ‘step’ parameter (default step is 60 sec)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.timeShift">
+<code class="descname">timeShift</code><span class="sig-paren">(</span><em>seriesList</em>, <em>timeShift</em>, <em>resetEnd=True</em>, <em>alignDST=False</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.timeShift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, followed by a quoted string with the
+length of time (See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span> <span class="pre">until</span></code> in the render_api_ for examples of time formats).</p>
+<p>Draws the selected metrics shifted in time. If no sign is given, a minus sign ( - ) is
+implied which will shift the metric back in time. If a plus sign ( + ) is given, the
+metric will be shifted forward in time.</p>
+<p>Will reset the end date range automatically to the end of the base stat unless
+resetEnd is False. Example case is when you timeshift to last week and have the graph
+date range set to include a time in the future, will limit this timeshift to pretend
+ending at the current time. If resetEnd is False, will instead draw full range including
+future time.</p>
+<p>Because time is shifted by a fixed number of seconds, comparing a time period with DST to
+a time period without DST, and vice-versa, will result in an apparent misalignment. For
+example, 8am might be overlaid with 7am. To compensate for this, use the alignDST option.</p>
+<p>Useful for comparing a metric against itself at a past periods or correcting data
+stored at an offset.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=timeShift(Sales.widgets.largeBlue,"7d")
+&amp;target=timeShift(Sales.widgets.largeBlue,"-7d")
+&amp;target=timeShift(Sales.widgets.largeBlue,"+1h")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.timeSlice">
+<code class="descname">timeSlice</code><span class="sig-paren">(</span><em>seriesList</em>, <em>startSliceAt</em>, <em>endSliceAt='now'</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.timeSlice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard metric, followed by a quoted string with the
+time to start the line and another quoted string with the time to end the line.
+The start and end times are inclusive. See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span> <span class="pre">until</span></code> in the render_api_
+for examples of time formats.</p>
+<p>Useful for filtering out a part of a series of data from a wider range of
+data.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=timeSlice(network.core.port1,"00:00 20140101","11:59 20140630")
+&amp;target=timeSlice(network.core.port1,"12:00 20140630","now")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.timeStack">
+<code class="descname">timeStack</code><span class="sig-paren">(</span><em>seriesList</em>, <em>timeShiftUnit</em>, <em>timeShiftStart</em>, <em>timeShiftEnd</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.timeStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes one metric or a wildcard seriesList, followed by a quoted string with the
+length of time (See <code class="docutils literal"><span class="pre">from</span> <span class="pre">/</span> <span class="pre">until</span></code> in the render_api_ for examples of time formats).
+Also takes a start multiplier and end multiplier for the length of time</p>
+<p>create a seriesList which is composed the original metric series stacked with time shifts
+starting time shifts from the start multiplier through the end multiplier</p>
+<p>Useful for looking at history, or feeding into averageSeries or stddevSeries.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=timeStack(Sales.widgets.largeBlue,"1d",0,7)    # create a series for today and each of the previous 7 days
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.transformNull">
+<code class="descname">transformNull</code><span class="sig-paren">(</span><em>seriesList</em>, <em>default=0</em>, <em>referenceSeries=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.transformNull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a metric or wildcard seriesList and replaces null values with the value
+specified by <cite>default</cite>.  The value 0 used if not specified.  The optional
+referenceSeries, if specified, is a metric or wildcard series list that governs
+which time intervals nulls should be replaced.  If specified, nulls are replaced
+only in intervals where a non-null is found for the same interval in any of
+referenceSeries.  This method compliments the drawNullAsZero function in
+graphical mode, but also works in text-only mode.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=transformNull(webapp.pages.*.views,-1)
+</pre></div>
+</div>
+<p>This would take any page that didn’t have values and supply negative 1 as a default.
+Any other numeric value may be used as well.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.useSeriesAbove">
+<code class="descname">useSeriesAbove</code><span class="sig-paren">(</span><em>seriesList</em>, <em>value</em>, <em>search</em>, <em>replace</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.useSeriesAbove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares the maximum of each series against the given <cite>value</cite>. If the series
+maximum is greater than <cite>value</cite>, the regular expression search and replace is
+applied against the series name to plot a related metric</p>
+<p>e.g. given useSeriesAbove(ganglia.metric1.reqs,10,’reqs’,’time’),
+the response time metric will be plotted only when the maximum value of the
+corresponding request/s metric is &gt; 10</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=useSeriesAbove(ganglia.metric1.reqs,10,"reqs","time")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.verticalLine">
+<code class="descname">verticalLine</code><span class="sig-paren">(</span><em>ts</em>, <em>label=None</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.verticalLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a timestamp string ts.</p>
+<p>Draws a vertical line at the designated timestamp with optional
+‘label’ and ‘color’. Supported timestamp formats include both
+relative (e.g. -3h) and absolute (e.g. 16:00_20110501) strings,
+such as those used with <code class="docutils literal"><span class="pre">from</span></code> and <code class="docutils literal"><span class="pre">until</span></code> parameters. When
+set, the ‘label’ will appear in the graph legend.</p>
+<p>Note: Any timestamps defined outside the requested range will
+raise a ‘ValueError’ exception.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=verticalLine("12:3420131108","event","blue")
+&amp;target=verticalLine("16:00_20110501","event")
+&amp;target=verticalLine("-5mins")
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="graphite.render.functions.weightedAverage">
+<code class="descname">weightedAverage</code><span class="sig-paren">(</span><em>seriesListAvg</em>, <em>seriesListWeight</em>, <em>*nodes</em><span class="sig-paren">)</span><a class="headerlink" href="#graphite.render.functions.weightedAverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a series of average values and a series of weights and
+produces a weighted average for all values.
+The corresponding values should share one or more zero-indexed nodes.</p>
+<p>Example:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&amp;target=weightedAverage(*.transactions.mean,*.transactions.count,0)
+&amp;target=weightedAverage(*.transactions.mean,*.transactions.count,1,3,4)
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>

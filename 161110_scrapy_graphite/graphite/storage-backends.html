@@ -1,0 +1,119 @@
+<div itemprop="articleBody">
+            
+  <div class="section" id="alternative-storage-finders">
+<h1>Alternative storage finders<a class="headerlink" href="#alternative-storage-finders" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="built-in-finders">
+<h2>Built-in finders<a class="headerlink" href="#built-in-finders" title="Permalink to this headline">¶</a></h2>
+<p>The default graphite setup consists of:</p>
+<ul class="simple">
+<li>A Whisper database</li>
+<li>A carbon daemon writing data to the database</li>
+<li>Graphite-web reading and graphing data from the database</li>
+</ul>
+<p>It is possible to use an alternate storage layer than the default, Whisper, in
+order to accommodate specific needs. The setup above would become:</p>
+<ul class="simple">
+<li>An alternative database</li>
+<li>A carbon daemon or alternative daemon for writing to the database</li>
+<li>A custom <em>storage finder</em> for reading the data in graphite-web</li>
+</ul>
+<p>This section aims at documenting the last item: configuring graphite-web to
+read data from a custom storage layer.</p>
+<p>This can be done via the <code class="docutils literal"><span class="pre">STORAGE_FINDERS</span></code> setting. This setting is a list
+of paths to finder implementations. Its default value is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">STORAGE_FINDERS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">'graphite.finders.remote.RemoteFinder'</span><span class="p">,</span>
+    <span class="s1">'graphite.finders.standard.StandardFinder'</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The default finder reads data from a Whisper database.</p>
+<p>An alternative finder for the experimental Ceres database is available:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">STORAGE_FINDERS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">'graphite.finders.ceres.CeresFinder'</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The setting supports multiple values, meaning you can read data from both a
+Whisper database and a Ceres database:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">STORAGE_FINDERS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">'graphite.finders.remote.RemoteFinder'</span><span class="p">,</span>
+    <span class="s1">'graphite.finders.standard.StandardFinder'</span><span class="p">,</span>
+    <span class="s1">'graphite.finders.ceres.CeresFinder'</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-finders">
+<h2>Custom finders<a class="headerlink" href="#custom-finders" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">STORAGE_FINDERS</span></code> being a list of arbitrary python paths, it is relatively
+easy to write a custom finder if you want to read data from other places than
+Whisper and Ceres. A finder is a python class with a <code class="docutils literal"><span class="pre">find_nodes()</span></code> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomFinder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">find_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="c1"># ...</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">query</span></code> is a <code class="docutils literal"><span class="pre">FindQuery</span></code> object. <code class="docutils literal"><span class="pre">find_nodes()</span></code> is the entry point when
+browsing the metrics tree. It must yield leaf or branch nodes matching the
+query:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">graphite.node</span> <span class="kn">import</span> <span class="n">LeafNode</span><span class="p">,</span> <span class="n">BranchNode</span>
+<span class="kn">from</span> <span class="nn">graphite.readers.utils</span> <span class="kn">import</span> <span class="n">BaseFinder</span>
+
+<span class="k">class</span> <span class="nc">CustomFinder</span><span class="p">(</span><span class="n">BaseFinder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">find_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="c1"># find some paths matching the query, then yield them</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_branch</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">BranchNode</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">is_leaf</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">LeafNode</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">CustomReader</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">LeafNode</span></code> is created with a <em>reader</em>, which is the class responsible for
+fetching the datapoints for the given path. It is a simple class with 2
+methods: <code class="docutils literal"><span class="pre">fetch()</span></code> and <code class="docutils literal"><span class="pre">get_intervals()</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">graphite.intervals</span> <span class="kn">import</span> <span class="n">IntervalSet</span><span class="p">,</span> <span class="n">Interval</span>
+<span class="kn">from</span> <span class="nn">graphite.readers.utils</span> <span class="kn">import</span> <span class="n">BaseReader</span>
+
+<span class="k">class</span> <span class="nc">CustomReader</span><span class="p">(</span><span class="n">BaseReader</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'path'</span><span class="p">,)</span>  <span class="c1"># __slots__ is recommended to save memory on readers</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+
+    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">):</span>
+        <span class="c1"># fetch data</span>
+        <span class="n">time_info</span> <span class="o">=</span> <span class="n">_from_</span><span class="p">,</span> <span class="n">_to_</span><span class="p">,</span> <span class="n">_step_</span>
+        <span class="k">return</span> <span class="n">time_info</span><span class="p">,</span> <span class="n">series</span>
+
+    <span class="k">def</span> <span class="nf">get_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">IntervalSet</span><span class="p">([</span><span class="n">Interval</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">fetch()</span></code> must return a list of 2 elements: the time info for the data and
+the datapoints themselves. The time info is a list of 3 items: the start time
+of the datapoints (in unix time), the end time and the time step (in seconds)
+between the datapoints.</p>
+<p>The datapoints is a list of points found in the database for the required
+interval. There must be <code class="docutils literal"><span class="pre">(end</span> <span class="pre">-</span> <span class="pre">start)</span> <span class="pre">/</span> <span class="pre">step</span></code> points in the dataset even if
+the database has gaps: gaps can be filled with <code class="docutils literal"><span class="pre">None</span></code> values.</p>
+<p><code class="docutils literal"><span class="pre">get_intervals()</span></code> is a method that hints graphite-web about the time range
+available for this given metric in the database. It must return an
+<code class="docutils literal"><span class="pre">IntervalSet</span></code> of one or more <code class="docutils literal"><span class="pre">Interval</span></code> objects.</p>
+</div>
+<div class="section" id="installing-custom-finders">
+<h2>Installing custom finders<a class="headerlink" href="#installing-custom-finders" title="Permalink to this headline">¶</a></h2>
+<p>In order for your custom finder to be importable, you need to package it under
+a namespace of your choice. Python packaging won’t be covered here but you can
+look at third-party finders to get some inspiration:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/brutasse/graphite-cyanite">Cyanite finder</a></li>
+<li><a class="reference external" href="https://github.com/criteo/biggraphite/blob/master/biggraphite/plugins/graphite.py">BigGraphite finder</a></li>
+<li>KairosDB finder</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
