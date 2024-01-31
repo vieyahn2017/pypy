@@ -1,0 +1,30 @@
+https://segmentfault.com/q/1010000006687275
+js数组哪个个方法是把数组变为罗列的参数？
+
+murphyy
+2016-08-23
+js数组有一个方法是把数组变为罗列的参数，忘记名字叫什么了。例如a=[1,2,3] 调用方法 function sum(a,b,c)的时候.
+
+
+小俞
+发布于
+2016-08-23
+sum.apply(context, a);
+
+
+LeeAnkang
+2016-08-23
+使用es6的...运算符
+
+
+李若炎
+发布于
+2016-08-23
+func.apply(this, arr);
+
+
+tudewutong
+发布于
+2016-08-23
+call-comma apply-array
+
