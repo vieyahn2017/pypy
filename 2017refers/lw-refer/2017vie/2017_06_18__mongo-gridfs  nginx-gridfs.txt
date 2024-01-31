@@ -1,0 +1,111 @@
+
+MongoDB提供了一个命令行工具mongofiles可以来处理GridFS，在bin目录下。
+列出所有文件：
+mongofiles list
+上传一个文件：
+mongofiles put xxx.txt
+下载一个文件：
+mongofiles get xxx.txt
+mongofiles get xxx.txt -l /home/yyy.txt
+查找文件：
+mongofiles search xxx    //会查找所有文件名中包含“xxx”的文件
+mongofiles list xxx //会查找所有文件名以“xxx”为前缀的文件
+
+@@@@@
+折腾这个失败
+具体的日志见后面
+@@@@@
+http://blog.csdn.net/hengyunabc/article/details/7294099
+
+nginx-gridfs模块的安装使用
+项目地址：https://github.com/mdirolf/nginx-gridfs
+通过nginx-gridfs，可以直接用http来访问GridFS中的文件。
+1. 安装
+安装各种依赖包：zlib，pcre，openssl
+在ubuntu下可能是以下命令：
+sudo apt-get install zlib1g-dev            //貌似sudo apt-get install zlib-dev 不能安装
+sudo apt-get install libpcre3 libpcre3-dev
+sudo apt-get install openssl libssl-dev
+安装Git（略）
+用git下载nginx-gridfs的代码：
+git clone git://github.com/mdirolf/nginx-gridfs.git
+    cd nginx-gridfs
+    git submodule init
+    git submodule update
+下载nginx：
+wget http://nginx.org/download/nginx-1.0.12.zip
+tar zxvf nginx-1.0.12.zip
+cd nginx-1.0.12
+ ./configure --add-module=<nginx-gridfs的路径>
+make
+sudo make install
+如果编译出错，则在configure时加上--with-cc-opt=-Wno-error 参数。
+2. 配置nginx
+在server的配置中加上以下
+   location /pics/ {
+                gridfs pics
+                field=filename
+                type=string;
+                mongo 127.0.0.1:27017;
+        }
+上面的配置表示：
+数据库是pics，通过文件名filename来访问文件，filename的类型是string
+目前只支持通过id和filename来访问文件。
+启动nginx：/usr/local/nginx/sbin/nginx
+用MongoVUE把一个图片001.jpg上传到pics数据库中。
+打开：http://localhost/pics/001.jpg
+如果成功，则可以看到显示图片了。
+3. nginx-gridfs的不足
+没有实现http的range support，也就是断点续传，分片下载的功能。
+
+
+
+
+=============================================================
+
+
+
+用git下载nginx-gridfs
+
+安装nginx
+wget http://nginx.org/download/nginx-1.12.0.tar.gz
+tar -zxvf
+
+mv nginx-1.12.0 nginx
+mv nginx /usr/local
+cd /usr/local/nginx
+ ./configure --add-module=../nginx-gridfs
+ ./configure --add-module=/usr/local/nginx-gridfs
+
+./configure --prefix=/usr/local/nginx --conf-path=/usr/local/nginx/nginx.conf  --add-module=/usr/local/nginx-gridfs 
+
+
+
+========
+安装nginx 报错：cp: `conf/koi-win' and `/usr/local/nginx/conf/koi-win' are the same file
+2015-05-15 11:25 4216人阅读 评论(0) 收藏 举报
+ 分类： 技术天下（18）  
+版权声明：本文为博主原创文章，未经博主允许不得转载。
+解决办法 
+将这一步改一下
+./configure --prefix=/usr/local/nginx  
+TO
+./configure --prefix=/usr/local/nginx --conf-path=/usr/local/nginx/nginx.conf 
+========
+
+
+
+
+配置是
+        location /files/ {
+            gridfs test field=filename type=string;
+            mongo 20.0.0.157:27017;
+        }
+
+日志
+2017/06/19 16:26:26 [error] 18902#0: *1 Mongo connection dropped, could not reconnect, client: 20.0.0.125, server: localhost, request: "GET /files/2.jpg HTTP/1.1", host: "20.0.0.157"
+2017/06/19 16:26:26 [alert] 18902#0: *1 header already sent while sending response to client, client: 20.0.0.125, server: localhost, request: "GET /files/2.jpg HTTP/1.1", host: "20.0.0.157"
+2017/06/19 16:26:26 [error] 18902#0: *2 Mongo connection dropped, could not reconnect, client: 20.0.0.125, server: localhost, request: "GET /files/2.jpg HTTP/1.1", host: "20.0.0.157"
+2017/06/19 16:26:26 [alert] 18902#0: *2 header already sent while sending response to client, client: 20.0.0.125, server: localhost, request: "GET /files/2.jpg HTTP/1.1", host: "20.0.0.157"
+2017/06/19 16:28:41 [error] 18902#0: *3 open() "/usr/local/nginx/html/favicon.ico" failed (2: No such file or directory), client: 20.0.0.125, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "20.0.0.157"
+2017/06/19 16:28:42 [error] 18902#0: *3 open() "/usr/local/nginx/html/files" failed (2: No such file or directory), client: 20.0.0.125, server: localhost, request: "GET /files HTTP/1.1", host: "20.0.0.157"

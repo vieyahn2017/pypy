@@ -1,0 +1,183 @@
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+
+apt-get update
+sudo apt-get install -y mongodb-org
+sudo service mongod start
+
+【上面的是64的安装方法吧？】
+
+
+32的直接用 下载的mongodb-linux-i686-3.2.4.tgz
+tar -zxvf mongodb-linux-i686-3.2.4.tgz
+mv mongodb-linux-i686-3.2.4 mongodb
+mv mongodb /usr/local/mongodb
+# mkdir cc_db
+
+./mongod --storageEngine mmapv1  --dbpath=../cc_db
+
+
+
+创建自己的db文件保存位置
+/usr/local/mongodb/bin# ./mongod --dbpath=../ccdb
+./mongod --storageEngine mmapv1  --dbpath=../ccdb
+
+cd /usr/local/mongodb/bin
+./mongod --storageEngine mmapv1  --dbpath=../cc_db
+
+@@@
+golang用beego写的一个mgweb:
+testuser:testpass@20.0.0.157/compute
+testuser:testpass@10.0.0.242/compute
+
+
+
+如何创建数据库用户
+
+
+首先保证你已经以用户管理员的身份登录 admin 数据库。然后用 use 命令切换到目标数据库，同样用 db.createUser() 命令来创建用户，其中角色名为 “readWrite”。
+
+普通的数据库用户角色有两种，read 和 readWrite。顾名思义，前者只能读取数据不能修改，后者可以读取和修改。
+
+
+> use admin  注：MongoDB安装好以后由默认的admin表和local表；其中admin存放的是用户信息
+> db.createUser({ user: "root",pwd: "root",customData:{name:"root"},roles:[{ role: "userAdminAnyDatabase",db: "admin" }]}) 注：创建一个用户名和密码为root的管理员
+创建完后登陆
+> db.auth('root','root')
+> show collections
+
+
+
+
+> use test
+switched to db test
+> db.createUser({user:"testuser",pwd:"testpass",roles:["readWrite"]})
+Successfully added user: { "user" : "testuser", "roles" : [ "readWrite" ] }
+> db.auth("testuser","testpass")
+1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+root@nw-virtual-machine:/usr/local/mongodb/bin# ./mongod --storageEngine mmapv1  --dbpath=../ccdb
+2017-06-20T09:51:31.761+0800 I CONTROL  [main] 
+2017-06-20T09:51:31.762+0800 W CONTROL  [main] 32-bit servers don't have journaling enabled by default. Please use --journal if you want durability.
+2017-06-20T09:51:31.762+0800 I CONTROL  [main] 
+2017-06-20T09:51:31.766+0800 I CONTROL  [initandlisten] MongoDB starting : pid=3503 port=27017 dbpath=../ccdb 32-bit host=nw-virtual-machine
+2017-06-20T09:51:31.766+0800 I CONTROL  [initandlisten] db version v3.2.4
+2017-06-20T09:51:31.766+0800 I CONTROL  [initandlisten] git version: e2ee9ffcf9f5a94fad76802e28cc978718bb7a30
+2017-06-20T09:51:31.766+0800 I CONTROL  [initandlisten] allocator: tcmalloc
+2017-06-20T09:51:31.767+0800 I CONTROL  [initandlisten] modules: none
+2017-06-20T09:51:31.767+0800 I CONTROL  [initandlisten] build environment:
+2017-06-20T09:51:31.767+0800 I CONTROL  [initandlisten]     distarch: i686
+2017-06-20T09:51:31.767+0800 I CONTROL  [initandlisten]     target_arch: i386
+2017-06-20T09:51:31.767+0800 I CONTROL  [initandlisten] options: { storage: { dbPath: "../ccdb", engine: "mmapv1" } }
+2017-06-20T09:51:31.789+0800 W -        [initandlisten] Detected unclean shutdown - ../ccdb/mongod.lock is not empty.
+2017-06-20T09:51:31.830+0800 I STORAGE  [initandlisten] ************** 
+Unclean shutdown detected.
+Please visit http://dochub.mongodb.org/core/repair for recovery instructions.
+*************
+2017-06-20T09:51:31.844+0800 I STORAGE  [initandlisten] exception in initAndListen: 12596 old lock file, terminating
+2017-06-20T09:51:31.849+0800 I CONTROL  [initandlisten] dbexit:  rc: 100
+root@nw-virtual-machine:/usr/local/mongodb/bin# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MongoDB提供了一个命令行工具mongofiles可以来处理GridFS，在bin目录下。
+列出所有文件：
+mongofiles list
+上传一个文件：
+mongofiles put xxx.txt
+下载一个文件：
+mongofiles get xxx.txt
+mongofiles get xxx.txt -l /home/yyy.txt
+查找文件：
+mongofiles search xxx    //会查找所有文件名中包含“xxx”的文件
+mongofiles list xxx //会查找所有文件名以“xxx”为前缀的文件
+
+@@@@@
+折腾这个失败
+具体的日志见后面
+@@@@@
+nginx-gridfs模块的安装使用
+项目地址：https://github.com/mdirolf/nginx-gridfs
+通过nginx-gridfs，可以直接用http来访问GridFS中的文件。
+1. 安装
+安装各种依赖包：zlib，pcre，openssl
+在ubuntu下可能是以下命令：
+sudo apt-get install zlib1g-dev            //貌似sudo apt-get install zlib-dev 不能安装
+sudo apt-get install libpcre3 libpcre3-dev
+sudo apt-get install openssl libssl-dev
+安装Git（略）
+用git下载nginx-gridfs的代码：
+git clone git://github.com/mdirolf/nginx-gridfs.git
+    cd nginx-gridfs
+    git submodule init
+    git submodule update
+下载nginx：
+wget http://nginx.org/download/nginx-1.0.12.zip
+tar zxvf nginx-1.0.12.zip
+cd nginx-1.0.12
+ ./configure --add-module=<nginx-gridfs的路径>
+make
+sudo make install
+如果编译出错，则在configure时加上--with-cc-opt=-Wno-error 参数。
+2. 配置nginx
+在server的配置中加上以下
+   location /pics/ {
+                gridfs pics
+                field=filename
+                type=string;
+                mongo 127.0.0.1:27017;
+        }
+上面的配置表示：
+数据库是pics，通过文件名filename来访问文件，filename的类型是string
+目前只支持通过id和filename来访问文件。
+启动nginx：/usr/local/nginx/sbin/nginx
+用MongoVUE把一个图片001.jpg上传到pics数据库中。
+打开：http://localhost/pics/001.jpg
+如果成功，则可以看到显示图片了。
+3. nginx-gridfs的不足
+没有实现http的range support，也就是断点续传，分片下载的功能。

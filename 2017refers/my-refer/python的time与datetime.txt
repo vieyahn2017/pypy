@@ -1,0 +1,55 @@
+﻿time.strftime("%Y-%m-%d %H:%M %p", time.localtime())
+'2016-11-15 12:06 PM'
+
+time.localtime() #貌似类似元组
+time.struct_time(tm_year=2016, tm_mon=11, tm_mday=15, tm_hour=12, tm_min=6, tm_s
+ec=1, tm_wday=1, tm_yday=320, tm_isdst=0)
+
+
+获取昨天的时间
+import datetime
+now_time = datetime.datetime.now()
+yes_time = now_time + datetime.timedelta(days=-1)
+yes_time_nyr = yes_time.strftime('%Y%m%d')//格式化输出
+yes_time = now_time + datetime.timedelta(minutes=-1)
+yes_time = now_time + datetime.timedelta(seconds=-1)
+
+
+
+2023 10 05 230459
+time.strftime("%Y-%m-%d %H:%M:%S", datetime.datetime(ds).replace(tzinfo=timezone.utc))
+
+datetime.datetime.fromtimestamp(ds)
+
+s = int('1480349734')
+ds=time.gmtime(s)
+datetime.datetime.fromtimestamp(ds)
+
+
+time.strptime('20130810', "%Y%m%d")  
+time.struct_time(tm_year=2013, tm_mon=8, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=5, tm_yday=222, tm_isdst=-1)
+time.strftime("%Y%m%d", time.localtime())  
+
+
+str 转 datetime
+start_date = time.strptime("2016-06-07", "%Y-%m-%d")  
+time.strptime('2017-02-16 15:55:52', "%Y-%m-%d %H:%M:%S")
+
+time.struct_time(tm_year=2017, tm_mon=2, tm_mday=16, tm_hour=15, tm_min=59, tm_s
+ec=4, tm_wday=3, tm_yday=47, tm_isdst=-1)
+<type 'time.struct_time'>
+这个  # 元组（struct_time）
+# 返回struct_time的函数主要有gmtime()，localtime()，strptime()。
+
+
+datetime.datetime.strptime(t_time, "%Y-%m-%d %H:%M:%S")
+
+
+time与datetime之间的互相转换
+date.fromtimestamp(timestamp)：根据给定的时间戮，返回一个date对象
+Python代码  
+In [51]: datetime.datetime.fromtimestamp(time.time())  
+Out[51]: datetime.datetime(2013, 8, 10, 11, 14, 50, 842812)  
+time_struct与datetime之间的转换可以通过中间状态string来完成
+
+

@@ -1,0 +1,66 @@
+﻿dir(obj)
+# 查看一个对象可用的方法
+
+# 只查看公共方法
+filter(lambda x:x.startswith('_')==False, dir(obj))
+
+# 之前写的一个错的
+[filter(lambda x:x.startswith('_')==False, i)  for i  in  dir(resp)]
+
+
+import mechanize
+br = mechanize.Browser()
+br.open('http://127.0.0.1:8888/')
+
+filter(lambda x:x.startswith('_')==False, dir(resp))
+
+['close',
+ 'get_data',
+ 'geturl',
+ 'info',
+ 'invariant',
+ 'next',
+ 'read',
+ 'readline',
+ 'readlines',
+ 'seek',
+ 'set_data',
+ 'tell',
+ 'wrapped',
+ 'xreadlines']
+
+
+In [139]: resp.__dict__
+Out[139]:
+{'_headers': <httplib.HTTPMessage instance at 0x0000000004AD1C08>,
+ '_seek_wrapper__cache': <cStringIO.StringO at 0x5a3db58>,
+ '_seek_wrapper__have_readline': True,
+ '_seek_wrapper__is_closed_state': [False],
+ '_seek_wrapper__pos': 12,
+ '_seek_wrapper__read_complete_state': [True],
+ 'wrapped': <closeable_response at 0x4a80f48L whose fp = <socket._fileobject obj
+ect at 0x0000000004D62DE0>>}
+
+
+
+2.1. 模块(module)
+
+    __doc__: 文档字符串。如果模块没有文档，这个值是None。
+    *__name__: 始终是定义时的模块名；即使你使用import .. as 为它取了别名，或是赋值给了另一个变量名。
+    *__dict__: 包含了模块里可用的属性名-属性的字典；也就是可以使用模块名.属性名访问的对象。
+    __file__: 包含了该模块的文件路径。需要注意的是内建的模块没有这个属性，访问它会抛出异常！ 
+
+
+2.2. 类(class)
+
+    __doc__: 文档字符串。如果类没有文档，这个值是None。
+    *__name__: 始终是定义时的类名。
+    *__dict__: 包含了类里可用的属性名-属性的字典；也就是可以使用类名.属性名访问的对象。
+    __module__: 包含该类的定义的模块名；需要注意，是字符串形式的模块名而不是模块对象。
+    *__bases__: 直接父类对象的元组；但不包含继承树更上层的其他类，比如父类的父类。 
+
+
+2.3. 实例(instance)  实例是指类实例化以后的对象。
+
+    *__dict__: 包含了可用的属性名-属性字典。
+    *__class__: 该实例的类对象。对于类Cat，cat.__class__ == Cat 为 True。

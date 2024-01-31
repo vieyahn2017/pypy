@@ -1,0 +1,40 @@
+scp root@10.0.0.100://lw/switch/web/web.tar  /lw/yhw/test
+Ô¶³Ì¿½±´ÎÄ¼þ
+
+
+2017.0.14
+scp test@10.0.0.252://var/www/*.log  /lw/yhw
+scp test@10.0.0.252://var/www/*.php  /lw/yhw
+scp test@10.0.0.252://var/www/html/index.nginx-debian.html  /lw/yhw
+
+vi /etc/php/7.0/fpm/php-fpm.conf
+vi /etc/php/7.0/fpm/pool.d/*.conf
+
+scp test@10.0.0.252://etc/php/7.0/fpm/pool.d/www.conf  /lw/yhw
+
+
+
+
+
+
+
+
+
+
+grep 10.0.0.119 -rl  /home/lon/microcloud
+
+
+sed -i 's/10.0.0.119/10.0.0.252/g'  `grep 10.0.0.119 -rl  /home/lon/microcloud`
+
+sed -i 's/10.0.0.119/10.0.0.252/g'  `grep 10.0.0.119 -rl   /e/xshell_lrzsz/microcloud8.10`
+
+sed -i '213,215d' /var/www/microcloud/handlers/Webservices/account/handler/UserHandler.py
+
+E:\xshell_lrzsz\microcloud8.10\handlers\Webservices\account\handler
+
+
+
+
+
+
+

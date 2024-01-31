@@ -1,0 +1,4 @@
+大佬们，不用filebeat 之流的工具，只用elk 怎么才能读取nginx 到 logstash呢
+
+就因为logstash资源占用太重了，所以filebeat来做采集器啊
+ 

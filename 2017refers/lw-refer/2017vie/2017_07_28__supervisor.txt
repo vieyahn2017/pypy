@@ -1,0 +1,60 @@
+vi /etc/supervisord.conf
+
+161是用python安装的supervisor
+
+
+太长了，简化下ln /usr/local/bin/supervisorctl /usr/bin/sv
+
+
+
+配置：
+[program:cc_compute]
+command=python /lw/yhw/cc_supervisor/cc/server.py --module=compute
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/cc_compute.log
+redirect_stderr=true
+
+[program:cc_network]
+command=python /lw/yhw/cc_supervisor/cc/server.py --module=network --port=30002
+user=guest
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/cc_network.log
+redirect_stderr=true
+
+[program:cc_api]
+command=python /lw/yhw/cc_supervisor/cc/server.py --module=network --port=30003
+user=guest
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/cc_api.log
+redirect_stderr=true
+
+[program:cc_119_compute]
+command=python /lw/yhw/cc_sv_119/cc/server.py --module=compute --port=31001
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/cc_119_compute.log
+redirect_stderr=true
+
+[program:ascc]
+command=python /lw/yhw/ascc/server.py --port=33333
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/ascc.log
+redirect_stderr=true
+
+
+操作
+sudo supervisord -c /etc/supervisord.conf
+sudo supervisorctl reload
+sudo supervisorctl status
+sudo supervisorctl start all
+sudo supervisorctl stop all
+supervisorctl reload，载入最新的配置文件，停止原有进程并按新的配置启动、管理所有进程。
+supervisorctl update，根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受影响而重启。
+
+
+
+

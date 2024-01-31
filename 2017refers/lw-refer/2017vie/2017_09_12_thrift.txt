@@ -1,0 +1,255 @@
+apt-get install libboost-dev libboost-test-dev libboost-program-options-dev libevent-dev automake libtool flex bison pkg-config g++ libssl-dev
+
+wget http://mirror.bit.edu.cn/apache/thrift/0.10.0/thrift-0.10.0.tar.gz 
+
+
+./configure
+make
+make install
+
+
+Thrift提供了，TThreadSever, TThreadPoolServer, TNonblockingServer四种服务器框架，TSimpleServer以单一主线程阻塞的方式进行事件处理，TThreadPoolServer以多线程阻塞的方式提供服务，TNonblockingServer以多线程非阻塞方式工作。 TNonblockingServer服务模型的使用需要事先安装libevent，libevent-dev库，libevent是异步事件处理的程序库，其包含我们常用的poll，select，epoll等异步处理函数。
+
+
+
+thrift -r --gen cpp tutorial.thrift
+thrift -r --gen py tutorial.thrift
+
+
+g++ -o  *.cpp -lthrift
+g++ -o server *.cpp -lthrift
+
+g++ -o client *[^n].cpp -lthrift
+
+
+
+Libraries have been installed in:
+   /usr/local/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+
+
+
+【
+thrift  -version
+thrift: error while loading shared libraries: libthriftc.so.0: cannot open shared object file: No such file or directory
+LD_LIBRARY_PATH=/usr/local/lib
+thrift  -version
+Thrift version 0.10.0
+
+上面的方法不全，还是这个方法吧：
+提示找不到相关库
+cd /usr/local/lib
+ldconfig
+】
+
+
+
+########## python的make install部分，出了些许错误，不过貌似不影响 #####################
+
+
+
+
+
+
+
+
+
+Making install in py
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/lib/py'
+/usr/bin/python3 setup.py build
+/usr/lib/python3.4/distutils/dist.py:260: UserWarning: Unknown distribution option: 'extras_require'
+  warnings.warn(msg)
+/usr/lib/python3.4/distutils/dist.py:260: UserWarning: Unknown distribution option: 'install_requires'
+  warnings.warn(msg)
+running build
+running build_py
+running build_ext
+building 'thrift.protocol.fastbinary' extension
+i686-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -fPIC -Isrc -I/usr/include/python3.4m -c src/ext/module.cpp -o build/temp.linux-i686-3.4/src/ext/module.o
+cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++ [enabled by default]
+src/ext/module.cpp:20:20: fatal error: Python.h: No such file or directory
+ #include <Python.h>
+                    ^
+compilation terminated.
+
+********************************************************************************
+An error occurred while trying to compile with the C extension enabled
+Attempting to build without the extension now
+********************************************************************************
+
+running build
+running build_py
+/usr/bin/python setup.py build
+running build
+running build_py
+running build_ext
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/lib/py'
+make  install-exec-hook
+make[4]: Entering directory `/lw/yhw/repo/thrift-0.10.0/lib/py'
+/usr/bin/python setup.py install --root=/ --prefix=/usr 
+running install
+running build
+running build_py
+running build_ext
+running install_lib
+creating /usr/lib/python2.7/site-packages
+creating /usr/lib/python2.7/site-packages/thrift
+creating /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/transport/TTransport.py -> /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/transport/TZlibTransport.py -> /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/transport/TTwisted.py -> /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/transport/THttpClient.py -> /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/transport/TSSLSocket.py -> /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/transport/__init__.py -> /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/transport/TSocket.py -> /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/transport/sslcompat.py -> /usr/lib/python2.7/site-packages/thrift/transport
+copying build/lib.linux-i686-2.7/thrift/Thrift.py -> /usr/lib/python2.7/site-packages/thrift
+copying build/lib.linux-i686-2.7/thrift/compat.py -> /usr/lib/python2.7/site-packages/thrift
+copying build/lib.linux-i686-2.7/thrift/TSCons.py -> /usr/lib/python2.7/site-packages/thrift
+copying build/lib.linux-i686-2.7/thrift/TMultiplexedProcessor.py -> /usr/lib/python2.7/site-packages/thrift
+copying build/lib.linux-i686-2.7/thrift/TSerialization.py -> /usr/lib/python2.7/site-packages/thrift
+creating /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/TJSONProtocol.py -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/TProtocolDecorator.py -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/TMultiplexedProtocol.py -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/TProtocol.py -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/TBinaryProtocol.py -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/TCompactProtocol.py -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/__init__.py -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/fastbinary.so -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/protocol/TBase.py -> /usr/lib/python2.7/site-packages/thrift/protocol
+copying build/lib.linux-i686-2.7/thrift/TTornado.py -> /usr/lib/python2.7/site-packages/thrift
+copying build/lib.linux-i686-2.7/thrift/__init__.py -> /usr/lib/python2.7/site-packages/thrift
+creating /usr/lib/python2.7/site-packages/thrift/server
+copying build/lib.linux-i686-2.7/thrift/server/TNonblockingServer.py -> /usr/lib/python2.7/site-packages/thrift/server
+copying build/lib.linux-i686-2.7/thrift/server/TServer.py -> /usr/lib/python2.7/site-packages/thrift/server
+copying build/lib.linux-i686-2.7/thrift/server/THttpServer.py -> /usr/lib/python2.7/site-packages/thrift/server
+copying build/lib.linux-i686-2.7/thrift/server/__init__.py -> /usr/lib/python2.7/site-packages/thrift/server
+copying build/lib.linux-i686-2.7/thrift/server/TProcessPoolServer.py -> /usr/lib/python2.7/site-packages/thrift/server
+byte-compiling /usr/lib/python2.7/site-packages/thrift/transport/TTransport.py to TTransport.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/transport/TZlibTransport.py to TZlibTransport.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/transport/TTwisted.py to TTwisted.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/transport/THttpClient.py to THttpClient.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/transport/TSSLSocket.py to TSSLSocket.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/transport/__init__.py to __init__.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/transport/TSocket.py to TSocket.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/transport/sslcompat.py to sslcompat.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/Thrift.py to Thrift.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/compat.py to compat.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/TSCons.py to TSCons.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/TMultiplexedProcessor.py to TMultiplexedProcessor.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/TSerialization.py to TSerialization.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/protocol/TJSONProtocol.py to TJSONProtocol.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/protocol/TProtocolDecorator.py to TProtocolDecorator.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/protocol/TMultiplexedProtocol.py to TMultiplexedProtocol.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/protocol/TProtocol.py to TProtocol.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/protocol/TBinaryProtocol.py to TBinaryProtocol.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/protocol/TCompactProtocol.py to TCompactProtocol.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/protocol/__init__.py to __init__.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/protocol/TBase.py to TBase.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/TTornado.py to TTornado.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/__init__.py to __init__.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/server/TNonblockingServer.py to TNonblockingServer.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/server/TServer.py to TServer.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/server/THttpServer.py to THttpServer.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/server/__init__.py to __init__.pyc
+byte-compiling /usr/lib/python2.7/site-packages/thrift/server/TProcessPoolServer.py to TProcessPoolServer.pyc
+writing byte-compilation script '/tmp/tmpWij0QF.py'
+/usr/bin/python -O /tmp/tmpWij0QF.py
+removing /tmp/tmpWij0QF.py
+running install_egg_info
+running egg_info
+creating thrift.egg-info
+writing requirements to thrift.egg-info/requires.txt
+writing thrift.egg-info/PKG-INFO
+writing top-level names to thrift.egg-info/top_level.txt
+writing dependency_links to thrift.egg-info/dependency_links.txt
+writing manifest file 'thrift.egg-info/SOURCES.txt'
+reading manifest file 'thrift.egg-info/SOURCES.txt'
+writing manifest file 'thrift.egg-info/SOURCES.txt'
+Copying thrift.egg-info to /usr/lib/python2.7/site-packages/thrift-0.10.0-py2.7.egg-info
+running install_scripts
+make[4]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib/py'
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib/py'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib/py'
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/lib'
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/lib'
+make[3]: Nothing to be done for `install-exec-am'.
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib'
+make[1]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib'
+Making install in lib/cpp/test
+make[1]: Entering directory `/lw/yhw/repo/thrift-0.10.0/lib/cpp/test'
+make  install-am
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/lib/cpp/test'
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/lib/cpp/test'
+make[3]: Nothing to be done for `install-exec-am'.
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib/cpp/test'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib/cpp/test'
+make[1]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/lib/cpp/test'
+Making install in test
+make[1]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test'
+Making install in features
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/features'
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/features'
+make[3]: Nothing to be done for `install-exec-am'.
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/features'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/features'
+Making install in cpp
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/cpp'
+make  install-am
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/cpp'
+make[4]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/cpp'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/cpp'
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/cpp'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/cpp'
+Making install in py
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/py'
+make  install-am
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/py'
+make[4]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/py'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/py'
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/py'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/py'
+Making install in py.tornado
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/py.tornado'
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/py.tornado'
+make[3]: Nothing to be done for `install-exec-am'.
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/py.tornado'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/py.tornado'
+Making install in py.twisted
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/py.twisted'
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test/py.twisted'
+make[3]: Nothing to be done for `install-exec-am'.
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/py.twisted'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test/py.twisted'
+make[2]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test'
+make[3]: Entering directory `/lw/yhw/repo/thrift-0.10.0/test'
+make[3]: Nothing to be done for `install-exec-am'.
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test'
+make[2]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test'
+make[1]: Leaving directory `/lw/yhw/repo/thrift-0.10.0/test'

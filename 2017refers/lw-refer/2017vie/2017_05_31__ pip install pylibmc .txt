@@ -1,0 +1,47 @@
+cd /usr/local/
+
+wget http://www.monkey.org/~provos/libevent-1.4.12-stable.tar.gz 
+tar zxvf libevent-1.4.12-stable.tar.gz
+cd libevent-1.4.12-stable/  
+./configure -prefix=/usr/libevent  
+make && make install 
+
+wget http://memcached.org/files/memcached-1.4.36.tar.gz
+tar -xzvf memcached-1.4.36.tar.gz
+cd memcached-1.4.36
+./configure -with-libevent=/usr/libevent/ -prefix=/usr/local/memcached  
+make && make install
+
+memcached -d -m 10m -p 11211 -u root  
+
+
+wget https://launchpadlibrarian.net/165454254/libmemcached-1.0.18.tar.gz
+cd libmemcached-1.0.18
+./configure 
+make && make install
+ln -s /usr/local/lib/libmemcached.so.11 /usr/lib/libmemcached.so.11
+
+之前的假教程
+cd libmemcached-1.0.9
+./configure --disable-64bit CFLAGS="-O3 -march=i686"
+搞不定
+
+pip install pylibmc
+
+
+
+
+
+5.31在160主机安装pylibmc很简单就搞定
+sudo apt-get install  libmemcached-dev
+
+Do you want to continue? [Y/n] y
+Get:1 http://cn.archive.ubuntu.com/ubuntu/ trusty/main libhashkit2 i386 1.0.8-1ubuntu2 [20.4 kB]
+Get:2 http://cn.archive.ubuntu.com/ubuntu/ trusty/main libmemcached10 i386 1.0.8-1ubuntu2 [83.6 kB]
+Get:3 http://cn.archive.ubuntu.com/ubuntu/ trusty/main libmemcachedutil2 i386 1.0.8-1ubuntu2 [9502 B]
+Get:4 http://cn.archive.ubuntu.com/ubuntu/ trusty/main libmemcachedprotocol0 i386 1.0.8-1ubuntu2 [17.2 kB]
+Get:5 http://cn.archive.ubuntu.com/ubuntu/ trusty/main libhashkit-dev i386 1.0.8-1ubuntu2 [35.5 kB]
+Get:6 http://cn.archive.ubuntu.com/ubuntu/ trusty/main libsasl2-dev i386 2.1.25.dfsg1-17build1 [300 kB]
+Get:7 http://cn.archive.ubuntu.com/ubuntu/ trusty/main libmemcached-dev i386 1.0.8-1ubuntu2 [254 kB]
+
+sudo pip install pylibmc

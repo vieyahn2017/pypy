@@ -1,0 +1,65 @@
+sudo apt-get install zlib1g-dev            //貌似sudo apt-get install zlib-dev 不能安装
+sudo apt-get install libpcre3 libpcre3-dev
+sudo apt-get install openssl libssl-dev
+
+
+wget http://nginx.org/download/nginx-1.12.0.tar.gz
+tar -zxvf
+
+mv nginx-1.12.0 nginx
+mv nginx /usr/local
+cd /usr/local/nginx
+
+
+
+./configure --sbin-path=/usr/local/nginx/nginx \
+--conf-path=/usr/local/nginx/nginx.conf \
+--pid-path=/usr/local/nginx/nginx.pid \
+--with-http_ssl_module \
+
+
+make
+
+make install
+
+
+cd /usr/local/nginx
+./nginx
+./nginx -s stop
+
+
+
+
+
+
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        location / {
+            root   /lw/yhw/ascc/app;
+            index  index.html index.htm;
+        }
+        
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+
+    }
+
+    server {
+        listen       30006;
+        server_name  cc_api;
+
+        location / {
+            root    /lw/yhw/cc/api;
+            index  index.html index.htm;
+        }
+    }

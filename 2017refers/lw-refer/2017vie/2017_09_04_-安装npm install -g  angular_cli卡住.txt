@@ -1,0 +1,286 @@
+npm install -g @angular/cli
+C:\Users\dell\AppData\Roaming\npm\ng -> C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\bin\ng
+
+> node-sass@4.5.3 install C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\node-sass
+> node scripts/install.js
+
+Downloading binary from https://github.com/sass/node-sass/releases/download/v4.5.3/win32-x64-48_binding.node
+Cannot download "https://github.com/sass/node-sass/releases/download/v4.5.3/win32-x64-48_binding.node":
+
+ESOCKETTIMEDOUT
+
+Hint: If github.com is not accessible in your location
+      try setting a proxy via HTTP_PROXY, e.g.
+
+      export HTTP_PROXY=http://example.com:1234
+
+or configure npm proxy via
+
+      npm config set proxy http://example.com:8080
+
+> uglifyjs-webpack-plugin@0.4.6 postinstall C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\uglifyjs-webpack-plugin
+> node lib/post_install.js
+
+
+> node-sass@4.5.3 postinstall C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\node-sass
+> node scripts/build.js
+
+Binary found at C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\node-sass\vendor\win32-x64-48\binding.node
+Testing binary
+Binary has a problem: Error: %1 is not a valid Win32 application.
+\\?\C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\node-sass\vendor\win32-x64-48\binding.node
+    at Error (native)
+    at Object.Module._extensions..node (module.js:597:18)
+    at Module.load (module.js:487:32)
+    at tryModuleLoad (module.js:446:12)
+    at Function.Module._load (module.js:438:3)
+    at Module.require (module.js:497:17)
+    at require (internal/module.js:20:19)
+    at module.exports (C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\node-sass\lib\binding.js:19:10)
+    at Object.<anonymous> (C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\node-sass\lib\index.js:14:35)
+    at Module._compile (module.js:570:32)
+Building the binary locally
+Building: C:\Program Files\nodejs\node.exe C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\node-gyp\bin\node-gyp.js rebuild --verbose --libsass_ext= --libsass_cflags= --libsass_ldflags= --libsass_library=
+gyp info it worked if it ends with ok
+gyp verb cli [ 'C:\\Program Files\\nodejs\\node.exe',
+gyp verb cli   'C:\\Users\\dell\\AppData\\Roaming\\npm\\node_modules\\@angular\\cli\\node_modules\\node-gyp\\bin\\node-gyp.js',
+gyp verb cli   'rebuild',
+gyp verb cli   '--verbose',
+gyp verb cli   '--libsass_ext=',
+gyp verb cli   '--libsass_cflags=',
+gyp verb cli   '--libsass_ldflags=',
+gyp verb cli   '--libsass_library=' ]
+gyp info using node-gyp@3.6.2
+gyp info using node@6.10.2 | win32 | x64
+gyp verb command rebuild []
+gyp verb command clean []
+gyp verb clean removing "build" directory
+gyp verb command configure []
+gyp verb check python checking for Python executable "python2" in the PATH
+gyp verb `which` failed Error: not found: python2
+gyp verb `which` failed     at getNotFoundError (C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\which\which.js:13:12)
+gyp verb `which` failed     at F (C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\which\which.js:68:19)
+gyp verb `which` failed     at E (C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\which\which.js:80:29)
+gyp verb `which` failed     at C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\which\which.js:89:16
+gyp verb `which` failed     at C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\isexe\index.js:42:5
+gyp verb `which` failed     at C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\isexe\windows.js:36:5
+gyp verb `which` failed     at FSReqWrap.oncomplete (fs.js:123:15)
+gyp verb `which` failed  python2 { Error: not found: python2
+gyp verb `which` failed     at getNotFoundError (C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\which\which.js:13:12)
+gyp verb `which` failed     at F (C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\which\which.js:68:19)
+gyp verb `which` failed     at E (C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\which\which.js:80:29)
+gyp verb `which` failed     at C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\which\which.js:89:16
+gyp verb `which` failed     at C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\isexe\index.js:42:5
+gyp verb `which` failed     at C:\Users\dell\AppData\Roaming\npm\node_modules\@angular\cli\node_modules\isexe\windows.js:36:5
+gyp verb `which` failed     at FSReqWrap.oncomplete (fs.js:123:15)
+gyp verb `which` failed   stack: 'Error: not found: python2\n    at getNotFoundError (C:\\Users\\dell\\AppData\\Roaming\\npm\\node_modules\\@angular\\cli\\node_modules\\which\\which.js:13:12)\n    at F (C:\\Users\\dell\\AppData\\Roaming\\npm\\node_modules\\@angular\\cli\\node_modules\\which\\which.js:68:19)\n    at E (C:\\Users\\dell\\AppData\\Roaming\\npm\\node_modules\\@angular\\cli\\node_modules\\which\\which.js:80:29)\n    at C:\\Users\\dell\\AppData\\Roaming\\npm\\node_modules\\@angular\\cli\\node_modules\\which\\which.js:89:16\n    at C:\\Users\\dell\\AppData\\Roaming\\npm\\node_modules\\@angular\\cli\\node_modules\\isexe\\index.js:42:5\n    at C:\\Users\\dell\\AppData\\Roaming\\npm\\node_modules\\@angular\\cli\\node_modules\\isexe\\windows.js:36:5\n    at FSReqWrap.oncomplete (fs.js:123:15)',
+gyp verb `which` failed   code: 'ENOENT' }
+gyp verb check python checking for Python executable "python" in the PATH
+gyp verb `which` succeeded python C:\Python27\python.EXE
+gyp verb check python version `C:\Python27\python.EXE -c "import platform; print(platform.python_version());"` returned: "2.7.12\r\n"
+gyp verb get node dir no --target version specified, falling back to host node version: 6.10.2
+gyp verb command install [ '6.10.2' ]
+gyp verb install input version string "6.10.2"
+gyp verb install installing version: 6.10.2
+gyp verb install --ensure was passed, so won't reinstall if already installed
+gyp verb install version not already installed, continuing with install 6.10.2
+gyp verb ensuring nodedir is created C:\Users\dell\.node-gyp\6.10.2
+gyp verb created nodedir C:\Users\dell\.node-gyp
+gyp http GET https://nodejs.org/download/release/v6.10.2/node-v6.10.2-headers.tar.gz
+gyp http 200 https://nodejs.org/download/release/v6.10.2/node-v6.10.2-headers.tar.gz
+gyp verb extracted file from tarball include\node\android-ifaddrs.h
+gyp verb extracted file from tarball include\node\ares.h
+gyp verb extracted file from tarball include\node\ares_build.h
+gyp verb extracted file from tarball include\node\ares_rules.h
+gyp verb extracted file from tarball include\node\ares_version.h
+gyp verb extracted file from tarball include\node\common.gypi
+gyp verb extracted file from tarball include\node\config.gypi
+gyp verb extracted file from tarball include\node\nameser.h
+gyp verb extracted file from tarball include\node\node.h
+gyp verb extracted file from tarball include\node\node_buffer.h
+gyp verb extracted file from tarball include\node\node_object_wrap.h
+gyp verb extracted file from tarball include\node\node_version.h
+gyp verb extracted file from tarball include\node\pthread-barrier.h
+gyp verb extracted file from tarball include\node\pthread-fixes.h
+gyp verb extracted file from tarball include\node\stdint-msvc2008.h
+gyp verb extracted file from tarball include\node\tree.h
+gyp verb extracted file from tarball include\node\uv-aix.h
+gyp verb extracted file from tarball include\node\uv-bsd.h
+gyp verb extracted file from tarball include\node\uv-darwin.h
+gyp verb extracted file from tarball include\node\uv-errno.h
+gyp verb extracted file from tarball include\node\uv-linux.h
+gyp verb extracted file from tarball include\node\uv-sunos.h
+gyp verb extracted file from tarball include\node\uv-threadpool.h
+gyp verb extracted file from tarball include\node\uv-unix.h
+gyp verb extracted file from tarball include\node\uv-version.h
+gyp verb extracted file from tarball include\node\uv-win.h
+gyp verb extracted file from tarball include\node\uv.h
+gyp verb extracted file from tarball include\node\v8-debug.h
+gyp verb extracted file from tarball include\node\v8-experimental.h
+gyp verb extracted file from tarball include\node\v8-platform.h
+gyp verb extracted file from tarball include\node\v8-profiler.h
+gyp verb extracted file from tarball include\node\v8-testing.h
+gyp verb extracted file from tarball include\node\v8-util.h
+gyp verb extracted file from tarball include\node\v8-version.h
+gyp verb extracted file from tarball include\node\v8.h
+gyp verb extracted file from tarball include\node\v8config.h
+gyp verb extracted file from tarball include\node\zconf.h
+gyp verb extracted file from tarball include\node\zlib.h
+gyp verb extracted file from tarball include\node\openssl\aes.h
+gyp verb extracted file from tarball include\node\openssl\asn1.h
+gyp verb extracted file from tarball include\node\openssl\asn1_mac.h
+gyp verb extracted file from tarball include\node\openssl\asn1t.h
+gyp verb extracted file from tarball include\node\openssl\bio.h
+gyp verb extracted file from tarball include\node\openssl\blowfish.h
+gyp verb extracted file from tarball include\node\openssl\bn.h
+gyp verb extracted file from tarball include\node\openssl\buffer.h
+gyp verb extracted file from tarball include\node\openssl\camellia.h
+gyp verb extracted file from tarball include\node\openssl\cast.h
+gyp verb extracted file from tarball include\node\openssl\cmac.h
+gyp verb extracted file from tarball include\node\openssl\cms.h
+gyp verb extracted file from tarball include\node\openssl\comp.h
+gyp verb extracted file from tarball include\node\openssl\conf.h
+gyp verb extracted file from tarball include\node\openssl\conf_api.h
+gyp verb extracted file from tarball include\node\openssl\crypto.h
+gyp verb extracted file from tarball include\node\openssl\des.h
+gyp verb extracted file from tarball include\node\openssl\des_old.h
+gyp verb extracted file from tarball include\node\openssl\dh.h
+gyp verb extracted file from tarball include\node\openssl\dsa.h
+gyp verb extracted file from tarball include\node\openssl\dso.h
+gyp verb extracted file from tarball include\node\openssl\dtls1.h
+gyp verb extracted file from tarball include\node\openssl\e_os2.h
+gyp verb extracted file from tarball include\node\openssl\ebcdic.h
+gyp verb extracted file from tarball include\node\openssl\ec.h
+gyp verb extracted file from tarball include\node\openssl\ecdh.h
+gyp verb extracted file from tarball include\node\openssl\ecdsa.h
+gyp verb extracted file from tarball include\node\openssl\engine.h
+gyp verb extracted file from tarball include\node\openssl\err.h
+gyp verb extracted file from tarball include\node\openssl\evp.h
+gyp verb extracted file from tarball include\node\openssl\hmac.h
+gyp verb extracted file from tarball include\node\openssl\idea.h
+gyp verb extracted file from tarball include\node\openssl\krb5_asn.h
+gyp verb extracted file from tarball include\node\openssl\kssl.h
+gyp verb extracted file from tarball include\node\openssl\lhash.h
+gyp verb extracted file from tarball include\node\openssl\md4.h
+gyp verb extracted file from tarball include\node\openssl\md5.h
+gyp verb extracted file from tarball include\node\openssl\mdc2.h
+gyp verb extracted file from tarball include\node\openssl\modes.h
+gyp verb extracted file from tarball include\node\openssl\obj_mac.h
+gyp verb extracted file from tarball include\node\openssl\objects.h
+gyp verb extracted file from tarball include\node\openssl\ocsp.h
+gyp verb extracted file from tarball include\node\openssl\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\opensslv.h
+gyp verb extracted file from tarball include\node\openssl\ossl_typ.h
+gyp verb extracted file from tarball include\node\openssl\pem.h
+gyp verb extracted file from tarball include\node\openssl\pem2.h
+gyp verb extracted file from tarball include\node\openssl\pkcs12.h
+gyp verb extracted file from tarball include\node\openssl\pkcs7.h
+gyp verb extracted file from tarball include\node\openssl\pqueue.h
+gyp verb extracted file from tarball include\node\openssl\rand.h
+gyp verb extracted file from tarball include\node\openssl\rc2.h
+gyp verb extracted file from tarball include\node\openssl\rc4.h
+gyp verb extracted file from tarball include\node\openssl\ripemd.h
+gyp verb extracted file from tarball include\node\openssl\rsa.h
+gyp verb extracted file from tarball include\node\openssl\safestack.h
+gyp verb content checksum node-v6.10.2-headers.tar.gz 5b446d065c86e6567da3ee84f7930b70a0edf5d0ddc90bf1e246320ac72eea08
+gyp verb extracted file from tarball include\node\openssl\seed.h
+gyp verb extracted file from tarball include\node\openssl\sha.h
+gyp verb extracted file from tarball include\node\openssl\srp.h
+gyp verb extracted file from tarball include\node\openssl\srtp.h
+gyp verb extracted file from tarball include\node\openssl\ssl.h
+gyp verb extracted file from tarball include\node\openssl\ssl2.h
+gyp verb extracted file from tarball include\node\openssl\ssl23.h
+gyp verb extracted file from tarball include\node\openssl\ssl3.h
+gyp verb extracted file from tarball include\node\openssl\stack.h
+gyp verb extracted file from tarball include\node\openssl\symhacks.h
+gyp verb extracted file from tarball include\node\openssl\tls1.h
+gyp verb extracted file from tarball include\node\openssl\ts.h
+gyp verb extracted file from tarball include\node\openssl\txt_db.h
+gyp verb extracted file from tarball include\node\openssl\ui.h
+gyp verb extracted file from tarball include\node\openssl\ui_compat.h
+gyp verb extracted file from tarball include\node\openssl\whrlpool.h
+gyp verb extracted file from tarball include\node\openssl\x509.h
+gyp verb extracted file from tarball include\node\openssl\x509_vfy.h
+gyp verb extracted file from tarball include\node\openssl\x509v3.h
+gyp verb extracted file from tarball include\node\openssl\archs\VC-WIN64A\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\VC-WIN32\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\solaris64-x86_64-gcc\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\solaris-x86-gcc\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux64-s390x\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux32-s390x\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux-x86_64\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux-x32\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux-ppc64\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux-ppc\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux-elf\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux-armv4\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\linux-aarch64\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\darwin64-x86_64-cc\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\darwin-i386-cc\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\BSD-x86_64\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\BSD-x86\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\aix64-gcc\opensslconf.h
+gyp verb extracted file from tarball include\node\openssl\archs\aix-gcc\opensslconf.h
+gyp verb extracted file from tarball include\node\libplatform\libplatform.h
+gyp verb tarball done parsing tarball
+gyp verb on Windows; need to download `node.lib`...
+gyp verb 32-bit node.lib dir C:\Users\dell\.node-gyp\6.10.2\ia32
+gyp verb 64-bit node.lib dir C:\Users\dell\.node-gyp\6.10.2\x64
+gyp verb `node.lib` 32-bit url https://nodejs.org/download/release/v6.10.2/win-x86/node.lib
+gyp verb `node.lib` 64-bit url https://nodejs.org/download/release/v6.10.2/win-x64/node.lib
+gyp verb check download content checksum, need to download `SHASUMS256.txt`...
+gyp verb checksum url https://nodejs.org/download/release/v6.10.2/SHASUMS256.txt
+gyp http GET https://nodejs.org/download/release/v6.10.2/SHASUMS256.txt
+gyp verb streaming 64-bit node.lib to: C:\Users\dell\.node-gyp\6.10.2\x64\node.lib
+gyp http GET https://nodejs.org/download/release/v6.10.2/win-x64/node.lib
+gyp verb streaming 32-bit node.lib to: C:\Users\dell\.node-gyp\6.10.2\ia32\node.lib
+gyp http GET https://nodejs.org/download/release/v6.10.2/win-x86/node.lib
+gyp http 200 https://nodejs.org/download/release/v6.10.2/SHASUMS256.txt
+gyp verb checksum data {"node-v6.10.2-aix-ppc64.tar.gz":"625947ad107156105f0b1ee05cde078f0175793ea59022e831bab85b7c19d6be","node-v6.10.2-darwin-x64.tar.gz":"63383d322612777b38cdb81b66a7f4748a9c803d60ab710a79375204cb033129","node-v6.10.2-darwin-x64.tar.xz":"360b887361b2597613f18968e3fc0e920079a363d0535fc4e40532e3426fc6eb","node-v6.10.2-headers.tar.gz":"5b446d065c86e6567da3ee84f7930b70a0edf5d0ddc90bf1e246320ac72eea08","node-v6.10.2-headers.tar.xz":"716d403769bd218ed33fd1ed0f55054a1544adc9b3f67c6b5a8fbd61327c1909","node-v6.10.2-linux-arm64.tar.gz":"97de0340b6dbf38e3d995df880a94c58d403c3054676d8fc9192b83a3735f0b8","node-v6.10.2-linux-arm64.tar.xz":"87b7c2c7c9335a8c01fd702caa6463ed6cf40e0c3be533f6fe33e61d8254f787","node-v6.10.2-linux-armv6l.tar.gz":"ef7ebad44c97e117994ac743f37798efaab7c0846c5476992ceac304cec5be41","node-v6.10.2-linux-armv6l.tar.xz":"2ea5938bd50ea1f7e9ed18f70adbde6f08f2ceed703ffdb425969b06c1f1a3d3","node-v6.10.2-linux-armv7l.tar.gz":"9f87b4e1cb96140b37c4421308b6f914f9e5832c285dea735dc0c427451126c1","node-v6.10.2-linux-armv7l.tar.xz":"a2087c8e37f66677f0bcdb7ce6da8e5489972db6a921dad8c1fd406f4ce19338","node-v6.10.2-linux-ppc64le.tar.gz":"527f90e40c6dd966d6025319f8bc6935e80e81250b7446613a93c528885ee418","node-v6.10.2-linux-ppc64le.tar.xz":"35caa0b91ebfe35d897f13adacbfc0bf0da4db15498ac64eb1f0da272f69d223","node-v6.10.2-linux-ppc64.tar.gz":"27bfa1e70c82fb6c910d8208bdb0af92386a98f6d8e85ef981a90a9703562af5","node-v6.10.2-linux-ppc64.tar.xz":"f48b02523da44404c7c7e10c61854a048d3989abbd5b4052bc2bb3178c1418f0","node-v6.10.2-linux-s390x.tar.gz":"f1163d323b0f0c2b8533382a2a84888b2080e4b42a9192e91e489b5a0613fcbb","node-v6.10.2-linux-s390x.tar.xz":"949e4d8a511dc9c9f7a8048af0251bcaace3fda12dffe6bda4e08467acfd1c75","node-v6.10.2-linux-x64.tar.gz":"35accd2d9ccac747eff0f236e2843bc2198ba7765e2340441d6230861bae4e1b","node-v6.10.2-linux-x64.tar.xz":"b519cd616b0671ab789d2645c5c026deb7e016d73a867ab4b1b8c9ceba9c3503","node-v6.10.2-linux-x86.tar.gz":"6721221fab4e3b3a1be6573900b9e368c7a74ac1c1c3ae982e49c5583e8962e3","node-v6.10.2-linux-x86.tar.xz":"d2179b2d14a399973298c1f4598871058f4cca23c77ea3aca098fa6ff809d55c","node-v6.10.2.pkg":"6a6fb245648236dfd80f50b5d35b54584ad666207b41decfa965581b96d68cd9","node-v6.10.2-sunos-x64.tar.gz":"aa3de2a247de9cebbe0a8712fb0eba4c66f82e004bbf5b57c8583fbfb6a01ab7","node-v6.10.2-sunos-x64.tar.xz":"f2c61aad222fbfad383e8c6a92520b610d2e5711c764724627d5103536d8c9e9","node-v6.10.2-sunos-x86.tar.gz":"b07246e9da31e3a762469d609d03558318bd160cd2a04a822bd6725291f10999","node-v6.10.2-sunos-x86.tar.xz":"4c1e3afe305fb586a6fe68c814e61e501dca573419751edabea975386cbde64f","node-v6.10.2.tar.gz":"9b897dd6604d50ae5fff25fd14b1c4035462d0598735799e0cfb4f17cb6e0d19","node-v6.10.2.tar.xz":"80aa11333da99813973a99646e2113c6be5b63f665c0731ed14ecb94cbe846b6","node-v6.10.2-win-x64.7z":"08572d6714ab8e76cfac6211b63fcf2062ff443355be28a0f106d2cc05c45e46","node-v6.10.2-win-x64.zip":"d778ed84685c6604192cfcf40192004e27fb11c9e65c3ce4b283d90703b4192c","node-v6.10.2-win-x86.7z":"4149533ef54039cef1e49eb5e41cbb1688e5509751a4f518b05d330e38dc5eea","node-v6.10.2-win-x86.zip":"ee0e456bd5cc2d689a19a3a73947989b979bad9e7026685da2f537a4c93f2c91","node-v6.10.2-x64.msi":"4d0a8b82649dc38f606b400006a2ab2d3585b65c44b4f5b71621444b3c3f7754","node-v6.10.2-x86.msi":"bc1febcfd2e8fbaf6bdcd06c1eeee5d33ae61ae37f74e84392ea3b46da5ea550","win-x64/node.exe":"463301bd94198a53793bb5c28ba19b0520fb775de34689c69cc6ce41b71c8b9b","win-x64/node.lib":"9f4bb26e4329ba72068314361b163a827e8845ac810b3daa55160fa269119dee","win-x64/node_pdb.7z":"0f3f45eb67eca91cd9395b423750b79dd28e76069f108b4feeed9b6dc52b16f3","win-x64/node_pdb.zip":"a12a60a9d655beaeda5a12bc9d3463777df20e2974ab6e3e464acc2c6fa9b009","win-x86/node.exe":"91fec6e9b7dc9cb2f7b54f15d8d8c24ff1d294d5fa912d2c641d2e7de627597b","win-x86/node.lib":"c7a55bd27f6be0605dcb876a6244541404ef868745c0060b1daf3167483fcc95","win-x86/node_pdb.7z":"f37179ac8564b21e6828c4ad5c725edadfefd6ff8c5356722cd96051f1f9986a","win-x86/node_pdb.zip":"04afc75644154b80c0bc3e740ea5925cbba46e92cd75093ca62baaa4a08265f2"}
+gyp http 200 https://nodejs.org/download/release/v6.10.2/win-x86/node.lib
+gyp http 200 https://nodejs.org/download/release/v6.10.2/win-x64/node.lib
+gyp verb content checksum win-x86/node.lib c7a55bd27f6be0605dcb876a6244541404ef868745c0060b1daf3167483fcc95
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

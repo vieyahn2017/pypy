@@ -1,0 +1,80 @@
+wget https://dl.influxdata.com/influxdb/releases/influxdb_1.2.4_amd64.deb
+
+curl -i -XPOST 'http://localhost:8086/write?db=mydb' --data-binary 'cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000'
+
+curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM weather ORDER BY time DESC LIMIT 3"
+
+
+
+相关配置文件
+
+/etc/influxdb/influxdb.conf 默认的配置文件
+/var/log/influxdb/influxd.log 日志文件
+/var/lib/influxdb/data 数据文件
+/usr/lib/influxdb/scripts 初始化脚本文件夹
+/usr/bin/influx 启动数据库
+
+
+
+
+For Ubuntu users, add the InfluxData repository with the following commands:
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+source /etc/lsb-release
+echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+For Debian users, add the InfluxData repository:
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+source /etc/os-release
+test $VERSION_ID = "7" && echo "deb https://repos.influxdata.com/debian wheezy stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+test $VERSION_ID = "8" && echo "deb https://repos.influxdata.com/debian jessie stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+Then, install and start the InfluxDB service:
+sudo apt-get update && sudo apt-get install influxdb
+sudo service influxdb start
+Or if your operating system is using systemd (Ubuntu 15.04+, Debian 8+):
+sudo apt-get update && sudo apt-get install influxdb
+sudo systemctl start influxdb
+
+
+====================================================================================
+
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+source /etc/lsb-release
+echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+
+sudo apt-get update && sudo apt-get install influxdb
+sudo service influxdb start
+
+
+View the default configuration settings with the command：
+influxd config
+
+
+Point the process to the correct configuration file by using the -config option:
+influxd -config /etc/influxdb/influxdb.conf
+Set the environment variable INFLUXDB_CONFIG_PATH to the path of your configuration file and start the process. For example:
+echo $INFLUXDB_CONFIG_PATH
+/etc/influxdb/influxdb.conf
+
+root@guest-virtual-machine:/home/guest# apt-get install influxdb
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  influxdb
+0 upgraded, 1 newly installed, 0 to remove and 252 not upgraded.
+Need to get 16.3 MB of archives.
+After this operation, 48.5 MB of additional disk space will be used.
+Fetched 16.3 MB in 4min 26s (61.3 kB/s)
+Selecting previously unselected package influxdb.
+(Reading database ... 173228 files and directories currently installed.)
+Preparing to unpack .../influxdb_1.2.4-1_i386.deb ...
+Unpacking influxdb (1.2.4-1) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Setting up influxdb (1.2.4-1) ...
+ Adding system startup for /etc/init.d/influxdb ...
+   /etc/rc0.d/K20influxdb -> ../init.d/influxdb
+   /etc/rc1.d/K20influxdb -> ../init.d/influxdb
+   /etc/rc6.d/K20influxdb -> ../init.d/influxdb
+   /etc/rc2.d/S20influxdb -> ../init.d/influxdb
+   /etc/rc3.d/S20influxdb -> ../init.d/influxdb
+   /etc/rc4.d/S20influxdb -> ../init.d/influxdb
+   /etc/rc5.d/S20influxdb -> ../init.d/influxdb

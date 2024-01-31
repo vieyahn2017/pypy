@@ -1,0 +1,68 @@
+sudo apt-get install build-essential
+sudo apt-get install libsnappy-dev zlib1g-dev libbz2-dev libgflags-dev
+apt-get install libzstd-dev(没发现安装包）
+【曲线救国，单独安装
+wget https://github.com/facebook/zstd/archive/v1.1.3.tar.gz
+   mv v1.1.3.tar.gz zstd-1.1.3.tar.gz
+   tar -zxvf zstd-1.1.3.tar.gz
+   cd zstd-1.1.3
+   make && sudo make install
+】
+
+
+
+make shared_lib
+修改环境变量，头文件库和链接库以及路径（直接在终端输入即可）
+$ export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:`pwd`/include
+$ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:`pwd`
+$ export LIBRARY_PATH=${LIBRARY_PATH}:`pwd`
+
+
+指定用户权限，创建数据库（shuren是用户名）
+
+cd ..
+sudo chown shuren:shuren rocksdb -Rf
+cd rocksdb
+
+
+//make shared_lib
+
+sudo cp librocksdb.so /usr/local/lib
+sudo mkdir -p /usr/local/include/rocksdb/
+sudo cp -r ./include/* /usr/local/include
+
+
+make static_lib
+
+
+单独运行，下面的依赖用不对？？
+g++ --std=gnu++11 -DSNAPPY -DZLIB rocksdb_simple_example.cc -o example
+$(CXX) $(CXXFLAGS) $@.cc -o$@ ../librocksdb.a -I../include -O2 -std=c++11 $(PLATFORM_LDFLAGS) $(PLATFORM_CXXFLAGS) $(EXEC_LDFLAGS)
+
+
+RocksDB在cygwin编译与使用
+INCLUDEDIR=rocksdb.git  
+all:  
+    g++ --std=gnu++11 -DSNAPPY -DZLIB -I../$(INCLUDEDIR) -I../$(INCLUDEDIR)/include -c testdb.cpp  
+    g++ testdb.o -L../$(INCLUDEDIR) -lrocksdb -lsnappy -lz -o testdb  
+
+
+
+gcc -o 生成的文件demo
+运行./demo
+
+
+
+==========================================
+
+gflags是google的一个开源的处理命令行参数的库，使用c++开发，具备python接口，可以替代getopt。
+gflags使用起来比getopt方便，但是不支持参数的简写（例如getopt支持--list缩写成-l，gflags不支持）。
+
+
+另外这几个依赖库都是压缩方面的
+
+
+Snappy 是一个 C++ 的用来压缩和解压缩的开发包，其目标不是最大限度压缩，而且不兼容其他压缩格式。Snappy 旨在提供高速压缩速度和合理的压缩率。Snappy 比 zlib 更快，但文件相对要大 20% 到 100%。在 64位模式的 Core i7 处理器上，可达每秒 250~500兆的压缩速度。
+Snappy 在 Google 内部被广泛的使用，从 BigTable 到 MapReduce 以及内部的 RPC 系统。
+
+Facebook 宣布其开源了自家的 Zstandard 压缩算法。这个无损的压缩技术致力于取代已存在的诸如 zlib 这种依赖过时的技术 Deflate compression algorithm 的库

@@ -1,0 +1,3 @@
+{ "_id" : { "$oid" : "596f02eaf0881b2bd15b2407" }, "href" : "compute", "name" : "计算CC", "description" : "计算CC - API" }
+{ "_id" : { "$oid" : "596f0305f0881b2bd15b2408" }, "href" : "network", "name" : "网络CC", "description" : "网络CC - API" }
+{ "_id" : { "$oid" : "596f19e1f0881b2c6fed663b" }, "href" : "storage", "name" : "存储CC", "description" : "存储CC-API" }

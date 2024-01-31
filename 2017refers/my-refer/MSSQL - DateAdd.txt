@@ -1,0 +1,10 @@
+﻿SELECT DateAdd(m,1,GETDATE())
+-- 年 Year yy
+-- 季度 Quarter q
+-- 月 Month m
+-- 周 Week wk
+-- 日 Day d
+-- 小时 Hour hh
+-- 分钟 Minute mi
+-- 秒 Second s
+-- 毫秒Millisecond ms

@@ -1,0 +1,38 @@
+db.getCollection('params').find({}).sort({"_id":-1})
+db.getCollection('params').find({"api_id": "-1"})
+db.getCollection('params').update({"api_id": "-1"}, {$set:{"api_id": 333}} , {multi: true})
+
+
+32的直接用 下载的mongodb-linux-i686-3.2.4.tgz
+tar -zxvf mongodb-linux-i686-3.2.4.tgz
+mv mongodb-linux-i686-3.2.4 mongodb
+mv mongodb /usr/local/mongodb
+# mkdir cc_db
+
+rm -rf /usr/local/mongodb/cc_db/mongod.lock
+./mongod --journal --logpath=/tmp/cc_mongodb.log --storageEngine mmapv1 --dbpath=../cc_db --fork
+
+可以使用mongo命令 打开其shell终端
+
+
+
+### 导入 导出：（8.14）
+
+mongoexport -d cc_api -c api -o /lw/yhw/api.json
+mongoexport -d cc_api -c params -o /lw/yhw/params.json
+mongoexport -d cc_api -c category -o /lw/yhw/category.json
+
+mongoimport -d test -c api --file /lw/yhw/api.json
+
+
+
+========================
+vi /etc/supervisord.conf
+
+[program:mongodb]
+command=/usr/local/mongodb/bin/mongod --storageEngine mmapv1 --dbpath=/usr/local/mongodb/cc_db
+#command=/usr/local/mongodb/bin/mongod --journal --logpath=/usr/local/mongodb/cc_mongodb.log --storageEngine mmapv1 --dbpath=/usr/local/mongodb/cc_db --fork
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/mongodb_cc.log
+redirect_stderr=true

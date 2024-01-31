@@ -1,0 +1,9 @@
+参考资料：
+1.多路服用select和事件通知poll、epoll初探
+2.poll和select
+3.select和poll使用
+4.select poll和epoll的区别
+5.select poll和epoll的区别（2）
+6.netlink编程注意事项
+7.linux下netlink编程实例
+8.netlink编程介绍

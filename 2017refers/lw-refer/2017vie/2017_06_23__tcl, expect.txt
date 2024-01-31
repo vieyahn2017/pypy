@@ -1,0 +1,345 @@
+（一）Tcl 安装
+主页: http://www.tcl.tk
+下载地址: http://www.tcl.tk/software/tcltk/downloadnow84.tml
+1.下载源码包
+wget http://nchc.dl.sourceforge.net/sourceforge/tcl/tcl8.4.11-src.tar.gz  
+2.解压缩源码包
+tar xfvz tcl8.4.11-src.tar.gz  
+3.安装配置
+cd tcl8.4.11/unix  
+./configure --prefix=/usr/tcl --enable-shared  
+make  
+make install  
+注意：
+1、安装完毕以后，进入tcl源代码的根目录，把子目录unix下面的tclUnixPort.h copy到子目录generic中。
+2、暂时不要删除tcl源代码，因为expect的安装过程还需要用。
+
+
+ls -l /usr/bin/tclsh
+lrwxrwxrwx 1 root root 8  5月 27 14:39 /usr/bin/tclsh -> tclsh8.6
+root@guest-virtual-machine:/lw/yhw/repo/tcl8.6.0/unix# ls -l /usr/bin/tclsh8.6
+-rwxr-xr-x 1 root root 5468  1月  3  2014 /usr/bin/tclsh8.6
+
+
+（二）expect 安装 (需Tcl的库)
+主页: http://expect.nist.gov/
+1.下载源码包
+wget http://sourceforge.net/projects/expect/files/Expect/5.45/expect5.45.tar.gz/download  
+2.解压缩源码包
+tar xzvf expect5.45.tar.gz  
+3.安装配置
+cd expect5.45  
+./configure --prefix=/usr/expect --with-tcl=/usr/tcl/lib --with-tclinclude=../tcl8.4.11/generic  
+make  
+make install  
+ln -s /usr/tcl/bin/expect /usr/bin/expect  
+
+
+./configure --prefix=/usr/expect --with-tcl=/usr/tcl/lib --with-tclinclude=../tcl8.6.0/generic
+
+=====================================
+
+root@guest-virtual-machine:/lw/yhw/repo/tcl8.6.0/unix# make install
+Making directory /usr/tcl/lib
+Making directory /usr/tcl/bin
+Installing libtcl8.6.so to /usr/tcl/lib/
+Installing tclsh as /usr/tcl/bin/tclsh8.6
+Installing tclConfig.sh to /usr/tcl/lib/
+Installing tclooConfig.sh to /usr/tcl/lib/
+Installing libtclstub8.6.a to /usr/tcl/lib/
+Installing pkg-config file to /usr/tcl/lib/pkgconfig/
+Making directory /usr/tcl/lib/tcl8.6
+Making directory /usr/tcl/lib/tcl8.6/opt0.4
+Making directory /usr/tcl/lib/tcl8.6/http1.0
+Making directory /usr/tcl/lib/tcl8.6/encoding
+Making directory /usr/tcl/lib/tcl8.6/../tcl8
+Making directory /usr/tcl/lib/tcl8.6/../tcl8/8.4
+Making directory /usr/tcl/lib/tcl8.6/../tcl8/8.4/platform
+Making directory /usr/tcl/lib/tcl8.6/../tcl8/8.5
+Making directory /usr/tcl/lib/tcl8.6/../tcl8/8.6
+Installing library files to /usr/tcl/lib/tcl8.6/
+Installing package http1.0 files to /usr/tcl/lib/tcl8.6/http1.0/
+Installing package http 2.8.5 as a Tcl Module
+Installing package opt0.4 files to /usr/tcl/lib/tcl8.6/opt0.4/
+Installing package msgcat 1.5.0 as a Tcl Module
+Installing package tcltest 2.3.5 as a Tcl Module
+Installing package platform 1.0.10 as a Tcl Module
+Installing package platform::shell 1.1.4 as a Tcl Module
+Installing encoding files to /usr/tcl/lib/tcl8.6/encoding/
+Making directory /usr/tcl/lib/tcl8.6/msgs
+Installing message catalog files to /usr/tcl/lib/tcl8.6/msgs/
+Making directory /usr/tcl/man
+Making directory /usr/tcl/man/man1
+Making directory /usr/tcl/man/man3
+Making directory /usr/tcl/man/mann
+Installing and cross-linking top-level (.1) docs to /usr/tcl/man/man1/
+Installing and cross-linking C API (.3) docs to /usr/tcl/man/man3/
+Installing and cross-linking command (.n) docs to /usr/tcl/man/mann/
+Making directory /usr/tcl/include
+Installing header files to /usr/tcl/include/
+Configuring package 'itcl4.0.0'
+Configuring package 'sqlite3.7.15.1'
+Configuring package 'tdbc1.0.0'
+Configuring package 'tdbcmysql1.0.0'
+Configuring package 'tdbcodbc1.0.0'
+Configuring package 'tdbcpostgres1.0.0'
+Configuring package 'tdbcsqlite3-1.0.0'
+Configuring package 'thread2.7.0'
+Building package 'itcl4.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/itcl4.0.0'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/itcl4.0.0'
+Building package 'sqlite3.7.15.1'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/sqlite3.7.15.1'
+If you have documentation to create, place the commands to
+build the docs in the 'doc:' target.  For example:
+        xml2nroff sample.xml > sample.n
+        xml2html sample.xml > sample.html
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/sqlite3.7.15.1'
+Building package 'tdbc1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbc1.0.0'
+cp -p /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/library/tdbc.tcl .
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbc1.0.0'
+Building package 'tdbcmysql1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcmysql1.0.0'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcmysql1.0.0'
+Building package 'tdbcodbc1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcodbc1.0.0'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcodbc1.0.0'
+Building package 'tdbcpostgres1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcpostgres1.0.0'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcpostgres1.0.0'
+Building package 'tdbcsqlite3-1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcsqlite3-1.0.0'
+If you have documentation to create, place the commands to
+build the docs in the 'doc:' target.  For example:
+        xml2nroff sample.xml > sample.n
+        xml2html sample.xml > sample.html
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcsqlite3-1.0.0'
+Building package 'thread2.7.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/thread2.7.0'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/thread2.7.0'
+Installing package 'itcl4.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/itcl4.0.0'
+ /bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/tclconfig/install-sh -c  -m 755 libitcl4.0.0.so /usr/tcl/lib/itcl4.0.0/libitcl4.0.0.so
+ : /usr/tcl/lib/itcl4.0.0/libitcl4.0.0.so
+ /bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/tclconfig/install-sh -c  -m 755 libitclstub4.0.0.a /usr/tcl/lib/itcl4.0.0/libitclstub4.0.0.a
+ ranlib /usr/tcl/lib/itcl4.0.0/libitclstub4.0.0.a
+ Install itcl.tcl /usr/tcl/lib/itcl4.0.0/itcl.tcl
+ Install itclWidget.tcl /usr/tcl/lib/itcl4.0.0/itclWidget.tcl
+ Install itclHullCmds.tcl /usr/tcl/lib/itcl4.0.0/itclHullCmds.tcl
+/bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/tclconfig/install-sh -c  -m 444 pkgIndex.tcl /usr/tcl/lib/itcl4.0.0
+/bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/tclconfig/install-sh -c  -m 444 itclConfig.sh /usr/tcl/lib/itcl4.0.0
+Installing header files in /usr/tcl/include
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/generic/itcl.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/generic/itclDecls.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/generic/itclInt.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/generic/itclMigrate2TclCore.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/generic/itclTclIntStubsFcn.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/generic/itcl2TclOO.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/itcl4.0.0/generic/itclIntDecls.h
+Installing man pages in /usr/tcl/man
+Installing body.n
+Installing class.n
+Installing code.n
+Installing configbody.n
+Installing delete.n
+Installing ensemble.n
+Installing find.n
+Installing is.n
+Installing itclcomponent.n
+Installing itcldelegate.n
+Installing itclextendedclass.n
+Installing itcl.n
+Installing itcloption.n
+Installing itclvars.n
+Installing itclwidget.n
+Installing local.n
+Installing scope.n
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/itcl4.0.0'
+Installing package 'sqlite3.7.15.1'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/sqlite3.7.15.1'
+If you have documentation to create, place the commands to
+build the docs in the 'doc:' target.  For example:
+        xml2nroff sample.xml > sample.n
+        xml2html sample.xml > sample.html
+ /usr/bin/install -c libsqlite3.7.15.1.so /usr/tcl/lib/sqlite3.7.15.1/libsqlite3.7.15.1.so
+ : /usr/tcl/lib/sqlite3.7.15.1/libsqlite3.7.15.1.so
+ Install pkgIndex.tcl /usr/tcl/lib/sqlite3.7.15.1
+Installing header files in /usr/tcl/include
+Installing documentation in /usr/tcl/share/man
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/sqlite3.7.15.1/doc/sqlite3.n
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/sqlite3.7.15.1'
+Installing package 'tdbc1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbc1.0.0'
+cp -p /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/library/tdbc.tcl .
+ /bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/tclconfig/install-sh -c  -m 755 libtdbc1.0.0.so /usr/tcl/lib/tdbc1.0.0/libtdbc1.0.0.so
+ : /usr/tcl/lib/tdbc1.0.0/libtdbc1.0.0.so
+ /bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/tclconfig/install-sh -c  -m 755 libtdbcstub1.0.0.a /usr/tcl/lib/tdbc1.0.0/libtdbcstub1.0.0.a
+ ranlib /usr/tcl/lib/tdbc1.0.0/libtdbcstub1.0.0.a
+ Install tdbc.tcl /usr/tcl/lib/tdbc1.0.0/tdbc.tcl
+ Install pkgIndex.tcl /usr/tcl/lib/tdbc1.0.0
+ Install tdbcConfig.sh /usr/tcl/lib/tdbc1.0.0
+Installing header files in /usr/tcl/include
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/generic/tdbc.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/generic/tdbcInt.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/generic/tdbcDecls.h
+Installing documentation in /usr/tcl/man
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/doc/Tdbc_Init.3
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/doc/tdbc_connection.n
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/doc/tdbc_mapSqlState.n
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/doc/tdbc.n
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/doc/tdbc_resultset.n
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/doc/tdbc_statement.n
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbc1.0.0/doc/tdbc_tokenize.n
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbc1.0.0'
+Installing package 'tdbcmysql1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcmysql1.0.0'
+ /bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/tdbcmysql1.0.0/tclconfig/install-sh -c  -m 755 libtdbcmysql1.0.0.so /usr/tcl/lib/tdbcmysql1.0.0/libtdbcmysql1.0.0.so
+ : /usr/tcl/lib/tdbcmysql1.0.0/libtdbcmysql1.0.0.so
+ Install tdbcmysql.tcl /usr/tcl/lib/tdbcmysql1.0.0/tdbcmysql.tcl
+ Install pkgIndex.tcl /usr/tcl/lib/tdbcmysql1.0.0
+Installing header files in /usr/tcl/include
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcmysql1.0.0/generic/fakemysql.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcmysql1.0.0/generic/mysqlStubs.h
+Installing documentation in /usr/tcl/share/man
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcmysql1.0.0/doc/tdbc_mysql.n
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcmysql1.0.0'
+Installing package 'tdbcodbc1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcodbc1.0.0'
+ /bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/tdbcodbc1.0.0/tclconfig/install-sh -c  -m 755 libtdbcodbc1.0.0.so /usr/tcl/lib/tdbcodbc1.0.0/libtdbcodbc1.0.0.so
+ : /usr/tcl/lib/tdbcodbc1.0.0/libtdbcodbc1.0.0.so
+ Install tdbcodbc.tcl /usr/tcl/lib/tdbcodbc1.0.0/tdbcodbc.tcl
+ Install pkgIndex.tcl /usr/tcl/lib/tdbcodbc1.0.0
+Installing header files in /usr/tcl/include
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcodbc1.0.0/generic/fakesql.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcodbc1.0.0/generic/odbcStubs.h
+Installing documentation in /usr/tcl/share/man
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcodbc1.0.0/doc/tdbc_odbc.n
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcodbc1.0.0'
+Installing package 'tdbcpostgres1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcpostgres1.0.0'
+ /bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/tdbcpostgres1.0.0/tclconfig/install-sh -c  -m 755 libtdbcpostgres1.0.0.so /usr/tcl/lib/tdbcpostgres1.0.0/libtdbcpostgres1.0.0.so
+ : /usr/tcl/lib/tdbcpostgres1.0.0/libtdbcpostgres1.0.0.so
+ Install tdbcpostgres.tcl /usr/tcl/lib/tdbcpostgres1.0.0/tdbcpostgres.tcl
+ Install pkgIndex.tcl /usr/tcl/lib/tdbcpostgres1.0.0
+Installing header files in /usr/tcl/include
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcpostgres1.0.0/generic/fakepq.h
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcpostgres1.0.0/generic/pqStubs.h
+Installing documentation in /usr/tcl/share/man
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcpostgres1.0.0'
+Installing package 'tdbcsqlite3-1.0.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcsqlite3-1.0.0'
+If you have documentation to create, place the commands to
+build the docs in the 'doc:' target.  For example:
+        xml2nroff sample.xml > sample.n
+        xml2html sample.xml > sample.html
+/bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/tdbcsqlite3-1.0.0/tclconfig/install-sh -c  -m 444 /lw/yhw/repo/tcl8.6.0/pkgs/tdbcsqlite3-1.0.0/library/tdbcsqlite3.tcl \
+		/usr/tcl/lib/tcl8/8.6/`echo tdbcsqlite3 | sed s=tdbc=tdbc/=`-1.0.0.tm
+Installing documentation in /usr/tcl/share/man
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/tdbcsqlite3-1.0.0/doc/tdbc_sqlite3.n
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/tdbcsqlite3-1.0.0'
+Installing package 'thread2.7.0'
+make[1]: Entering directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/thread2.7.0'
+ /bin/bash /lw/yhw/repo/tcl8.6.0/pkgs/thread2.7.0/tclconfig/install-sh -c  -m 555 libthread2.7.0.so /usr/tcl/lib/thread2.7.0/libthread2.7.0.so
+ : /usr/tcl/lib/thread2.7.0/libthread2.7.0.so
+ Install ttrace.tcl /usr/tcl/lib/thread2.7.0/ttrace.tcl
+ Install pkgIndex.tcl /usr/tcl/lib/thread2.7.0
+Installing header files in /usr/tcl/include
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/thread2.7.0/generic/tclThread.h
+Installing documentation in /usr/tcl/man
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/thread2.7.0/doc/man/thread.n
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/thread2.7.0/doc/man/tpool.n
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/thread2.7.0/doc/man/tsv.n
+Installing /lw/yhw/repo/tcl8.6.0/pkgs/thread2.7.0/doc/man/ttrace.n
+make[1]: Leaving directory `/lw/yhw/repo/tcl8.6.0/unix/pkgs/thread2.7.0'
+
+
+
+
+
+
+
+
+gcc \
+		 -pipe -O2 -fomit-frame-pointer -Wall -fPIC  \
+		 -Wl,--export-dynamic  \
+		-o expect exp_main_exp.o \
+		-L/home/repo/expect5.45 -lexpect5.45 \
+		-L/usr/tcl/lib -ltcl8.6 \
+		-ldl  -lieee -lm \
+		-Wl,-rpath,/usr/tcl/lib \
+		-Wl,-rpath,/usr/tcl/lib/expect5.45
+: expect
+(echo 'if {![package vsatisfies [package provide Tcl] 8.6]} {return}' ; \
+	 echo 'package ifneeded Expect 5.45 \
+	    [list load [file join $dir libexpect5.45.so]]'\
+	) > pkgIndex.tcl
+
+
+
+
+
+
+
+
+
+
+
+
+
+root@nw-virtual-machine:/home/repo/expect5.45# make install
+(echo 'if {![package vsatisfies [package provide Tcl] 8.6]} {return}' ; \
+	 echo 'package ifneeded Expect 5.45 \
+	    [list load [file join $dir libexpect5.45.so]]'\
+	) > pkgIndex.tcl
+ /usr/bin/install -c libexpect5.45.so /usr/tcl/lib/expect5.45/libexpect5.45.so
+ : /usr/tcl/lib/expect5.45/libexpect5.45.so
+ Install pkgIndex.tcl /usr/tcl/lib/expect5.45
+ /usr/bin/install -c expect /usr/tcl/bin/expect
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/timed-run > timed-run
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/timed-read > timed-read
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/ftp-rfc > ftp-rfc
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/autopasswd > autopasswd
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/lpunlock > lpunlock
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/weather > weather
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/passmass > passmass
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/rftp > rftp
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/kibitz > kibitz
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/rlogin-cwd > rlogin-cwd
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/xpstat > xpstat
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/tkpasswd > tkpasswd
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/dislocate > dislocate
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/xkibitz > xkibitz
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/tknewsbiff > tknewsbiff
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/unbuffer > unbuffer
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/mkpasswd > mkpasswd
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/cryptdir > cryptdir
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/decryptdir > decryptdir
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/autoexpect > autoexpect
+TCL_LIBRARY=`echo /home/repo/tcl8.6.0/library` LD_LIBRARY_PATH=".:/usr/tcl/lib:" PATH=".:/usr/tcl/lib:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/go/bin:/usr/local/go/bin:/home/togo/bin" TCLLIBPATH="." /usr/tcl/bin/tclsh8.6 ./fixline1 /usr/tcl/bin < ./example/multixterm > multixterm
+Installing header files in /usr/expect/include
+Installing ./expect.h
+Installing ./expect_tcl.h
+Installing ./expect_comm.h
+Installing ./tcldbg.h
+for i in timed-run timed-read ftp-rfc autopasswd lpunlock weather passmass rftp kibitz rlogin-cwd xpstat tkpasswd dislocate xkibitz tknewsbiff unbuffer mkpasswd cryptdir decryptdir autoexpect multixterm end_of_list ; do \
+	  if [ -f $i ] ; then \
+	    /usr/bin/install -c $i /usr/expect/bin/$i ; \
+	    rm -f $i ; \
+	  else true; fi ; \
+	done
+Installing documentation in /usr/expect/man
+/usr/bin/install -c -m 644 ./expect.man /usr/expect/man/man1/expect.1
+/usr/bin/install -c -m 644 ./libexpect.man /usr/expect/man/man3/libexpect.3
+for i in kibitz dislocate xkibitz tknewsbiff unbuffer mkpasswd passmass cryptdir decryptdir autoexpect multixterm end_of_list ; do \
+	  if [ -f ./example/$i.man ] ; then \
+	    /usr/bin/install -c -m 644 ./example/$i.man /usr/expect/man/man1/$i.1 ; \
+	  else true; fi ; \
+	done
+
+

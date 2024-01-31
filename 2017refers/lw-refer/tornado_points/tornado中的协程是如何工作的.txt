@@ -1,0 +1,97 @@
+﻿tornado中的协程是如何工作的
+
+本文将按以下结构进行组织，说明tornado中协程的执行原理
+
+协程定义
+生成器和yield语义
+Future对象
+ioloop对象
+函数装饰器coroutine
+总结
+协程定义
+
+Coroutines are computer program components that generalize subroutines for nonpreemptive multitasking, by allowing multiple entry points for suspending and resuming execution at certain locations.。 —— [ 维基百科 ]
+我们在平常编程中，更习惯使用的是子例程(subroutine)，通俗的叫法是函数，或者过程。子例程，往往只有一个入口(函数调用，实参通过传给形参开始执行)，一个出口(函数return，执行完毕，或者引发异常，将控制权转移给调用者)。但协程是子例程基础上，一种更加宽泛定义的计算机程序模块(子例程可以看做协程的特例)，它可以有多个入口点，允许从一个入口点，执行到下一个入口点之前暂停，保存执行状态，等到合适的时机恢复执行状态，从下一个入口点重新开始执行，这也是协程应该具有的能力。
+
+定义
+协程代码块
+ 一个入口点和下一个入口点(或者退出点)中的代码。
+协程模块
+ 由n个入口点代码，和n个协程代码块组成。第一个入口点通常是一个函 数入口点。其组织形式如：函数入口点->协程代码块->入口点->协程代码块…，入口点和代码块相间。
+线性模块
+ 一个同步函数的函数体是线性执行的。也就是说一个模块中的每一行代码，相继执行，一个模块在执行中，如果还没有执行完毕，不会去执行其他模块的代码。称这样的代码模块为线性模块。
+一个协程模块,如果只含有单一入口点和单一协程代码块(假设这个协程代码块全是同步代码),当然这个协程模块是一个线性执行模块，但是如果含有多个入口点和多个协程代码块，那么就不是一个线性模块。那么执行一个协程模块过程实际是分散的(不同的时间段，执行不同的协程代码块，协程代码块的执行时间段，彼此不相交)，但也是顺序的(后一个协程代码块在前一个协程代码块执行结束后才执行)。两个属于同一协程模块的相继协程代码块执行的中间时间间隙，可能有很多其他协程模块的协程代码片段在执行。
+
+生成器和yield语义
+
+谈到协程，必须要说说Python语义中的生成器(generator)。
+
+在pep255中提到了”simple generator”和”yield语句”(此时还不是”yield表达式”)的实现。一个basic idea，提供一种函数，能够返回中间结果给调用者，然后维护函数的局部状态，以便函数当离开后，也能恢复执行。
+
+生成器是一个含有yield表达式的函数，此时该函数叫生成器。一个生成器永远是异步的，即使生成器模块中含有阻塞代码。因为调用一个生成器，生成器的参数会绑定到生成器，结果返回是一个生成器对象，它的类型是types.GeneratorType，不会去执行生成器主模块中的代码。
+
+每次调用一个GeneratorType对象的next方法，生成器函数执行到下一个yield语句或者，或者碰到一个return语句，或者执行到生成器函数结束。
+
+在pep342中，对Generator进一步加强，增加了GeneratorType的send方法，和yield表达式语义。yield表达式，可以作为等号右边的表达式。如果对Generator调用send(None)方法，生成器函数会从开始一直执行到yield表达式。那么下一次对Generator调用send(argument),Generator恢复执行。那么可以在生成器函数体内获得这个argument，这个argument将会作为yield表达式的返回值。
+
+从上面可以看到，Generator已经具备协程的一些能力。如：能够暂停执行，保存状态；能够恢复执行；能够异步执行。
+
+但是此时Generator还不是一个协程。一个真正的协程能够控制代码什么时候继续执行。而一个Generator执行遇到一个yield表达式 或者语句，会将执行控制权转移给调用者。
+
+However, it is still possible to implement coroutines on top of a generator facility, with the aid of a top-level dispatcher routine (a trampoline, essentially) that passes control explicitly to child generators identified by tokens passed back from the generators。 —— [ 维基百科 ]
+在维基百科中提到，可以实现一个顶级的调度子例程，将执行控制权转移回Generator，从而让它继续执行。在tornado中，ioLoop就是这样的顶级调度子例程，每个协程模块通过，函数装饰器coroutine和ioLoop进行通信，从而ioLoop可以在协程模块执行暂停后，在合适的时机重新调度协程模块执行。
+
+不过，接下来还不能介绍coroutine和ioLoop，在介绍这两者之前，先得明白tornado中在协程环境中一个非常重要的类Future.
+
+Future类
+Future类位于tornado源码的concurrent模块中。Future类的完整代码，请查看tornado的源码。在这里截取一部分代码作为分析之用
+
+Future类重要成员函数:
+def done(self):
+ Future的_result成员是否被设置
+def result(self, timeout=None):
+ 获取Future对象的结果
+def add_done_callback(self, fn):
+ 添加一个回调函数fn给Future对象。如果这个Future对象已经done，则直接执行fn，否则将fn加入到Future类的一个成员列表中保存。
+def _set_done(self):
+ 一个内部函数，主要是遍历列表，逐个调用列表中的callback函数，也就是前面add_done_calback加如来的。
+def set_result(self, result):
+ 给Future对象设置result，并且调用_set_done。也就是说，当Future对象获得result后，所有add_done_callback加入的回调函数就会执行。
+Future封装了异步操作的结果。实际是它类似于在网页html前端中，图片异步加载的占位符，但加载后最终也是一个完整的图片。Future也是同样用处，tornado使用它，最终希望它被set_result,并且调用一些回调函数。Future对象实际是coroutine函数装饰器和IOLoop的沟通使者，有着非常重要的作用。
+
+
+IOLoop类
+
+tornado框架的底层核心类，位于tornado的ioloop模块。功能方面类似win32窗口的消息循环。每个窗口可以绑定一个窗口过程。窗口过程主要是一个消息循环在执行。消息循环主要任务是利用PeekMessage系统调用，从消息队列中取出各种类型的消息，判断消息的类型，然后交给特定的消息handler进行执行。
+
+tornado中的IOLoop与此相比具有很大的相似性，在协程运行环境中担任着协程调度器的角色, 和win32的消息循环本质上都是一种事件循环，等待事件，然后运行对应的事件处理器(handler）。不过IOLoop主要调度处理的是IO事件(如读，写，错误)。除此之外，还能调度callback和timeout事件。
+
+在本博文中，我们暂时只关注callback事件，因为这个与协程调度的相关性最大。
+
+add_future函数在基类IOLoop中实现,函数参数是一个Future对象和一个callback函数。当Future对象被set_result,执行一个回调函数，是个lambda函数，在lambda函数中调用IOLoop的add_callback函数。将add_future的参数callback加入到IOLoop的统一调度中，让callback在IOLoop下一次迭代中执行。
+
+add_callback函数主要在IOLoop的子类PollIOLoop中实现。也很容易理解。 
+将传入的callback函数，利用偏函数进行包装，将所有callback真正运行时需要的参数，都绑定到生成的偏函数中，实际上就是找个地方把callback运行时需要的参数保存起来。将包装好的偏函数加入到回调函数列表。当IOLoop下一次迭代运行的时候，遍历callback函数列表，运行偏函数的时候，就不再需要传入参数执行，效果等同于用实参运行callback。
+
+IOLoop对象调用start函数，会运行event loop。在event loop中，首先遍历callback列表，执行回调函数，然后遍历timeout列表，执行timeoutCallback。最后才执行ioHandler。
+
+coroutine函数装饰器
+
+函数装饰器本质是一个函数，我们称这个函数为装饰器函数。装饰器函数签名含有一个 函数对象(可调用对象callable)参数，返回的结果是一个装饰器内部定义的一个新函数对象。如果返回的函数对象被调用，装饰器函数的参数（函数对象）也会被调用。不过，会在这个参数(装饰器函数参数)调用前做一些事情，或者在这个参数调用后做一些事情。实际上做的这些事情，就是利用内部自定义的函数对象对参数（原函数）的一些装饰(额外操作）
+
+当一个函数被装饰器装饰。那么以后调用这个函数(此函数已经非彼函数)的时候，实际上调用的是装饰器函数返回的内部函数对象。理解tornado中coroutine修饰的函数如何执行，主要是 理解coroutine这个装饰器函数内部定义的新函数对象所做的那些事儿。
+
+以上的代码其实都对源码进行了一些调整。但函数调用进入到Runner的构造函数的时候，也就是说Generator的第一次执行已经完毕。那么接下来，调用的是，handle_yield，对第一次Generator执行的返回结果进行处理。当然返回的结果可能是多种类型。可能是一个Future对象，list，dict，或者其他类型对象，或者普通类型。通过convert_yield，self.future保存的是一个Future对象的引用(第一次Generator执行返回的结果)。此时如果self.future还没被set_result。对为self.future绑定一个done_callback(lambda f: self.run())，加入到self.io_loop中。
+
+在前文说到。ioloop的add_future函数中，实际上是只有当参数future,在某个地方调用了set_result, 才在执行done_callback时，将参数callback加入到IOLoop中调度。换句话说。Runner类中，self.run要等到self.future在某个代码块被set_result，IOLoop才有可能在下一次迭代的时候执行它，从而调度协程继续恢复执行。而在self.run函数中，我们可以看到将会通过Generator的send函数，恢复执行下一个协程代码块。所以关键的问题是我们需要明白Runner类中self.future，在什么时候被set_result？
+
+从这里我们可以看到Future类的重要作用。future.set_result起到的作用是: 
+发送一个信号，告诉IOLoop去调度暂停的协程继续执行。
+
+
+
+总结
+
+tornado中的协程实现基于python语言的Generator并且结合一个全局的调度器IOLoop，Generator通过函数装饰器coroutine和IOLoop进行通信。IOLoop并没有直接控制能力，调度恢复被暂停的协程继续执行。future对象在协程中被yield。协程暂停，IOLoop调度另外一个代码模块执行，而在这个执行的代码模块中刚好，可以访问这个future对象，将其set_result，结果通过IOLoop间接恢复暂停协程执行。不同执行代码模块中，共享future对象，彼此合作，协程调度得顺利执行。
+
+从这种意义上来说，future对象，像window中的Event内核对象的作用。window中的event用于线程中同步。而协程中的yield future相当于WaitForSingleObject(event_object), 而future.set_result(result)。相当于SetEvent(event_object)。而future和Event的不同点在于，协程借future来恢复执行，而线程借Event来进行线程间同步。

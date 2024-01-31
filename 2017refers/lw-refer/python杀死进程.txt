@@ -1,0 +1,5 @@
+ps aux | grep python
+ps -ef
+kill -s 9 1827
+
+netstat -ap | grep ²é¿´¶Ë¿Ú

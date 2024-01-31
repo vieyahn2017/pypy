@@ -1,0 +1,36 @@
+root@nw-virtual-machine:~# go env
+root@nw-virtual-machine:~# which go
+
+root@nw-virtual-machine:~# ls -l /usr/bin/go
+root@nw-virtual-machine:~# ls -l /etc/alternatives/go
+root@nw-virtual-machine:~# ls -l /usr/bin/golang-go
+
+root@nw-virtual-machine:~# rm -rf /usr/bin/golang-go
+root@nw-virtual-machine:~# rm -rf /usr/bin/go
+root@nw-virtual-machine:~# rm -rf /etc/alternatives/go
+
+root@nw-virtual-machine:~# vi ~/.bashrc
+root@nw-virtual-machine:~# source ~/.bashrc
+
+root@nw-virtual-machine:~# ln /usr/local/go/bin/go /usr/bin/go
+
+
+git config --global http.sslVerify false
+
+go get github.com/astaxie/beego
+github.com/beego/bee
+
+将 $GOPATH/bin 加入到你的 $PATH 变量中
+
+
+root@nw-virtual-machine:~# go get labix.org/v2/mgo 
+go: missing Bazaar command. See https://golang.org/s/gogetcmd
+package labix.org/v2/mgo: exec: "bzr": executable file not found in $PATH
+
+艹
+root@nw-virtual-machine:~# go get gopkg.in/mgo.v2
+package gopkg.in/mgo.v2: unrecognized import path "gopkg.in/mgo.v2" (https fetch: Get https://gopkg.in/mgo.v2?go-get=1: dial tcp: lookup gopkg.in on 127.0.1.1:53: read udp 127.0.0.1:32930->127.0.1.1:53: i/o timeout)
+
+
+root@nw-virtual-machine:/usr/local/go# go get golang.org/x/net/context
+package golang.org/x/net/context: unrecognized import path "golang.org/x/net/context" (https fetch: Get https://golang.org/x/net/context?go-get=1: dial tcp 216.239.37.1:443: i/o timeout)

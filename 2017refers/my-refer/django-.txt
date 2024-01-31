@@ -1,0 +1,146 @@
+curl "http://127.0.0.1:8000/lists/"
+curl "http://127.0.0.1:8000/" | grep -o -P "http:[^>]*?(jpg|jpeg)"  |xargs wget
+是保存到当前目录
+-P 选项是利用PERL的正则语法进行匹配
+$x("//img/@src").length
+
+ubuntu查看本机ip : ifconfig -a
+fuser -k 8000/tcp 杀死端口占用
+
+root@localhost:/home/itcast/scrapy/stack_django_51cto# 
+python manage.py runserver
+python manage.py runserver 0.0.0.0:8000  即可接收所有IP访问
+
+django-admin.py startproject stack_django
+cd stack_django/
+django-admin.py startapp stack_app
+python manage.py createsuperuser
+Username: admin
+Email address: admin@dojo.com
+Password: feidj
+
+
+
+测试 python manage.py shell
+>>> from  django.db import connection
+>>> cursor = connection.cursor
+视图
+from django.shortcuts import render_to_response
+return render_to_response('1.html', {'form':form})
+模型
+python manage.py check 验证有效性
+数据库新版命令：
+python manage.py makemigrations stack_app
+python manage.py sqlmigrate stack_app 0001
+python manage.py migrate
+
+测试python manage.py shell
+
+from stack_app.models import *
+m=DjArticle.objects.all()
+x=DjArticle(title='django',brows=2)
+x.save()
+t=DjArticle.objects.get(title='django')
+>>> DjArticle(title='django',brows=2).save()
+>>> DjArticle(title='flask',brows=42).save()
+>>> DjArticle(title='python',brows=142).save()
+>>> DjArticle(title='scrapy',brows=12).save()
+>>> m=DjArticle.objects.all()
+>>> m
+<QuerySet [<DjArticle: django>, <DjArticle: flask>, <DjArticle: python>, <DjArticle: scrapy>]>
+
+DjArticle(title='大数据规模增速加快 各行业应用不断涌现', brows=2784, abstract='我国的大数据应用虽然还处于早期阶段，但是对我国经济转型发展具有深远的意义，对提升整个经济社会的集约化具有推动作用。大数据应用产品的开发与运营，也成为许多科技公司在新一轮竞争中“弯道超车”的机遇和挑战，',  label={"大数据", "可视化"}, image='http://s2.51cto.com/wyfs02/M00/85/6C/wKiom1ei60qSeMa8AAA3cB35tDM327.jpg').save();
+
+
+
+访问 插入 排序 更新 删除
+from myLesson.models import *
+m=Mysite.objects.all()
+m=Mysite(title='django',num=2)
+m=Mysite.objects.get(num=2)
+m=Mysite(title='django',num=3)
+m=Mysite(title='django',num=9)
+m=Mysite(title='django',num=1)
+m=Mysite.objects.all().order_by('num')
+m[0].num
+m=Mysite.objects.all(),order_by('-num')
+m=Mysite.objects.get(num=2)
+m.title='python'
+m.save()
+m=Mysite.objects.get(num=2)
+m.delete()
+m=Mysite.objects.all()[0:2]
+
+
+
+模型数据
+models.py
+from django.db import models
+class MySite(models,Model):
+    title=models.CharField(max_length=100)
+    url=models.URLField()
+    author=models.CharField(max_length=100)
+    num=models.IntegerField(max_length=10)
+
+class Meta:ordering=['num']
+
+
+
+python manage.py validate 验证有效性
+===python manage.py validate is deprecated since 1.7, you can use python manage.py check
+
+python manage.py sqlall myLesson列出数据库语句
+python manage.py syncdb 同步到数据库
+新版命令：
+python manage.py makemigrations stack_app
+python manage.py sqlmigrate stack_app 0001
+python manage.py migrate
+
+BEGIN;
+--
+-- Create model DjArticle
+--
+CREATE TABLE "stack_app_djarticle" ("id" serial NOT NULL PRIMARY KEY, "title" varchar(100) NOT NULL, "label" varchar(20)[] NOT NULL);
+COMMIT;
+
+
+
+
+python manage.py runserver
+
+You have 13 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+
+
+
+
+
+
+
+
+python manage.py shell
+>>> from  django.db import connection
+>>> cursor = connection.cursor
+
+You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+
+In your python shell/ipython do:
+from django.conf import settings
+settings.configure()
+
+
+
+
+django Error: That port is already in use.
+
+A more simple solution just type sudo 
+fuser -k 8000/tcp
+This should kill all the processes associated with port 8000.
+
+
+
+如果你忘记了设置Django的Admin密码，那么你可以使用createsuperuser 来设置密码，但是如果你忘记了Admin的密码的话，那么就要用Django shell： python manage.py shell 然后获取你的用户名，并且重设密码： 
+from django.contrib.auth.models import User
+user =User.objects.get(username='admin')
+user.set_password('new_password')
+这样之后你就可以使用新的密码登入了。

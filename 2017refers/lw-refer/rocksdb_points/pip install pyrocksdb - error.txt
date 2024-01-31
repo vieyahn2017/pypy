@@ -1,0 +1,298 @@
+pip install pyrocksdb
+Collecting pyrocksdb
+/usr/local/lib/python2.7/dist-packages/pip/_vendor/requests/packages/urllib3/util/ssl_.py:318: SNIMissingWarning: An HTTPS request has been made, but the SNI (Subject Name Indication) extension to TLS is not available on this platform. This may cause the server to present an incorrect TLS certificate, which can cause validation failures. You can upgrade to a newer version of Python to solve this. For more information, see https://urllib3.readthedocs.io/en/latest/security.html#snimissingwarning.
+  SNIMissingWarning
+/usr/local/lib/python2.7/dist-packages/pip/_vendor/requests/packages/urllib3/util/ssl_.py:122: InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail. You can upgrade to a newer version of Python to solve this. For more information, see https://urllib3.readthedocs.io/en/latest/security.html#insecureplatformwarning.
+  InsecurePlatformWarning
+  Using cached pyrocksdb-0.4.tar.gz
+Requirement already satisfied: setuptools in /usr/local/lib/python2.7/dist-packages (from pyrocksdb)
+Requirement already satisfied: packaging>=16.8 in /usr/local/lib/python2.7/dist-packages (from setuptools->pyrocksdb)
+Requirement already satisfied: appdirs>=1.4.0 in /usr/local/lib/python2.7/dist-packages (from setuptools->pyrocksdb)
+Requirement already satisfied: six>=1.6.0 in /usr/local/lib/python2.7/dist-packages/six-1.10.0-py2.7.egg (from setuptools->pyrocksdb)
+Requirement already satisfied: pyparsing in /usr/local/lib/python2.7/dist-packages (from packaging>=16.8->setuptools->pyrocksdb)
+Building wheels for collected packages: pyrocksdb
+  Running setup.py bdist_wheel for pyrocksdb ... error
+  Complete output from command /usr/bin/python -u -c "import setuptools, tokenize;__file__='/tmp/pip-build-9adDt7/pyrocksdb/setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" bdist_wheel -d /tmp/tmpVqrIBJpip-wheel- --python-tag cp27:
+  running bdist_wheel
+  running build
+  running build_py
+  creating build
+  creating build/lib.linux-x86_64-2.7
+  creating build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/__init__.py -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/interfaces.py -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/errors.py -> build/lib.linux-x86_64-2.7/rocksdb
+  creating build/lib.linux-x86_64-2.7/rocksdb/tests
+  copying rocksdb/tests/test_options.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+  copying rocksdb/tests/__init__.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+  copying rocksdb/tests/test_db.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+  running egg_info
+  writing requirements to pyrocksdb.egg-info/requires.txt
+  writing pyrocksdb.egg-info/PKG-INFO
+  writing top-level names to pyrocksdb.egg-info/top_level.txt
+  writing dependency_links to pyrocksdb.egg-info/dependency_links.txt
+  reading manifest file 'pyrocksdb.egg-info/SOURCES.txt'
+  reading manifest template 'MANIFEST.in'
+  writing manifest file 'pyrocksdb.egg-info/SOURCES.txt'
+  copying rocksdb/_rocksdb.cpp -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/_rocksdb.pyx -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/backup.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/cache.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/comparator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/db.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/env.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/filter_policy.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/iterator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/logger.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/memtablerep.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/merge_operator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/options.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/slice_.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/slice_transform.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/snapshot.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/status.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/std_memory.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/table_factory.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  copying rocksdb/universal_compaction.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+  creating build/lib.linux-x86_64-2.7/rocksdb/cpp
+  copying rocksdb/cpp/comparator_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+  copying rocksdb/cpp/filter_policy_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+  copying rocksdb/cpp/memtable_factories.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+  copying rocksdb/cpp/merge_operator_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+  copying rocksdb/cpp/slice_transform_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+  copying rocksdb/cpp/utils.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+  copying rocksdb/cpp/write_batch_iter_helper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+  running build_ext
+  building 'rocksdb._rocksdb' extension
+  creating build/temp.linux-x86_64-2.7
+  creating build/temp.linux-x86_64-2.7/rocksdb
+  x86_64-linux-gnu-gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c rocksdb/_rocksdb.cpp -o build/temp.linux-x86_64-2.7/rocksdb/_rocksdb.o -std=c++11 -O3 -Wall -Wextra -Wconversion -fno-strict-aliasing
+  cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++ [enabled by default]
+  rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_19PyBloomFilterPolicy_4create_filter(__pyx_obj_7rocksdb_8_rocksdb_PyBloomFilterPolicy*, PyObject*)’:
+  rocksdb/_rocksdb.cpp:5639:88: warning: conversion to ‘int’ from ‘std::vector<rocksdb::Slice>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+       __pyx_t_6->CreateFilter(py_rocks::vector_data(__pyx_v_c_keys), __pyx_v_c_keys.size(), (&__pyx_v_dst));
+                                                                                          ^
+  rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_30max_bytes_for_level_multiplier___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+  rocksdb/_rocksdb.cpp:12985:86: warning: conversion to ‘int’ from ‘double’ may alter its value [-Wconversion]
+     __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->opts->max_bytes_for_level_multiplier); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 861; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                                                        ^
+  rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_26expanded_compaction_factor___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+  rocksdb/_rocksdb.cpp:13229:56: error: ‘struct rocksdb::Options’ has no member named ‘expanded_compaction_factor’
+     __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->opts->expanded_compaction_factor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 873; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                          ^
+  rocksdb/_rocksdb.cpp: In function ‘int __pyx_pf_7rocksdb_8_rocksdb_7Options_26expanded_compaction_factor_2__set__(__pyx_obj_7rocksdb_8_rocksdb_Options*, PyObject*)’:
+  rocksdb/_rocksdb.cpp:13292:23: error: ‘struct rocksdb::Options’ has no member named ‘expanded_compaction_factor’
+     __pyx_v_self->opts->expanded_compaction_factor = __pyx_t_1;
+                         ^
+  rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_24source_compaction_factor___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+  rocksdb/_rocksdb.cpp:13351:56: error: ‘struct rocksdb::Options’ has no member named ‘source_compaction_factor’
+     __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->opts->source_compaction_factor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 879; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                          ^
+  rocksdb/_rocksdb.cpp: In function ‘int __pyx_pf_7rocksdb_8_rocksdb_7Options_24source_compaction_factor_2__set__(__pyx_obj_7rocksdb_8_rocksdb_Options*, PyObject*)’:
+  rocksdb/_rocksdb.cpp:13414:23: error: ‘struct rocksdb::Options’ has no member named ‘source_compaction_factor’
+     __pyx_v_self->opts->source_compaction_factor = __pyx_t_1;
+                         ^
+  rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_30max_grandparent_overlap_factor___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+  rocksdb/_rocksdb.cpp:13473:56: error: ‘struct rocksdb::Options’ has no member named ‘max_grandparent_overlap_factor’
+     __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->opts->max_grandparent_overlap_factor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 885; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                          ^
+  rocksdb/_rocksdb.cpp: In function ‘int __pyx_pf_7rocksdb_8_rocksdb_7Options_30max_grandparent_overlap_factor_2__set__(__pyx_obj_7rocksdb_8_rocksdb_Options*, PyObject*)’:
+  rocksdb/_rocksdb.cpp:13536:23: error: ‘struct rocksdb::Options’ has no member named ‘max_grandparent_overlap_factor’
+     __pyx_v_self->opts->max_grandparent_overlap_factor = __pyx_t_1;
+                         ^
+  rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_14filter_deletes___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+  rocksdb/_rocksdb.cpp:18153:57: error: ‘struct rocksdb::Options’ has no member named ‘filter_deletes’
+     __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->opts->filter_deletes); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                           ^
+  rocksdb/_rocksdb.cpp:447:36: note: in definition of macro ‘__Pyx_PyBool_FromLong’
+   #define __Pyx_PyBool_FromLong(b) ((b) ? (Py_INCREF(Py_True), Py_True) : (Py_INCREF(Py_False), Py_False))
+                                      ^
+  rocksdb/_rocksdb.cpp: In function ‘int __pyx_pf_7rocksdb_8_rocksdb_7Options_14filter_deletes_2__set__(__pyx_obj_7rocksdb_8_rocksdb_Options*, PyObject*)’:
+  rocksdb/_rocksdb.cpp:18216:23: error: ‘struct rocksdb::Options’ has no member named ‘filter_deletes’
+     __pyx_v_self->opts->filter_deletes = __pyx_t_1;
+                         ^
+  error: command 'x86_64-linux-gnu-gcc' failed with exit status 1
+  
+  ----------------------------------------
+  Failed building wheel for pyrocksdb
+  Running setup.py clean for pyrocksdb
+Failed to build pyrocksdb
+Installing collected packages: pyrocksdb
+  Running setup.py install for pyrocksdb ... error
+    Complete output from command /usr/bin/python -u -c "import setuptools, tokenize;__file__='/tmp/pip-build-9adDt7/pyrocksdb/setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record /tmp/pip-H0UwfH-record/install-record.txt --single-version-externally-managed --compile:
+    running install
+    running build
+    running build_py
+    creating build
+    creating build/lib.linux-x86_64-2.7
+    creating build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/__init__.py -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/interfaces.py -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/errors.py -> build/lib.linux-x86_64-2.7/rocksdb
+    creating build/lib.linux-x86_64-2.7/rocksdb/tests
+    copying rocksdb/tests/test_options.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+    copying rocksdb/tests/__init__.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+    copying rocksdb/tests/test_db.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+    running egg_info
+    writing requirements to pyrocksdb.egg-info/requires.txt
+    writing pyrocksdb.egg-info/PKG-INFO
+    writing top-level names to pyrocksdb.egg-info/top_level.txt
+    writing dependency_links to pyrocksdb.egg-info/dependency_links.txt
+    reading manifest file 'pyrocksdb.egg-info/SOURCES.txt'
+    reading manifest template 'MANIFEST.in'
+    writing manifest file 'pyrocksdb.egg-info/SOURCES.txt'
+    copying rocksdb/_rocksdb.cpp -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/_rocksdb.pyx -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/backup.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/cache.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/comparator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/db.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/env.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/filter_policy.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/iterator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/logger.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/memtablerep.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/merge_operator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/options.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/slice_.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/slice_transform.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/snapshot.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/status.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/std_memory.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/table_factory.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/universal_compaction.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    creating build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/comparator_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/filter_policy_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/memtable_factories.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/merge_operator_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/slice_transform_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/utils.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/write_batch_iter_helper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    running build_ext
+    building 'rocksdb._rocksdb' extension
+    creating build/temp.linux-x86_64-2.7
+    creating build/temp.linux-x86_64-2.7/rocksdb
+    x86_64-linux-gnu-gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c rocksdb/_rocksdb.cpp -o build/temp.linux-x86_64-2.7/rocksdb/_rocksdb.o -std=c++11 -O3 -Wall -Wextra -Wconversion -fno-strict-aliasing
+    cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++ [enabled by default]
+    rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_19PyBloomFilterPolicy_4create_filter(__pyx_obj_7rocksdb_8_rocksdb_PyBloomFilterPolicy*, PyObject*)’:
+    rocksdb/_rocksdb.cpp:5639:88: warning: conversion to ‘int’ from ‘std::vector<rocksdb::Slice>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+         __pyx_t_6->CreateFilter(py_rocks::vector_data(__pyx_v_c_keys), __pyx_v_c_keys.size(), (&__pyx_v_dst));
+                                                                                            ^
+    rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_30max_bytes_for_level_multiplier___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+    rocksdb/_rocksdb.cpp:12985:86: warning: conversion to ‘int’ from ‘double’ may alter its value [-Wconversion]
+       __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->opts->max_bytes_for_level_multiplier); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 861; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                                                          ^
+    rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_26expanded_compaction_factor___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+    rocksdb/_rocksdb.cpp:13229:56: error: ‘struct rocksdb::Options’ has no member named ‘expanded_compaction_factor’
+       __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->opts->expanded_compaction_factor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 873; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                            ^
+    rocksdb/_rocksdb.cpp: In function ‘int __pyx_pf_7rocksdb_8_rocksdb_7Options_26expanded_compaction_factor_2__set__(__pyx_obj_7rocksdb_8_rocksdb_Options*, PyObject*)’:
+    rocksdb/_rocksdb.cpp:13292:23: error: ‘struct rocksdb::Options’ has no member named ‘expanded_compaction_factor’
+       __pyx_v_self->opts->expanded_compaction_factor = __pyx_t_1;
+                           ^
+    rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_24source_compaction_factor___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+    rocksdb/_rocksdb.cpp:13351:56: error: ‘struct rocksdb::Options’ has no member named ‘source_compaction_factor’
+       __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->opts->source_compaction_factor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 879; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                            ^
+    rocksdb/_rocksdb.cpp: In function ‘int __pyx_pf_7rocksdb_8_rocksdb_7Options_24source_compaction_factor_2__set__(__pyx_obj_7rocksdb_8_rocksdb_Options*, PyObject*)’:
+    rocksdb/_rocksdb.cpp:13414:23: error: ‘struct rocksdb::Options’ has no member named ‘source_compaction_factor’
+       __pyx_v_self->opts->source_compaction_factor = __pyx_t_1;
+                           ^
+    rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_30max_grandparent_overlap_factor___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+    rocksdb/_rocksdb.cpp:13473:56: error: ‘struct rocksdb::Options’ has no member named ‘max_grandparent_overlap_factor’
+       __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->opts->max_grandparent_overlap_factor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 885; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                            ^
+    rocksdb/_rocksdb.cpp: In function ‘int __pyx_pf_7rocksdb_8_rocksdb_7Options_30max_grandparent_overlap_factor_2__set__(__pyx_obj_7rocksdb_8_rocksdb_Options*, PyObject*)’:
+    rocksdb/_rocksdb.cpp:13536:23: error: ‘struct rocksdb::Options’ has no member named ‘max_grandparent_overlap_factor’
+       __pyx_v_self->opts->max_grandparent_overlap_factor = __pyx_t_1;
+                           ^
+    rocksdb/_rocksdb.cpp: In function ‘PyObject* __pyx_pf_7rocksdb_8_rocksdb_7Options_14filter_deletes___get__(__pyx_obj_7rocksdb_8_rocksdb_Options*)’:
+    rocksdb/_rocksdb.cpp:18153:57: error: ‘struct rocksdb::Options’ has no member named ‘filter_deletes’
+       __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->opts->filter_deletes); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                                                             ^
+    rocksdb/_rocksdb.cpp:447:36: note: in definition of macro ‘__Pyx_PyBool_FromLong’
+     #define __Pyx_PyBool_FromLong(b) ((b) ? (Py_INCREF(Py_True), Py_True) : (Py_INCREF(Py_False), Py_False))
+                                        ^
+    rocksdb/_rocksdb.cpp: In function ‘int __pyx_pf_7rocksdb_8_rocksdb_7Options_14filter_deletes_2__set__(__pyx_obj_7rocksdb_8_rocksdb_Options*, PyObject*)’:
+    rocksdb/_rocksdb.cpp:18216:23: error: ‘struct rocksdb::Options’ has no member named ‘filter_deletes’
+       __pyx_v_self->opts->filter_deletes = __pyx_t_1;
+                           ^
+    error: command 'x86_64-linux-gnu-gcc' failed with exit status 1
+    
+    ----------------------------------------
+Command "/usr/bin/python -u -c "import setuptools, tokenize;__file__='/tmp/pip-build-9adDt7/pyrocksdb/setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record /tmp/pip-H0UwfH-record/install-record.txt --single-version-externally-managed --compile" failed with error code 1 in /tmp/pip-build-9adDt7/pyrocksdb/
+root@localhost:/home/itcast/vie/cc/rocksdb-5.0.1# pip install git+git://github.com/stephan-hof/pyrocksdb.git
+Collecting git+git://github.com/stephan-hof/pyrocksdb.git
+  Cloning git://github.com/stephan-hof/pyrocksdb.git to /tmp/pip-GXbC_L-build
+Requirement already satisfied: setuptools in /usr/local/lib/python2.7/dist-packages (from pyrocksdb==0.5)
+Requirement already satisfied: packaging>=16.8 in /usr/local/lib/python2.7/dist-packages (from setuptools->pyrocksdb==0.5)
+Requirement already satisfied: appdirs>=1.4.0 in /usr/local/lib/python2.7/dist-packages (from setuptools->pyrocksdb==0.5)
+Requirement already satisfied: six>=1.6.0 in /usr/local/lib/python2.7/dist-packages/six-1.10.0-py2.7.egg (from setuptools->pyrocksdb==0.5)
+Requirement already satisfied: pyparsing in /usr/local/lib/python2.7/dist-packages (from packaging>=16.8->setuptools->pyrocksdb==0.5)
+Installing collected packages: pyrocksdb
+  Running setup.py install for pyrocksdb ... error
+    Complete output from command /usr/bin/python -u -c "import setuptools, tokenize;__file__='/tmp/pip-GXbC_L-build/setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record /tmp/pip-nVxFTc-record/install-record.txt --single-version-externally-managed --compile:
+    running install
+    running build
+    running build_py
+    creating build
+    creating build/lib.linux-x86_64-2.7
+    creating build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/__init__.py -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/interfaces.py -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/errors.py -> build/lib.linux-x86_64-2.7/rocksdb
+    creating build/lib.linux-x86_64-2.7/rocksdb/tests
+    copying rocksdb/tests/test_options.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+    copying rocksdb/tests/__init__.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+    copying rocksdb/tests/test_db.py -> build/lib.linux-x86_64-2.7/rocksdb/tests
+    running egg_info
+    creating pyrocksdb.egg-info
+    writing requirements to pyrocksdb.egg-info/requires.txt
+    writing pyrocksdb.egg-info/PKG-INFO
+    writing top-level names to pyrocksdb.egg-info/top_level.txt
+    writing dependency_links to pyrocksdb.egg-info/dependency_links.txt
+    writing manifest file 'pyrocksdb.egg-info/SOURCES.txt'
+    reading manifest file 'pyrocksdb.egg-info/SOURCES.txt'
+    reading manifest template 'MANIFEST.in'
+    writing manifest file 'pyrocksdb.egg-info/SOURCES.txt'
+    copying rocksdb/_rocksdb.pyx -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/backup.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/cache.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/comparator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/db.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/env.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/filter_policy.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/iterator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/logger.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/memtablerep.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/merge_operator.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/options.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/slice_.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/slice_transform.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/snapshot.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/status.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/std_memory.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/table_factory.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    copying rocksdb/universal_compaction.pxd -> build/lib.linux-x86_64-2.7/rocksdb
+    creating build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/comparator_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/filter_policy_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/memtable_factories.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/merge_operator_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/slice_transform_wrapper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/utils.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    copying rocksdb/cpp/write_batch_iter_helper.hpp -> build/lib.linux-x86_64-2.7/rocksdb/cpp
+    running build_ext
+    building 'rocksdb._rocksdb' extension
+    creating build/temp.linux-x86_64-2.7
+    creating build/temp.linux-x86_64-2.7/rocksdb
+    x86_64-linux-gnu-gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c rocksdb/_rocksdb.cpp -o build/temp.linux-x86_64-2.7/rocksdb/_rocksdb.o -std=c++11 -O3 -Wall -Wextra -Wconversion -fno-strict-aliasing
+    x86_64-linux-gnu-gcc: error: rocksdb/_rocksdb.cpp: 没有那个文件或目录
+    x86_64-linux-gnu-gcc: fatal error: no input files
+    compilation terminated.
+    error: command 'x86_64-linux-gnu-gcc' failed with exit status 4
+    
+    ----------------------------------------
+Command "/usr/bin/python -u -c "import setuptools, tokenize;__file__='/tmp/pip-GXbC_L-build/setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record /tmp/pip-nVxFTc-record/install-record.txt --single-version-externally-managed --compile" failed with error code 1 in /tmp/pip-GXbC_L-build/
+root@localhost:/home/itcast/vie/cc/rocksdb-5.0.1# 

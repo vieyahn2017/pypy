@@ -1,0 +1,145 @@
+{ "_id" : "596f021ff0881b2bd15b2401", "name" : "uuid", "default" : "", "required" : true, "api_id" : "596f021ff0881b2bd15b2406", "type_" : "string", "description" : "uuid" }
+{ "_id" : "596f021ff0881b2bd15b2402", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f021ff0881b2bd15b2406", "type_" : "string", "description" : "message." }
+{ "_id" : "596f021ff0881b2bd15b2403", "name" : "action", "default" : "", "required" : true, "api_id" : "596f021ff0881b2bd15b2406", "type_" : "int", "description" : "(# 'start': 0,'stop': 1, 'reboot':5)" }
+{ "_id" : "596f021ff0881b2bd15b2404", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f021ff0881b2bd15b2406", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f021ff0881b2bd15b2405", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f021ff0881b2bd15b2406", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f037ef0881b2bd15b2409", "name" : "machine_id", "default" : "", "required" : true, "api_id" : "596f037ef0881b2bd15b240e", "type_" : "int", "description" : "需要创建的机型_id" }
+{ "_id" : "596f037ef0881b2bd15b240a", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f037ef0881b2bd15b240e", "type_" : "string", "description" : "message." }
+{ "_id" : "596f037ef0881b2bd15b240b", "name" : "count", "default" : "", "required" : true, "api_id" : "596f037ef0881b2bd15b240e", "type_" : "int", "description" : "数量" }
+{ "_id" : "596f037ef0881b2bd15b240c", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f037ef0881b2bd15b240e", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f037ef0881b2bd15b240d", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f037ef0881b2bd15b240e", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f0583f0881b2bd15b240f", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f0583f0881b2bd15b2413", "type_" : "string", "description" : "message." }
+{ "_id" : "596f0583f0881b2bd15b2410", "name" : "_post_body_list", "default" : "", "required" : true, "api_id" : "596f0583f0881b2bd15b2413", "type_" : "list", "description" : "" }
+{ "_id" : "596f0583f0881b2bd15b2411", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f0583f0881b2bd15b2413", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f0583f0881b2bd15b2412", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f0583f0881b2bd15b2413", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f0706f0881b2c18437df4", "name" : "ids", "default" : "[]", "required" : true, "api_id" : "596f0706f0881b2c18437df8", "type_" : "list", "description" : "list of id" }
+{ "_id" : "596f0706f0881b2c18437df5", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f0706f0881b2c18437df8", "type_" : "string", "description" : "message." }
+{ "_id" : "596f0706f0881b2c18437df6", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f0706f0881b2c18437df8", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f0706f0881b2c18437df7", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f0706f0881b2c18437df8", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f07eef0881b2c18437df9", "name" : "uuid", "default" : "", "required" : true, "api_id" : "596f07eef0881b2c18437dfd", "type_" : "string", "description" : "uuid" }
+{ "_id" : "596f07eef0881b2c18437dfa", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f07eef0881b2c18437dfd", "type_" : "string", "description" : "message." }
+{ "_id" : "596f07eef0881b2c18437dfb", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f07eef0881b2c18437dfd", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f07eef0881b2c18437dfc", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f07eef0881b2c18437dfd", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f086bf0881b2c18437dfe", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f086bf0881b2c18437e01", "type_" : "string", "description" : "message." }
+{ "_id" : "596f086bf0881b2c18437dff", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f086bf0881b2c18437e01", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f086bf0881b2c18437e00", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f086bf0881b2c18437e01", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f092cf0881b2c18437e02", "name" : "uuid", "default" : "", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "string", "description" : "" }
+{ "_id" : "596f092cf0881b2c18437e03", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "string", "description" : "message." }
+{ "_id" : "596f092cf0881b2c18437e04", "name" : "version", "default" : "centos", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "string", "description" : "" }
+{ "_id" : "596f092cf0881b2c18437e05", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f092cf0881b2c18437e06", "name" : "new_ip", "default" : "10.10.10.115", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "string", "description" : "" }
+{ "_id" : "596f092cf0881b2c18437e07", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f092cf0881b2c18437e08", "name" : "new_msk", "default" : "255.255.255.0", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "string", "description" : "" }
+{ "_id" : "596f092cf0881b2c18437e09", "name" : "new_gw", "default" : "10.10.10.1", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "string", "description" : "" }
+{ "_id" : "596f092cf0881b2c18437e0a", "name" : "new_dns", "default" : "8.8.8.8", "required" : true, "api_id" : "596f092cf0881b2c18437e0b", "type_" : "string", "description" : "" }
+{ "_id" : "596f09e2f0881b2c18437e0c", "name" : "uuid", "default" : "", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "string", "description" : "" }
+{ "_id" : "596f09e2f0881b2c18437e0d", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "string", "description" : "message." }
+{ "_id" : "596f09e2f0881b2c18437e0e", "name" : "version", "default" : "centos", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "string", "description" : "" }
+{ "_id" : "596f09e2f0881b2c18437e0f", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f09e2f0881b2c18437e10", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f09e2f0881b2c18437e11", "name" : "new_ip", "default" : "10.10.10.115", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "string", "description" : "" }
+{ "_id" : "596f09e2f0881b2c18437e12", "name" : "new_msk", "default" : "255.255.255.0", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "string", "description" : "" }
+{ "_id" : "596f09e2f0881b2c18437e13", "name" : "new_gw", "default" : "10.10.10.1", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "string", "description" : "" }
+{ "_id" : "596f09e2f0881b2c18437e14", "name" : "new_dns", "default" : "8.8.8.8", "required" : true, "api_id" : "596f09e2f0881b2c18437e15", "type_" : "string", "description" : "" }
+{ "_id" : "596f0ae5f0881b2c18437e16", "name" : "dev_id", "default" : "0", "required" : true, "api_id" : "596f0ae5f0881b2c18437e1b", "type_" : "int", "description" : "" }
+{ "_id" : "596f0ae5f0881b2c18437e17", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f0ae5f0881b2c18437e1b", "type_" : "string", "description" : "message." }
+{ "_id" : "596f0ae5f0881b2c18437e18", "name" : "nic_index", "default" : "0", "required" : true, "api_id" : "596f0ae5f0881b2c18437e1b", "type_" : "int", "description" : "nic_index=0, 1" }
+{ "_id" : "596f0ae5f0881b2c18437e19", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f0ae5f0881b2c18437e1b", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f0ae5f0881b2c18437e1a", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f0ae5f0881b2c18437e1b", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f0b4ff0881b2c18437e1c", "name" : "dev_id", "default" : "0", "required" : true, "api_id" : "596f0b4ff0881b2c18437e21", "type_" : "int", "description" : "" }
+{ "_id" : "596f0b4ff0881b2c18437e1d", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f0b4ff0881b2c18437e21", "type_" : "string", "description" : "message." }
+{ "_id" : "596f0b4ff0881b2c18437e1e", "name" : "nic_index", "default" : "0", "required" : true, "api_id" : "596f0b4ff0881b2c18437e21", "type_" : "int", "description" : "nic_index=0,1 两张网卡" }
+{ "_id" : "596f0b4ff0881b2c18437e1f", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f0b4ff0881b2c18437e21", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f0b4ff0881b2c18437e20", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f0b4ff0881b2c18437e21", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f0c1df0881b2c18437e22", "name" : "dev_id", "default" : "2", "required" : true, "api_id" : "596f0c1df0881b2c18437e27", "type_" : "int", "description" : "" }
+{ "_id" : "596f0c1df0881b2c18437e23", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f0c1df0881b2c18437e27", "type_" : "string", "description" : "message." }
+{ "_id" : "596f0c1df0881b2c18437e24", "name" : "xd_id", "default" : "0", "required" : true, "api_id" : "596f0c1df0881b2c18437e27", "type_" : "int", "description" : "" }
+{ "_id" : "596f0c1df0881b2c18437e25", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f0c1df0881b2c18437e27", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f0c1df0881b2c18437e26", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f0c1df0881b2c18437e27", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f0d52f0881b2c18437e28", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f0d52f0881b2c18437e2e", "type_" : "string", "description" : "message." }
+{ "_id" : "596f0d52f0881b2c18437e29", "name" : "dev_id", "default" : "2", "required" : true, "api_id" : "596f0d52f0881b2c18437e2e", "type_" : "int", "description" : "" }
+{ "_id" : "596f0d52f0881b2c18437e2a", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f0d52f0881b2c18437e2e", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f0d52f0881b2c18437e2b", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f0d52f0881b2c18437e2e", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f0d52f0881b2c18437e2c", "name" : "nic_index", "default" : "0", "required" : true, "api_id" : "596f0d52f0881b2c18437e2e", "type_" : "int", "description" : "" }
+{ "_id" : "596f0d52f0881b2c18437e2d", "name" : "xd_id", "default" : "0", "required" : true, "api_id" : "596f0d52f0881b2c18437e2e", "type_" : "int", "description" : "" }
+{ "_id" : "596f10b1f0881b2c18437e33", "name" : "xd_id", "default" : "0", "required" : true, "api_id" : "596f10b1f0881b2c18437e38", "type_" : "int", "description" : "" }
+{ "_id" : "596f10b1f0881b2c18437e34", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f10b1f0881b2c18437e38", "type_" : "string", "description" : "message." }
+{ "_id" : "596f10b1f0881b2c18437e35", "name" : "_post_body", "default" : "", "required" : true, "api_id" : "596f10b1f0881b2c18437e38", "type_" : "json", "description" : "_post_body" }
+{ "_id" : "596f10b1f0881b2c18437e36", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f10b1f0881b2c18437e38", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f10b1f0881b2c18437e37", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f10b1f0881b2c18437e38", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f125af0881b2c18437e39", "name" : "uuid", "default" : "", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "string", "description" : "" }
+{ "_id" : "596f125af0881b2c18437e3a", "name" : "msg", "default" : "", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "string", "description" : "message." }
+{ "_id" : "596f125af0881b2c18437e3b", "name" : "target_name", "default" : "", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "string", "description" : "" }
+{ "_id" : "596f125af0881b2c18437e3c", "name" : "code", "default" : "1", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "596f125af0881b2c18437e3d", "name" : "target_port", "default" : "", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "string", "description" : "" }
+{ "_id" : "596f125af0881b2c18437e3e", "name" : "rows", "default" : "", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "596f125af0881b2c18437e3f", "name" : "target_ip", "default" : "", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "string", "description" : "" }
+{ "_id" : "596f125af0881b2c18437e40", "name" : "user_name", "default" : "", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "string", "description" : "" }
+{ "_id" : "596f125af0881b2c18437e41", "name" : "password", "default" : "", "required" : true, "api_id" : "596f125af0881b2c18437e42", "type_" : "string", "description" : "" }
+{ "_id" : "5971c60af0881b2d19f49baa", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971c60af0881b2d19f49bb0", "type_" : "int", "description" : "" }
+{ "_id" : "5971c60af0881b2d19f49bab", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971c60af0881b2d19f49bb0", "type_" : "string", "description" : "message." }
+{ "_id" : "5971c60af0881b2d19f49bac", "name" : "machine_uuid", "default" : "", "required" : true, "api_id" : "5971c60af0881b2d19f49bb0", "type_" : "string", "description" : "" }
+{ "_id" : "5971c60af0881b2d19f49bad", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971c60af0881b2d19f49bb0", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971c60af0881b2d19f49bae", "name" : "ip", "default" : "", "required" : true, "api_id" : "5971c60af0881b2d19f49bb0", "type_" : "list", "description" : "list of ip" }
+{ "_id" : "5971c60af0881b2d19f49baf", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971c60af0881b2d19f49bb0", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971c7b1f0881b2d19f49bb1", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971c7b1f0881b2d19f49bb7", "type_" : "int", "description" : "" }
+{ "_id" : "5971c7b1f0881b2d19f49bb2", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971c7b1f0881b2d19f49bb7", "type_" : "string", "description" : "message." }
+{ "_id" : "5971c7b1f0881b2d19f49bb3", "name" : "machine_uuid", "default" : "", "required" : true, "api_id" : "5971c7b1f0881b2d19f49bb7", "type_" : "string", "description" : "" }
+{ "_id" : "5971c7b1f0881b2d19f49bb4", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971c7b1f0881b2d19f49bb7", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971c7b1f0881b2d19f49bb5", "name" : "ip", "default" : "", "required" : true, "api_id" : "5971c7b1f0881b2d19f49bb7", "type_" : "list", "description" : "list of ip" }
+{ "_id" : "5971c7b1f0881b2d19f49bb6", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971c7b1f0881b2d19f49bb7", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971c869f0881b2d19f49bb8", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971c869f0881b2d19f49bbe", "type_" : "int", "description" : "" }
+{ "_id" : "5971c869f0881b2d19f49bb9", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971c869f0881b2d19f49bbe", "type_" : "string", "description" : "message." }
+{ "_id" : "5971c869f0881b2d19f49bba", "name" : "machine_uuid", "default" : "", "required" : true, "api_id" : "5971c869f0881b2d19f49bbe", "type_" : "string", "description" : "" }
+{ "_id" : "5971c869f0881b2d19f49bbb", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971c869f0881b2d19f49bbe", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971c869f0881b2d19f49bbc", "name" : "bandwidth", "default" : "", "required" : true, "api_id" : "5971c869f0881b2d19f49bbe", "type_" : "int", "description" : "" }
+{ "_id" : "5971c869f0881b2d19f49bbd", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971c869f0881b2d19f49bbe", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971ce38f0881b2d19f49bc5", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971ce38f0881b2d19f49bca", "type_" : "string", "description" : "message." }
+{ "_id" : "5971ce38f0881b2d19f49bc6", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971ce38f0881b2d19f49bca", "type_" : "int", "description" : "" }
+{ "_id" : "5971ce38f0881b2d19f49bc7", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971ce38f0881b2d19f49bca", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971ce38f0881b2d19f49bc8", "name" : "group_uuid", "default" : "", "required" : true, "api_id" : "5971ce38f0881b2d19f49bca", "type_" : "string", "description" : "" }
+{ "_id" : "5971ce38f0881b2d19f49bc9", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971ce38f0881b2d19f49bca", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971cf36f0881b2d19f49bcb", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971cf36f0881b2d19f49bd0", "type_" : "int", "description" : "" }
+{ "_id" : "5971cf36f0881b2d19f49bcc", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971cf36f0881b2d19f49bd0", "type_" : "string", "description" : "message." }
+{ "_id" : "5971cf36f0881b2d19f49bcd", "name" : "group_uuid", "default" : "", "required" : true, "api_id" : "5971cf36f0881b2d19f49bd0", "type_" : "string", "description" : "" }
+{ "_id" : "5971cf36f0881b2d19f49bce", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971cf36f0881b2d19f49bd0", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971cf36f0881b2d19f49bcf", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971cf36f0881b2d19f49bd0", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971dde8f0881b2d19f49bd1", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971dde8f0881b2d19f49bd7", "type_" : "int", "description" : "" }
+{ "_id" : "5971dde8f0881b2d19f49bd2", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971dde8f0881b2d19f49bd7", "type_" : "string", "description" : "message." }
+{ "_id" : "5971dde8f0881b2d19f49bd3", "name" : "group_uuid", "default" : "", "required" : true, "api_id" : "5971dde8f0881b2d19f49bd7", "type_" : "string", "description" : "" }
+{ "_id" : "5971dde8f0881b2d19f49bd4", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971dde8f0881b2d19f49bd7", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971dde8f0881b2d19f49bd5", "name" : "uuid_ip_list", "default" : "", "required" : true, "api_id" : "5971dde8f0881b2d19f49bd7", "type_" : "list", "description" : "子元素是包括两个字段(machine_uuid, ip)的json" }
+{ "_id" : "5971dde8f0881b2d19f49bd6", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971dde8f0881b2d19f49bd7", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971deb5f0881b2d19f49bd8", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971deb5f0881b2d19f49bde", "type_" : "int", "description" : "" }
+{ "_id" : "5971deb5f0881b2d19f49bd9", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971deb5f0881b2d19f49bde", "type_" : "string", "description" : "message." }
+{ "_id" : "5971deb5f0881b2d19f49bda", "name" : "group_uuid", "default" : "", "required" : true, "api_id" : "5971deb5f0881b2d19f49bde", "type_" : "string", "description" : "" }
+{ "_id" : "5971deb5f0881b2d19f49bdb", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971deb5f0881b2d19f49bde", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971deb5f0881b2d19f49bdc", "name" : "uuid_ip_list", "default" : "", "required" : true, "api_id" : "5971deb5f0881b2d19f49bde", "type_" : "list", "description" : "子元素是包括两个字段(machine_uuid, ip)的json" }
+{ "_id" : "5971deb5f0881b2d19f49bdd", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971deb5f0881b2d19f49bde", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971e337f0881b2d19f49bed", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971e337f0881b2d19f49bf3", "type_" : "string", "description" : "" }
+{ "_id" : "5971e337f0881b2d19f49bee", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971e337f0881b2d19f49bf3", "type_" : "string", "description" : "message." }
+{ "_id" : "5971e337f0881b2d19f49bef", "name" : "group_uuid", "default" : "", "required" : true, "api_id" : "5971e337f0881b2d19f49bf3", "type_" : "string", "description" : "" }
+{ "_id" : "5971e337f0881b2d19f49bf0", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971e337f0881b2d19f49bf3", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971e337f0881b2d19f49bf1", "name" : "bandwidth", "default" : "", "required" : true, "api_id" : "5971e337f0881b2d19f49bf3", "type_" : "int", "description" : "" }
+{ "_id" : "5971e337f0881b2d19f49bf2", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971e337f0881b2d19f49bf3", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971ed19f0881b2d19f49bf4", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971ed19f0881b2d19f49bfb", "type_" : "string", "description" : "message." }
+{ "_id" : "5971ed19f0881b2d19f49bf5", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971ed19f0881b2d19f49bfb", "type_" : "int", "description" : "" }
+{ "_id" : "5971ed19f0881b2d19f49bf6", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971ed19f0881b2d19f49bfb", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971ed19f0881b2d19f49bf7", "name" : "group_uuid", "default" : "", "required" : true, "api_id" : "5971ed19f0881b2d19f49bfb", "type_" : "string", "description" : "" }
+{ "_id" : "5971ed19f0881b2d19f49bf8", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971ed19f0881b2d19f49bfb", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971ed19f0881b2d19f49bf9", "name" : "machine_uuid", "default" : "", "required" : true, "api_id" : "5971ed19f0881b2d19f49bfb", "type_" : "string", "description" : "" }
+{ "_id" : "5971ed19f0881b2d19f49bfa", "name" : "ip", "default" : "", "required" : true, "api_id" : "5971ed19f0881b2d19f49bfb", "type_" : "list", "description" : "list of ip" }
+{ "_id" : "5971ed82f0881b2d19f49bfc", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971ed82f0881b2d19f49c03", "type_" : "int", "description" : "" }
+{ "_id" : "5971ed82f0881b2d19f49bfd", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971ed82f0881b2d19f49c03", "type_" : "string", "description" : "message." }
+{ "_id" : "5971ed82f0881b2d19f49bfe", "name" : "group_uuid", "default" : "", "required" : true, "api_id" : "5971ed82f0881b2d19f49c03", "type_" : "string", "description" : "" }
+{ "_id" : "5971ed82f0881b2d19f49bff", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971ed82f0881b2d19f49c03", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971ed82f0881b2d19f49c00", "name" : "machine_uuid", "default" : "", "required" : true, "api_id" : "5971ed82f0881b2d19f49c03", "type_" : "string", "description" : "" }
+{ "_id" : "5971ed82f0881b2d19f49c01", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971ed82f0881b2d19f49c03", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971ed82f0881b2d19f49c02", "name" : "ip", "default" : "", "required" : true, "api_id" : "5971ed82f0881b2d19f49c03", "type_" : "list", "description" : "list of ip" }
+{ "_id" : "5971ee15f0881b2d19f49c04", "name" : "msg", "default" : "", "required" : true, "api_id" : "5971ee15f0881b2d19f49c0b", "type_" : "string", "description" : "message." }
+{ "_id" : "5971ee15f0881b2d19f49c05", "name" : "code", "default" : "1", "required" : true, "api_id" : "5971ee15f0881b2d19f49c0b", "type_" : "int", "description" : "code = 1 success/ -1 failed" }
+{ "_id" : "5971ee15f0881b2d19f49c06", "name" : "rows", "default" : "", "required" : true, "api_id" : "5971ee15f0881b2d19f49c0b", "type_" : "list", "description" : "the fetch data." }
+{ "_id" : "5971ee15f0881b2d19f49c07", "name" : "user_id", "default" : "", "required" : true, "api_id" : "5971ee15f0881b2d19f49c0b", "type_" : "int", "description" : "" }
+{ "_id" : "5971ee15f0881b2d19f49c08", "name" : "group_uuid", "default" : "", "required" : true, "api_id" : "5971ee15f0881b2d19f49c0b", "type_" : "string", "description" : "" }
+{ "_id" : "5971ee15f0881b2d19f49c09", "name" : "machine_uuid", "default" : "", "required" : true, "api_id" : "5971ee15f0881b2d19f49c0b", "type_" : "string", "description" : "" }
+{ "_id" : "5971ee15f0881b2d19f49c0a", "name" : "bandwidth", "default" : "", "required" : true, "api_id" : "5971ee15f0881b2d19f49c0b", "type_" : "int", "description" : "" }

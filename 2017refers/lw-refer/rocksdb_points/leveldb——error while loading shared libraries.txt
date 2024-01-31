@@ -1,0 +1,93 @@
+make
+cp out-shared/libleveldb.so* /usr/local/lib
+cp -R include/* /usr/local/include
+
+
+
+g++ -o leveldb_test1 leveldb_test_1.cc -lleveldb
+报错
+error while loading shared libraries: libleveldb.so.1: cannot open shared object file: No such file or directory
+
+
+
+g++ rocksdb_test.cpp  -o rocksdb_test  -I./include  -L. -lrocksdb -lpthread -lrt -lsnappy -lgflags -lz -lbz2 -llz4 -O2
+g++ leveldb_test.cpp  -o leveldb_test  -I../include -L. -lleveldb -O2 -Wl,-rpath=. 
+g++ forestdb_test.cpp -o forestdb_test -I../include -L. -lforestdb -O2 -Wl,-rpath=. 
+
+
+
+cd /etc/ld.so.conf.d
+
+vi leveldb.conf
+写入内容/usr/local/lib
+
+
+/sbin/ldconfig –v
+/sbin/ldconfig.real: relative path `–v' used to build cache
+ldconfig即可
+
+/sbin/ldconfig.real: /usr/local/lib/libleveldb.so.1 不是符号连接
+rm  /usr/local/lib/libleveldb.so.1
+
+ln -s  /home/itcast/vie/cc/leveldb-1.20/out-shared/libleveldb.so.1   /usr/local/lib/libleveldb.so.1
+终于解决了
+
+
+另外两个命令
+
+ldd /usr/local/lib/libleveldb.so
+	linux-vdso.so.1 =>  (0x00007fffebdfc000)
+	libsnappy.so.1 => /usr/lib/libsnappy.so.1 (0x00007f4d1d20a000)
+	libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f4d1cf06000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f4d1cbff000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f4d1c9e9000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f4d1c7cb000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f4d1c405000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f4d1d686000)
+
+
+
+
+readelf -d /usr/local/lib/libleveldb.so.1
+
+Dynamic section at offset 0x52c98 contains 30 entries:
+  标记        类型                         名称/值
+ 0x0000000000000001 (NEEDED)             共享库：[libsnappy.so.1]
+ 0x0000000000000001 (NEEDED)             共享库：[libstdc++.so.6]
+ 0x0000000000000001 (NEEDED)             共享库：[libm.so.6]
+ 0x0000000000000001 (NEEDED)             共享库：[libgcc_s.so.1]
+ 0x0000000000000001 (NEEDED)             共享库：[libpthread.so.0]
+ 0x0000000000000001 (NEEDED)             共享库：[libc.so.6]
+ 0x000000000000000e (SONAME)             Library soname: [libleveldb.so.1]
+ 0x000000000000000c (INIT)               0x132d0
+ 0x000000000000000d (FINI)               0x435e8
+ 0x0000000000000019 (INIT_ARRAY)         0x251880
+ 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)
+ 0x000000000000001a (FINI_ARRAY)         0x251888
+ 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)
+ 0x000000006ffffef5 (GNU_HASH)           0x1f0
+ 0x0000000000000005 (STRTAB)             0x5e20
+ 0x0000000000000006 (SYMTAB)             0x1650
+ 0x000000000000000a (STRSZ)              29993 (bytes)
+ 0x000000000000000b (SYMENT)             24 (bytes)
+ 0x0000000000000003 (PLTGOT)             0x253000
+ 0x0000000000000002 (PLTRELSZ)           9960 (bytes)
+ 0x0000000000000014 (PLTREL)             RELA
+ 0x0000000000000017 (JMPREL)             0x10be8
+ 0x0000000000000007 (RELA)               0xda38
+ 0x0000000000000008 (RELASZ)             12720 (bytes)
+ 0x0000000000000009 (RELAENT)            24 (bytes)
+ 0x000000006ffffffe (VERNEED)            0xd948
+ 0x000000006fffffff (VERNEEDNUM)         5
+ 0x000000006ffffff0 (VERSYM)             0xd34a
+ 0x000000006ffffff9 (RELACOUNT)          176
+ 0x0000000000000000 (NULL)               0x0
+
+
+
+
+Linux 动态链接库(shared object)的基础知识
+
+库有两种：动态和静态；动态是以.so 为后缀，静态是以.a为后缀；比如：libhello.o  libhello.a
+linux 动态连接库，叫 共享对象：shared object；就相当于windows下面的DL
+

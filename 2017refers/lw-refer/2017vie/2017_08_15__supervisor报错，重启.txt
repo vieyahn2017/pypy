@@ -1,0 +1,71 @@
+vi /etc/supervisord.conf
+
+
+
+【遇到问题及解决方案】
+
+在使用命令supervisorctl start all启动控制进程时，遇到如下错误
+
+unix:///tmp/supervisor.sock no such file
+
+出现上述错误的原因是supervisord并未启动，只要在命令行中使用命令sudo supervisord启动supervisord即可。
+ 
+
+
+
+配置：
+/var/lock/supervisor.sock
+logfile=//lw/yhw/log/supervisord.log 
+
+[program:cc_compute]
+command=python //lw/yhw/cc_supervisor/cc/server.py --module=compute --port=30001
+user=guest
+autostart=true
+autorestart=true
+stdout_logfile=//lw/yhw/log/cc_compute.log
+redirect_stderr=true
+
+[program:cc_119_compute]
+command=python //lw/yhw/cc_sv_119/cc/server.py --module=compute --port=31001
+autostart=false
+user=guest
+autorestart=false
+stdout_logfile=//lw/yhw/log/cc_119_compute.log
+redirect_stderr=true
+
+[program:cc_network]
+command=python //lw/yhw/cc_supervisor/cc/server.py --module=network --port=30002
+user=guest
+autostart=true
+autorestart=true
+stdout_logfile=//lw/yhw/log/cc_network.log
+redirect_stderr=true
+
+[program:cc_api]
+command=python //lw/yhw/cc_supervisor/cc/server.py --module=api --port=30003
+user=guest
+autostart=true
+autorestart=true
+stdout_logfile=//lw/yhw/log/cc_api.log
+redirect_stderr=true
+
+[program:ascc]
+command=python //lw/yhw/ascc/server.py --port=30069
+autostart=true
+autorestart=true
+stdout_logfile=//lw/yhw/log/ascc.log
+redirect_stderr=true
+
+
+操作
+sudo supervisord -c /etc/supervisord.conf
+sudo supervisorctl reload
+sudo supervisorctl status
+sudo supervisorctl start all
+sudo supervisorctl stop all
+supervisorctl reload，载入最新的配置文件，停止原有进程并按新的配置启动、管理所有进程。
+supervisorctl update，根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受影响而重启。
+
+
+
+

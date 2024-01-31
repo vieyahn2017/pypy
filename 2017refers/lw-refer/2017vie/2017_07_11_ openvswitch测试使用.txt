@@ -1,0 +1,293 @@
+
+7、配置 OVS
+
+# 创建 ovsdb 数据库
+mkdir -p /usr/local/etc/openvswitch
+ovsdb-tool create /usr/local/etc/openvswitch/conf.db ./vswitchd/vswitch.ovsschema
+
+# 配置启动 ovsdb 数据库
+ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock \
+                 --remote=db:Open_vSwitch,Open_vSwitch,manager_options \
+                 --private-key=db:Open_vSwitch,SSL,private_key \
+                 --certificate=db:Open_vSwitch,SSL,certificate \
+                 --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert \
+                 --pidfile --detach
+
+# 初始化数据库                 
+ovs-vsctl --no-wait init
+
+# 开启 openvswitch 守护进程
+ovs-vswitchd --pidfile --detach
+
+
+
+# modinfo ./datapath/linux/openvswitch.ko
+
+filename:       /home/repo/openvswitch-2.4.0/./datapath/linux/openvswitch.ko
+version:        2.4.0
+license:        GPL
+description:    Open vSwitch switching datapath
+srcversion:     DC4BA889473DA6C4E5B6337
+depends:        libcrc32c
+vermagic:       3.19.0-25-generic SMP mod_unload modversions 686 
+root@nw-virtual-machine:/home/repo/openvswitch-2.4.0# 
+
+
+
+8、看到类似以下几行消息，表明 openvswitch 配置完毕
+
+2017-07-11T02:14:45Z|00001|ovs_numa|INFO|Discovered 0 NUMA nodes and 0 CPU cores
+2017-07-11T02:14:45Z|00002|reconnect|INFO|unix:/usr/local/var/run/openvswitch/db.sock: connecting...
+2017-07-11T02:14:45Z|00003|reconnect|INFO|unix:/usr/local/var/run/openvswitch/db.sock: connected
+
+
+
+大功告成，测试一下吧！
+ovs-vsctl add-br br0
+ovs-vsctl add-port br0 eth0
+ovs-vsctl add-port br0 vif1.0
+
+
+sudo ovs-vsctl show
+a41c9144-8a28-482f-a67a-bc896266fb38
+    Bridge "br0"
+        Port "br0"
+            Interface "br0"
+                type: internal
+        Port "vif1.0"
+            Interface "vif1.0"
+                error: "could not open network device vif1.0 (No such device)"
+        Port "eth0"
+            Interface "eth0"
+    Bridge ovs-br
+        Controller "tcp:1.2.3.4:6633"
+        Port ovs-br
+            Interface ovs-br
+                type: internal
+
+
+默认情况下ovsdb中有以下数据表：
+bridge, controller,interface,mirror,netflow,open_vswitch,port,qos,queue,ssl,sflow
+即table可为上面的任一个。record为数据表中name字段的值，column为数据表任一个字段的字段名，value字段值。
+基本操作：
+查看bridge数据表中的所有记录
+ovs-vsctl list bridge
+
+_uuid               : 6aa345f4-fdcb-4ffe-9f9e-8df40dbaf9be
+auto_attach         : []
+controller          : [5805e110-cbda-46d1-b6e9-224a07f51c89]
+datapath_id         : "0000f645a36afe4f"
+datapath_type       : ""
+datapath_version    : "2.4.0"
+external_ids        : {}
+fail_mode           : []
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : ovs-br
+netflow             : []
+other_config        : {}
+ports               : [ff783192-44a2-49ee-8687-076816947a5b]
+protocols           : []
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false
+
+_uuid               : 1db27fab-7dbe-4314-adf7-20af8d3ef095
+auto_attach         : []
+controller          : []
+datapath_id         : "0000000c29a0a32e"
+datapath_type       : ""
+datapath_version    : "2.4.0"
+external_ids        : {}
+fail_mode           : []
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : "br0"
+netflow             : []
+other_config        : {}
+ports               : [38d6db72-7a3b-4d80-b685-3a692c28848d, ec802004-2ae2-4872-ac12-2a119a3de6bf, f7b2f799-5bb3-4127-975d-72712017664f]
+protocols           : []
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false
+
+
+
+ovs-vsctl list controller
+
+_uuid               : 5805e110-cbda-46d1-b6e9-224a07f51c89
+connection_mode     : []
+controller_burst_limit: []
+controller_rate_limit: []
+enable_async_messages: []
+external_ids        : {}
+inactivity_probe    : []
+is_connected        : false
+local_gateway       : []
+local_ip            : []
+local_netmask       : []
+max_backoff         : []
+other_config        : {}
+role                : other
+status              : {last_error="No route to host", sec_since_disconnect="9", state=CONNECTING}
+target              : "tcp:1.2.3.4:6633"
+
+
+
+
+查看虚拟交换机br0的信息
+ovs-ofctl show br0
+
+OFPT_FEATURES_REPLY (xid=0x2): dpid:0000000c29a0a32e
+n_tables:254, n_buffers:256
+capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP
+actions: output enqueue set_vlan_vid set_vlan_pcp strip_vlan mod_dl_src mod_dl_dst mod_nw_src mod_nw_dst mod_nw_tos mod_tp_src mod_tp_dst
+ 1(eth0): addr:00:0c:29:a0:a3:2e
+     config:     0
+     state:      0
+     speed: 0 Mbps now, 0 Mbps max
+ LOCAL(br0): addr:00:0c:29:a0:a3:2e
+     config:     0
+     state:      0
+     speed: 0 Mbps now, 0 Mbps max
+OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0
+
+
+
+查看br0上各交换机端口的状态
+ovs-ofctl dump-ports  br0
+
+OFPST_PORT reply (xid=0x2): 2 ports
+  port LOCAL: rx pkts=54, bytes=8698, drop=0, errs=0, frame=0, over=0, crc=0
+           tx pkts=11154, bytes=1495954, drop=4100, errs=0, coll=0
+  port  1: rx pkts=46169, bytes=16192478, drop=0, errs=0, frame=0, over=0, crc=0
+           tx pkts=3739, bytes=274956, drop=0, errs=0, coll=0
+
+
+查看xenbr0上的所有流规则
+ovs-ofctl dump-flows  br0
+
+NXST_FLOW reply (xid=0x4):
+ cookie=0x0, duration=3686.303s, table=0, n_packets=38252, n_bytes=8458635, idle_age=0, priority=0 actions=NORMAL
+
+
+添加一条流规则：丢弃从2号端口发来的所有数据包
+ovs-ofctl add-flow br0 idle_timeout=120, in_port=2, actions=drop
+删除一条流规则：删除条件字段中包含in_port=2的所有流规则
+ovs-ofctl del-flow br0 in_port=2
+
+添加一条流规则后，查看如下：
+ovs-ofctl dump-flows  br0
+NXST_FLOW reply (xid=0x4):
+ cookie=0x0, duration=8.712s, table=0, n_packets=0, n_bytes=0, idle_timeout=120, idle_age=8, in_port=2 actions=drop
+ cookie=0x0, duration=3881.438s, table=0, n_packets=40009, n_bytes=8749766, idle_age=0, priority=0 actions=NORMAL
+
+
+
+应用场景设置
+网站屏蔽
+屏蔽由Open vSwitch管理的任何主机对主机119.75.213.50的访问，但只屏蔽ip数据包(由dl_type=0x0800指定)，即所有主机将无法访问该主机上所有基于IP协议的服务，如万维网服务、FTP访问等
+ovs-ofctl add-flow xenbr0 idle_timeout=0,dl_type=0x0800,nw_src=119.75.213.50,actions=drop
+数据包重定向
+将交换机中所有的icmp协议包（有dl_type=0x0800,nw_proto=1指定）全部转发到4号端口，包括4号端口自己发出的icmp包，该流规则将导致由Open vSwitch管理的主机间以及与外部网络间都将访问ping通，但可以使用万维网、FTP等服务。
+ovs-ofctl add-flow xenbr0 idle_timeout=0,dl_type=0x0800,nw_proto=1,actions=output:4
+去除VLAN tag
+去除从3号端口发来的所有VLAN数据包中的tag，然后转发
+ovs-ofctl add-flow xenbr0 idle_timeout=0,in_port=3,actions=strip_vlan,normal
+更改数据包源IP地址后转发
+将从3号端口收到的所有IP包的源IP字段更改为211.68.52.32
+ovs-ofctl add-flow xenbr0 idle_timeout=0,in_port=3,actions=mod_nw_src:211.68.52.32,normal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=================================================
+
+整个OVS代码用C写的。目前有以下功能：
+Standard 802.1Q VLAN model with trunk and access ports
+NIC bonding with or without LACP on upstream switch
+NetFlow, sFlow(R), and mirroring for increased visibility
+QoS (Quality of Service) configuration, plus policing
+GRE, GRE over IPSEC, VXLAN, and LISP tunneling
+802.1ag connectivity fault management
+OpenFlow 1.0 plus numerous extensions
+Transactional configuration database with C and Python bindings
+High-performance forwarding using a Linux kernel module
+
+OpenvSwitch的组成
+OVS的核心组件包括 ovsdb-server，ovs-vswitchd，ovs kernel module。如下图所示：
+
+
+除了核心组件，还包括一些管理工具，详细介绍如下：
+ovs-vswitchd：OVS守护进程是OVS的核心部件，实现交换功能，和Linux内核兼容模块一起，实现基于流的交换（flow-based switching）。它和上层 controller 通信遵从 OPENFLOW 协议，它与 ovsdb-server 通信使用 OVSDB 协议，它和内核模块通过netlink通信，它支持多个独立的 datapath（网桥），它通过更改flow table 实现了绑定和VLAN等功能。
+ovsdb-server：OVS轻量级的数据库服务器，用于整个OVS的配置信息，包括接口，交换内容，VLAN 等等。ovs-vswitchd 根据数据库中的配置信息工作。它于 manager 和 ovs-vswitchd 交换信息使用了OVSDB(JSON-RPC)的方式。
+ovs-dpctl：一个工具，用来配置交换机内核模块，可以控制转发规则。
+ovs-vsctl：主要是获取或者更改ovs-vswitchd的配置信息，此工具操作的时候会更新ovsdb-server中的数据库。
+ovs-appctl：主要是向OVS守护进程发送命令的，一般用不上。 a utility that sends commands to running Open vSwitch daemons (ovs-vswitchd)
+ovsdbmonitor：GUI工具来显示ovsdb-server中数据信息。（Ubuntu下是可以使用apt-get安装，可以远程获取OVS数据库和OpenFlow的流表）
+ovs-controller：一个简单的OpenFlow控制器
+ovs-ofctl：用来控制OVS作为OpenFlow交换机工作时候的流表内容。
+ovs-pki：OpenFlow交换机创建和管理公钥框架；
+ovs-tcpundump：tcpdump的补丁，解析OpenFlow的消息；
+brocompat.ko : Linux bridge compatibility module
+openvswitch.ko : Open vSwitch switching datapath
+
+
+
+
+
+
+
+
+
+
+
+应用场景设置：
+QoS设置
+针对网络接口的设置：设置网络接口vif0.0的带宽为1000±100kbps
+ovs-vsctl set interface vif0.0 ingress_policing_rate=1000
+ovs-vsctl set interface vif0.0 ingress_policing_burst=100
+(ingress_policing_rate:最大发送速率（单位均为kbps）
+ingress_policing_burst:超过ingress_policing_rate的最大浮动值)
+针对交换机端口的设置：创建在vif0.0端口上的linux-htb QoS，linux-htb QoS可以针对具有指定特征的数据包流设置最大最小带宽，且在最大带宽范围内，某一特征的数据包流可以借用其他特征数据包流未用完的带宽。
+ovs-vsctl -- set port vif0.0 qos=@newqos
+-- --id=@newqos create qos type=linux-htb other-config:
+max-rate=100000000 queues=0=@q0,1=@q1
+-- --id=@q0 create queue other-config:min-rate=100000000 other-config:max-rate=100000000
+-- --id=@q1 create queue other-config:min-rate=500000000
+将带宽限制加于某特征数据包流上
+(假设vif0.0的接在交换机1号端口上，ovs-ofctl命令的使用见2.2.3)
+ovs-ofctl add-flow xenbr0 "in_port=2,idle_timeout=0,actions=enqueue:1:0"
+端口映射
+将发往eth0端口和从eth1端口发出的数据包全部定向到eth2端口
+（假设eth0、eth1、eth2端口的uuid分别为：
+69ee0c09-9e52-4236-8af6-037a98ca704d
+69ee0c09-9e52-4236-8af6-037a98ca704e
+69ee0c09-9e52-4236-8af6-037a98ca704f
+端口的uuid可以通过ovs-vsctl list port命令查看）
+ovs-vsctl -- set bridge xenbr0 mirrors=@m
+-- --id=@m create mirror name=mymirror
+select-dst-port=69ee0c09-9e52-4236-8af6-037a98ca704d
+select-src-port=69ee0c09-9e52-4236-8af6-037a98ca704e
+output-port=69ee0c09-9e52-4236-8af6-037a98ca704f

@@ -1,0 +1,38 @@
+【log】 /lw/yhw/log/log.sh
+echo "#" > cc_mongodb.log
+echo "#" > supervisord.log
+echo "#" > ascc.log
+echo "#" > cc_compute.log
+echo "#" > cc_network.log
+echo "#" > cc_api.log
+echo "#" > cc_119_compute.log
+chmod 777 *.log
+
+
+
+
+【nginx】
+vi /usr/local/nginx/nginx.conf
+ 
+cd /usr/local/nginx
+./nginx
+./nginx -s stop
+
+【supervisor】
+vi /etc/supervisord.conf
+
+【mysql】
+mysql -u root - p  [222long]
+
+
+【mongodb】
+cd /usr/local/mongodb/bin
+./mongod --journal --logpath=/lw/yhw/log/cc_mongodb.log --storageEngine mmapv1 --dbpath=../cc_db --fork
+
+### 导入 导出：（8.14）
+
+mongoexport -d cc_api -c api -o /lw/yhw/api.json
+mongoexport -d cc_api -c params -o /lw/yhw/params.json
+mongoexport -d cc_api -c category -o /lw/yhw/category.json
+
+mongoimport -d test -c api --file /lw/yhw/api.json

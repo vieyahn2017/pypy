@@ -1,0 +1,64 @@
+import json
+ 
+obj = [[1,2,3],123,123.123,'abc',{'key1':(1,2,3),'key2':(4,5,6)}]
+encodedjson = json.dumps(obj)
+print repr(obj)
+print encodedjson
+输出：
+
+[[1, 2, 3], 123, 123.123, 'abc', {'key2': (4, 5, 6), 'key1': (1, 2, 3)}] 
+[[1, 2, 3], 123, 123.123, "abc", {"key2": [4, 5, 6], "key1": [1, 2, 3]}]
+
+通过输出的结果可以看出，简单类型通过encode之后跟其原始的repr()输出结果非常相似，但是有些数据类型进行了改变，例如上例中的元组则转换为了列表。
+
+json.dumps()方法返回了一个str对象encodedjson，我们接下来在对encodedjson进行decode，得到原始数据，需要使用的json.loads()函数：
+
+1
+2
+3
+4
+decodejson = json.loads(encodedjson)
+print type(decodejson)
+print decodejson[4]['key1']
+print decodejson
+输出：
+
+<type 'list'> 
+[1, 2, 3]
+
+[[1, 2, 3], 123, 123.123, u'abc', {u'key2': [4, 5, 6], u'key1': [1, 2, 3]}]
+
+loads方法返回了原始的对象，但是仍然发生了一些数据类型的转化。比如，上例中‘abc’转化为了unicode类型。
+
+
+
+
+
+
+
+
+
+
+
+import  demjson  
+data = [ { 'a' : 1, 'b' : 2, 'c' : 3, 'd' : 4, 'e' : 5 } ]  
+json=demjson.encode(data)  
+print(json)  
+json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';  
+text = demjson.decode(json)  
+print(text)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

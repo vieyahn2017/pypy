@@ -1,0 +1,75 @@
+Open vSwitch 使用Apache 2.0 license 的生产质量级的多层虚拟交换机。设计用来支持大规模的网络自动化，还支持标准的管理接口和协议。包括NetFlow， sFlow， IPFIX，RSPAN， CLI， LACP， 802.1ag。功能类似VMware 的DVS 和Cisco 的1000v。 支持多种虚拟化平台（Xen,KVM, Proxmox VE and VirtualBox）和交换机芯片。支持多种虚拟化管理平台（ OpenStack,openQRM, OpenNebula and oVirt）。 
+
+
+
+apt-get -y install vim openssh-server
+
+3、安装依赖条件
+
+apt-get -y install automake autoconf libssl-dev gcc uml-utilities libtool build-essential git pkg-config linux-headers-`uname -r` 
+
+
+4、下载 openvswitch-2.4.0.tar.gz
+
+wget http://openvswitch.org/releases/openvswitch-2.4.0.tar.gz
+
+
+5、解压到当前目录，然后编译安装
+
+tar zxvf openvswitch-2.4.0.tar.gz
+
+cd openvswitch-2.4.0
+
+./boot.sh
+
+./configure --with-linux=/lib/modules/`uname -r`/build
+
+make && make install
+
+
+
+6、载入内核模块
+
+# 查看 openvswitch 依赖的模块
+modinfo ./datapath/linux/openvswitch.ko
+
+# 发现 openvswitch.ko 依赖于 libcrc32c 模块，于是先载入 libcrc32c
+modprobe libcrc32c  
+
+# 载入 openvswitch 模块
+insmod ./datapath/linux/openvswitch.ko
+
+# 查看模块载入情况，可看到 openvswitch 和 libcrc32c
+lsmod|grep open
+
+
+
+7、配置 OVS
+
+# 创建 ovsdb 数据库
+mkdir -p /usr/local/etc/openvswitch
+ovsdb-tool create /usr/local/etc/openvswitch/conf.db ./vswitchd/vswitch.ovsschema
+
+# 配置启动 ovsdb 数据库
+ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock \
+                 --remote=db:Open_vSwitch,Open_vSwitch,manager_options \
+                 --private-key=db:Open_vSwitch,SSL,private_key \
+                 --certificate=db:Open_vSwitch,SSL,certificate \
+                 --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert \
+                 --pidfile --detach
+
+# 初始化数据库                 
+ovs-vsctl --no-wait init
+
+# 开启 openvswitch 守护进程
+ovs-vswitchd --pidfile --detach
+
+
+
+
+
+8、看到类似以下几行消息，表明 openvswitch 配置完毕
+
+2015-11-27T07:41:59Z|00001|ovs_numa|INFO|Discovered 0 NUMA nodes and 0 CPU cores 
+2015-11-27T07:41:59Z|00002|reconnect|INFO|unix:/usr/local/var/run/openvswitch/db.sock: connecting… 
+2015-11-27T07:41:59Z|00003|reconnect|INFO|unix:/usr/local/var/run/openvswitch/db.sock: connected

@@ -1,0 +1,9 @@
+from tornado.escape import json_encode
+
+json_encode  返回的是str
+[] 或者{} 都可以json_encode
+
+然后在服务器端要JSON.parse
+
+可以直接传对象啊 {}
+照样self.write

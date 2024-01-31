@@ -1,0 +1,15 @@
+#!/usr/bin/expect
+
+spawn git pull
+
+# Username for 'http://10.0.0.252:10080': 
+# Password for 'http://yanghao2017@10.0.0.252:10080': 
+expect "'http://10.0.0.252:10080':"
+send "yanghao2017\r"
+expect "yanghao2017@10.0.0.252:10080':"
+send "25210080\r"
+
+expect eof
+
+exit
+

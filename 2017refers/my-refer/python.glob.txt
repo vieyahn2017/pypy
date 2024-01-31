@@ -1,0 +1,38 @@
+  glob是python自己带的一个文件操作相关模块，内容也不多，用它可以查找符合自己目的的文件，就类似于Windows下的文件搜索，而且也支持通配符，*,?,[]这三个通配符，*代表0个或多个字符，?代表一个字符，[]匹配指定范围内的字符，如[0-9]匹配数字。
+
+  它的主要方法就是glob,该方法返回所有匹配的文件路径列表，该方法需要一个参数用来指定匹配的路径字符串（本字符串可以为绝对路径也可以为相对路径），比如：
+
+import glob
+
+glob.glob(r'c:/*.txt')
+
+我这里就是获得C盘下的所有txt文件
+
+glob.glob(r'E:/pic/*/*.jpg')
+
+获得指定目录下的所有jpg文件
+
+ 
+
+ 
+
+使用相对路径：
+
+glob.glob(r'../*.py')
+
+ 
+
+ 
+
+iglob方法：
+
+获取一个可编历对象， 使用它可以逐个获取匹配的文件路径名。与glob.glob()的区别是：glob.glob同时获取所有的匹配路径，而 glob.iglob一次只获取一个匹配路径。这有点类似于.NET中操作数据库用到的DataSet与DataReader。下面是一个简单的例子：
+import glob  
+   
+#父目录中的.py文件  
+f = glob.iglob(r'../*.py')  
+
+print f #<generator object iglob at 0x00B9FF80>  
+
+for py in f:  
+    print py 

@@ -1,0 +1,292 @@
+我的32虚拟机10.0.0.242
+
+apt-get  install  supervisor
+
+安装后配置文件
+
+/usr/bin/supervisord    --supervisor服务守护进程
+/usr/bin/supervisorctl  --supervisor服务控制程序，比如：status/start/stop/restartxx等
+/etc/supervisor/supervisord.conf   --配置文件，定义服务名称以及接口等等
+
+
+配置一个守护进程：
+我们在/etc/supervisor/conf.d文件添加文件compute.conf,里面进行配置
+[program:compute] #设置守护进程名 坑货，备注是;不是#
+command=python /home/lon/cc/server.py   #设置command 路径 
+autostart=true
+autorestart=true
+stdout_logfile=/home/lon/cc_log/compute.log    #设置日志路径
+redirect_stderr=true 
+
+sudo /etc/init.d/supervisor  start--启动supervisor服务
+sudo supervisorctl  status   interview  --获取interview  服务的状态，因为是autorstart，这里已经启动了
+sudo supervisorctl   stop   interview --停止interview  服务
+sudo supervisorctl stop interview  --再次停止interview  ，会有错误信息
+sudo supervisorctl  start  interview  --启动interview  服务interview  :started
+
+
+
+=====================================================================================
+git clone http://10.0.0.252:10080/yanghao2017/cc.git
+
+
+160是用python安装的supervisor
+【详细记录见最后面】
+
+太长了，简化下ln /usr/local/bin/supervisorctl /usr/bin/sv
+
+sudo vi /etc/supervisord.conf
+
+配置：
+[program:cc_compute]
+command=python /lw/yhw/cc_supervisor/cc/server.py --module=compute
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/cc_compute.log
+redirect_stderr=true
+
+[program:cc_network]
+command=python /lw/yhw/cc_supervisor/cc/server.py --module=network --port=30002
+user=guest
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/cc_network.log
+redirect_stderr=true
+
+[program:cc_api]
+command=python /lw/yhw/cc_supervisor/cc/server.py --module=network --port=30003
+user=guest
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/cc_api.log
+redirect_stderr=true
+
+[program:cc_119_compute]
+command=python /lw/yhw/cc_sv_119/cc/server.py --module=compute --port=31001
+autostart=true
+autorestart=true
+stdout_logfile=/tmp/cc_119_compute.log
+redirect_stderr=true
+
+操作
+sudo supervisord -c /etc/supervisord.conf
+sudo supervisorctl reload
+sudo supervisorctl status
+sudo supervisorctl start all
+sudo supervisorctl stop all
+supervisorctl reload，载入最新的配置文件，停止原有进程并按新的配置启动、管理所有进程。
+supervisorctl update，根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受影响而重启。
+
+
+
+生成配置文件(supervisord.conf)：
+echo_supervisord_conf > /etc/supervisord.conf
+
+
+
+
+
+
+
+
+
+
+
+
+
+guest@guest-virtual-machine:/usr/local/supervisor$ sudo python  setup.py install
+running install
+running bdist_egg
+running egg_info
+writing requirements to supervisor.egg-info/requires.txt
+writing supervisor.egg-info/PKG-INFO
+writing namespace_packages to supervisor.egg-info/namespace_packages.txt
+writing top-level names to supervisor.egg-info/top_level.txt
+writing dependency_links to supervisor.egg-info/dependency_links.txt
+writing entry points to supervisor.egg-info/entry_points.txt
+reading manifest file 'supervisor.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+warning: no previously-included files matching '*' found under directory 'docs/.build'
+writing manifest file 'supervisor.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-i686/egg
+running install_lib
+running build_py
+creating build/bdist.linux-i686/egg
+creating build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/http.py -> build/bdist.linux-i686/egg/supervisor
+creating build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/xmlrpc_handler.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/http_date.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/logger.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/asyncore_25.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/medusa_gif.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/producers.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/auth_handler.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/default_handler.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/status_handler.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/counter.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/m_syslog.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/filesys.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/__init__.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/http_server.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/medusa/asynchat_25.py -> build/bdist.linux-i686/egg/supervisor/medusa
+copying build/lib.linux-i686-2.7/supervisor/poller.py -> build/bdist.linux-i686/egg/supervisor
+creating build/bdist.linux-i686/egg/supervisor/scripts
+copying build/lib.linux-i686-2.7/supervisor/scripts/sample_commevent.py -> build/bdist.linux-i686/egg/supervisor/scripts
+copying build/lib.linux-i686-2.7/supervisor/scripts/sample_exiting_eventlistener.py -> build/bdist.linux-i686/egg/supervisor/scripts
+copying build/lib.linux-i686-2.7/supervisor/scripts/loop_eventgen.py -> build/bdist.linux-i686/egg/supervisor/scripts
+copying build/lib.linux-i686-2.7/supervisor/scripts/sample_eventlistener.py -> build/bdist.linux-i686/egg/supervisor/scripts
+copying build/lib.linux-i686-2.7/supervisor/scripts/loop_listener.py -> build/bdist.linux-i686/egg/supervisor/scripts
+copying build/lib.linux-i686-2.7/supervisor/pidproxy.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/events.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/supervisorctl.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/datatypes.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/loggers.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/xmlrpc.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/options.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/http_client.py -> build/bdist.linux-i686/egg/supervisor
+creating build/bdist.linux-i686/egg/supervisor/ui
+copying build/lib.linux-i686-2.7/supervisor/ui/tail.html -> build/bdist.linux-i686/egg/supervisor/ui
+creating build/bdist.linux-i686/egg/supervisor/ui/stylesheets
+copying build/lib.linux-i686-2.7/supervisor/ui/stylesheets/supervisor.css -> build/bdist.linux-i686/egg/supervisor/ui/stylesheets
+copying build/lib.linux-i686-2.7/supervisor/ui/status.html -> build/bdist.linux-i686/egg/supervisor/ui
+creating build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/state3.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/supervisor.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/state2.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/button_refresh.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/button_stop.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/icon.png -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/state0.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/state1.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/button_restart.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/ui/images/rule.gif -> build/bdist.linux-i686/egg/supervisor/ui/images
+copying build/lib.linux-i686-2.7/supervisor/states.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/childutils.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/dispatchers.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/rpcinterface.py -> build/bdist.linux-i686/egg/supervisor
+creating build/bdist.linux-i686/egg/supervisor/skel
+copying build/lib.linux-i686-2.7/supervisor/skel/sample.conf -> build/bdist.linux-i686/egg/supervisor/skel
+copying build/lib.linux-i686-2.7/supervisor/version.txt -> build/bdist.linux-i686/egg/supervisor
+creating build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_web.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_confecho.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_poller.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_supervisord.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_supervisorctl.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_rpcinterfaces.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_process.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_http.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/trackrefs.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_socket_manager.py -> build/bdist.linux-i686/egg/supervisor/tests
+creating build/bdist.linux-i686/egg/supervisor/tests/fixtures
+copying build/lib.linux-i686-2.7/supervisor/tests/fixtures/spew.py -> build/bdist.linux-i686/egg/supervisor/tests/fixtures
+copying build/lib.linux-i686-2.7/supervisor/tests/fixtures/donothing.conf -> build/bdist.linux-i686/egg/supervisor/tests/fixtures
+copying build/lib.linux-i686-2.7/supervisor/tests/fixtures/unkillable_spew.py -> build/bdist.linux-i686/egg/supervisor/tests/fixtures
+copying build/lib.linux-i686-2.7/supervisor/tests/test_childutils.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_states.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/__init__.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_xmlrpc.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_options.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_events.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_dispatchers.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/base.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_loggers.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/tests/test_datatypes.py -> build/bdist.linux-i686/egg/supervisor/tests
+copying build/lib.linux-i686-2.7/supervisor/socket_manager.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/confecho.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/web.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/__init__.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/process.py -> build/bdist.linux-i686/egg/supervisor
+copying build/lib.linux-i686-2.7/supervisor/supervisord.py -> build/bdist.linux-i686/egg/supervisor
+byte-compiling build/bdist.linux-i686/egg/supervisor/http.py to http.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/xmlrpc_handler.py to xmlrpc_handler.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/http_date.py to http_date.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/logger.py to logger.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/asyncore_25.py to asyncore_25.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/medusa_gif.py to medusa_gif.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/producers.py to producers.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/auth_handler.py to auth_handler.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/default_handler.py to default_handler.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/status_handler.py to status_handler.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/counter.py to counter.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/m_syslog.py to m_syslog.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/filesys.py to filesys.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/__init__.py to __init__.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/http_server.py to http_server.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/medusa/asynchat_25.py to asynchat_25.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/poller.py to poller.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/scripts/sample_commevent.py to sample_commevent.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/scripts/sample_exiting_eventlistener.py to sample_exiting_eventlistener.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/scripts/loop_eventgen.py to loop_eventgen.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/scripts/sample_eventlistener.py to sample_eventlistener.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/scripts/loop_listener.py to loop_listener.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/pidproxy.py to pidproxy.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/events.py to events.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/supervisorctl.py to supervisorctl.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/datatypes.py to datatypes.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/loggers.py to loggers.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/xmlrpc.py to xmlrpc.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/options.py to options.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/http_client.py to http_client.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/states.py to states.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/childutils.py to childutils.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/dispatchers.py to dispatchers.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/rpcinterface.py to rpcinterface.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_web.py to test_web.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_confecho.py to test_confecho.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_poller.py to test_poller.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_supervisord.py to test_supervisord.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_supervisorctl.py to test_supervisorctl.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_rpcinterfaces.py to test_rpcinterfaces.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_process.py to test_process.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_http.py to test_http.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/trackrefs.py to trackrefs.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_socket_manager.py to test_socket_manager.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/fixtures/spew.py to spew.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/fixtures/unkillable_spew.py to unkillable_spew.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_childutils.py to test_childutils.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_states.py to test_states.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/__init__.py to __init__.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_xmlrpc.py to test_xmlrpc.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_options.py to test_options.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_events.py to test_events.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_dispatchers.py to test_dispatchers.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/base.py to base.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_loggers.py to test_loggers.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/tests/test_datatypes.py to test_datatypes.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/socket_manager.py to socket_manager.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/confecho.py to confecho.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/web.py to web.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/__init__.py to __init__.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/process.py to process.pyc
+byte-compiling build/bdist.linux-i686/egg/supervisor/supervisord.py to supervisord.pyc
+creating build/bdist.linux-i686/egg/EGG-INFO
+copying supervisor.egg-info/PKG-INFO -> build/bdist.linux-i686/egg/EGG-INFO
+copying supervisor.egg-info/SOURCES.txt -> build/bdist.linux-i686/egg/EGG-INFO
+copying supervisor.egg-info/dependency_links.txt -> build/bdist.linux-i686/egg/EGG-INFO
+copying supervisor.egg-info/entry_points.txt -> build/bdist.linux-i686/egg/EGG-INFO
+copying supervisor.egg-info/namespace_packages.txt -> build/bdist.linux-i686/egg/EGG-INFO
+copying supervisor.egg-info/not-zip-safe -> build/bdist.linux-i686/egg/EGG-INFO
+copying supervisor.egg-info/requires.txt -> build/bdist.linux-i686/egg/EGG-INFO
+copying supervisor.egg-info/top_level.txt -> build/bdist.linux-i686/egg/EGG-INFO
+creating 'dist/supervisor-3.3.0-py2.7.egg' and adding 'build/bdist.linux-i686/egg' to it
+removing 'build/bdist.linux-i686/egg' (and everything under it)
+Processing supervisor-3.3.0-py2.7.egg
+removing '/usr/local/lib/python2.7/dist-packages/supervisor-3.3.0-py2.7.egg' (and everything under it)
+creating /usr/local/lib/python2.7/dist-packages/supervisor-3.3.0-py2.7.egg
+Extracting supervisor-3.3.0-py2.7.egg to /usr/local/lib/python2.7/dist-packages
+supervisor 3.3.0 is already the active version in easy-install.pth
+Installing echo_supervisord_conf script to /usr/local/bin
+Installing pidproxy script to /usr/local/bin
+Installing supervisorctl script to /usr/local/bin
+Installing supervisord script to /usr/local/bin
+
+Installed /usr/local/lib/python2.7/dist-packages/supervisor-3.3.0-py2.7.egg
+Processing dependencies for supervisor==3.3.0
+Searching for meld3==1.0.0
+Best match: meld3 1.0.0
+Adding meld3 1.0.0 to easy-install.pth file
+
+Using /usr/local/lib/python2.7/dist-packages
+Finished processing dependencies for supervisor==3.3.0

@@ -1,0 +1,8 @@
+tar -xJf node-v8.0.0-linux-x86.tar.xz
+mv node-v8.0.0-linux-x86 /opt/
+
+sudo ln -s /opt/node-v8.0.0-linux-x86/bin/node /usr/local/bin/node 
+sudo ln -s /opt/node-v8.0.0-linux-x86/bin/npm /usr/local/bin/npm
+
+npm install -g http-server
+ln -s /opt/node-v8.0.0-linux-x86/lib/node_modules/http-server/bin/http-server /usr/local/bin/http-server
