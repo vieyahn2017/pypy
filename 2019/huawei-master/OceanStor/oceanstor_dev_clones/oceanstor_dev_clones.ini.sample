@@ -1,0 +1,16 @@
+# Warning: Names are case sensitive.
+[Connection]
+host = oceanstor.local
+system_id = 00000000000000000000
+vstoreId = 1
+username = admin
+timeout = 10
+
+[General]
+environment=DEV
+hosts=192.168.1.1 192.168.1.2
+permissions=rw
+filesystems=fs01 fs02 fs03
+#action=create
+#action=delete
+action=delete_create

@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: OpenStackPythonSdk
+Version: 1.0.0
+Summary: OpenStack Python SDK
+Home-page: UNKNOWN
+Author: huawei
+Author-email: zhuzhihua@huawei.com
+License: GPL
+Description: Huawei IT Python SDK
+Keywords: test,egg
+Platform: Independant

@@ -1,0 +1,1 @@
+https://github.com/GalipoliX/check_snmp_huawei_oceanstore/blob/master/check_snmp_huawei_oceanstore.sh
