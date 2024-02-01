@@ -1,6 +1,7 @@
 ## huawei
 
 2024.2.1增加FusionStorage目录
+2024.2.1增加FusionInsight目录
 
 ### https://github.com/vieyahn2017/huawei
 
