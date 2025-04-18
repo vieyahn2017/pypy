@@ -916,106 +916,6 @@ class ext4_extent__unreverse(BaseCode):
         FieldType('uint32_t', 'ee_start_lo'),
     ]
 
-#【10 00 00 00  01 00 02 00  1E 86 00 00】的ext4_extent（sizeof=12）， 10是ee_len， 02 00是ee_start_hi; 1E 86 00 00 ee_start_lo; 高16位，低32位，合在一起是 0x00020000861E
-def ext4_test():
-    extent1 = ext4_extent__unreverse() # b'\x00\x00\x00\x10\x00\x01\x00\x02\x00\x00\x86\x1e'
-    extent1.ee_block = 16
-    extent1.ee_len = 1
-    extent1.ee_start_hi = 2
-    extent1.ee_start_lo = 34334  # 0x861E
-    data1 = extent1.encode()
-    print('extent1 **final:', len(data1), type(data1), data1)
-
-    print("extent2")
-    extent2 = ext4_extent__unreverse()
-    extent2.decode(data1)
-    extent2.tojson_print1()
-
-    print("c1")  # 因为是小端对象，不能这么赋值了
-    c1 = ext4_extent__test()
-    c1.ee_block = 16
-    c1.ee_len = 1
-    c1.ee_start_hi = 2
-    c1.ee_start_lo = 34334  # 0x861E
-    data_c1 = c1.encode()
-    print('c1 **final:', len(data_c1), type(data_c1), data_c1)
-
-    print("c2")
-    c2 = ext4_extent__test()
-    c2.decode(data_c1)
-    c2.tojson_print1()
-
-    """
-    c1 **final: 12 <class 'bytes'> b'\x00\x00\x00\x10\x00\x01\x00\x02\x00\x00\x86\x1e'
-    c2
-    {
-        "ee_block": 268435456, 
-        "ee_len": 256, 
-        "ee_start_hi": 512, 
-        "ee_start_lo": 512098304  # 是 0x1E860000
-    }
-    """
-
-    print("c3")  # 因为是小端对象，不能这么赋值了
-    c3 = ext4_extent__test()
-    c3.ee_block = FieldType.get_little_endian_int32(16)     # hex(268435456) '0x10000000'
-    c3.ee_len = FieldType.get_little_endian_int16(1)        # hex(256) '0x0100
-    c3.ee_start_hi = FieldType.get_little_endian_int16(2)   #  hex(512) '0x0200'
-    c3.ee_start_lo = FieldType.get_little_endian_int32(34334)  # 0x861E  ## hex(512098304) '0x1e860000'
-    data_c3 = c3.encode()
-    print('c3 **final:', len(data_c3), type(data_c3), data_c3)
-
-    print("c4")
-    c4 = ext4_extent__test()
-    c4.decode(data_c3)
-    c4.tojson_print1()
-
-    print("ttt")
-    ttt = ext4_extent__test()
-    formater = FormatDecoder()
-    tttbytes0 = formater.parse_chr_array_2_bytes('10000000010002001E860000')
-    print(tttbytes0)
-    tttbytes = formater.parse_chr_array_2_bytes('10 00 00 00  01 00 02 00  1E 86 00 00')
-    print(tttbytes)
-    ttt.decode(tttbytes[0])
-    ttt.tojson_print1()
-
-
-def ext4_ccode_test1():
-    ccode = """
-        int i;
-        int cl;
-    struct ext4_extent_header_mytest {
-    	__le16	eh_magic;	/* probably will support different formats
-    	                    (i add a new line)       #define EXT4_EXT_MAGIC		cpu_to_le16(0xf30a)
-    	                    */
-    	__le16	eh_entries;	/* number of valid entries */
-    	__le16	eh_max;		/* capacity of store in entries */
-    	__le16	eh_depth;	/* has tree real underlying blocks? */
-    	                    // i add a new line
-    	__le32	eh_generation;	// generation of the tree
-    	unsigned       long long   test_field;
-    };
-    """
-    length = 0
-    ccode_result, class_name = FormatDecoder.parse_struct(ccode)
-    ccode_result += "\n"
-    ccode_result += "test_obj = {}()".format(class_name)
-    ccode_result += "\n"
-    ccode_result += "length = test_obj.calculate_size()"
-    ccode_result += "\n"
-    ccode_result += "print(length)"
-    # eval(ccode_result)  # eval new对象 - 报错 SyntaxError: invalid syntax
-    # eval("test_obj = {}()".format(class_name))
-    # eval("length = test_obj.calculate_size()")
-    # 换成exec，结合locals搞定
-    loc = locals()
-    exec(ccode_result)
-    class_ext4_extent_header_mytest = loc['ext4_extent_header_mytest']
-    print(class_ext4_extent_header_mytest)
-    test_obj =class_ext4_extent_header_mytest()
-    test_obj.calculate_size()
-
 class ext4_extent_header_mytest2(BaseCode):
     _fields = [
         FieldType('uint16_t', 'eh_magic', **{"reverse": True}),
@@ -1025,64 +925,176 @@ class ext4_extent_header_mytest2(BaseCode):
         FieldType('uint32_t', 'eh_generation', **{"reverse": True}),
         # FieldType('uint64_t', 'test_field'),
     ]
+    
+class EXT4_TEST():
+    @staticmethod
+    def ext4_test():
+        # 【10 00 00 00  01 00 02 00  1E 86 00 00】的ext4_extent（sizeof=12），
+        # 10是ee_len， 02 00是ee_start_hi; 1E 86 00 00 ee_start_lo; 高16位，低32位，合在一起是 0x00020000861E
+        print("ext4_test running====")
+        extent1 = ext4_extent__unreverse() # b'\x00\x00\x00\x10\x00\x01\x00\x02\x00\x00\x86\x1e'
+        extent1.ee_block = 16
+        extent1.ee_len = 1
+        extent1.ee_start_hi = 2
+        extent1.ee_start_lo = 34334  # 0x861E
+        data1 = extent1.encode()
+        print('extent1 **final:', len(data1), type(data1), data1)
 
-def ext4_ccode_test2():
-    test_obj = ext4_extent_header_mytest2()
-    length = test_obj.calculate_size()
-    print(length)
+        print("extent2")
+        extent2 = ext4_extent__unreverse()
+        extent2.decode(data1)
+        extent2.tojson_print1()
 
-def ext4_ccode_test3():
-    exec("ext4_extent_header_mytest2().calculate_size()")
-    exec("test_obj = ext4_extent_header_mytest2(); test_obj.calculate_size()")
+        print("c1")  # 因为是小端对象，不能这么赋值了
+        c1 = ext4_extent__test()
+        c1.ee_block = 16
+        c1.ee_len = 1
+        c1.ee_start_hi = 2
+        c1.ee_start_lo = 34334  # 0x861E
+        data_c1 = c1.encode()
+        print('c1 **final:', len(data_c1), type(data_c1), data_c1)
 
-    loc = locals()
-    exec("test_obj = ext4_extent_header_mytest2()")  # 这里exec的对象，下文中无法使用
-    # 为了修正这样的错误，你需要在调用 exec() 之前使用 locals() 函数来得到一个局部变量字典。 之后你就能从局部字典中获取修改过后的变量值了。
-    test_obj = loc['test_obj']
-    print(test_obj)
-    length = test_obj.calculate_size()
-    print(length)
+        print("c2")
+        c2 = ext4_extent__test()
+        c2.decode(data_c1)
+        c2.tojson_print1()
 
-def ext4_inode_hexdump_test():
-    print("\n\n========ext4_inode_hexdump_test========")
-    input_bytes = b'\xa0\x81\x00\x00\x18\x1b\x00\x00\x13\xe4\x15bY\xe4\x15bY\xe4\x15b\x00\x00\x00\x00\x00\x00\x01\x00\x10\x00\x00\x00\x00\x00\x08\x00\x01\x00\x00\x00\n\xf3\x02\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x88\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x00\x8a\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05\x03\xac\xb3\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00g\xe3\x00\x00 \x00\xe9\xa2(\xaa\x96\xd7(\xaa\x96\xd7\xac\xda\xc4C\x13\xe4\x15b\xac\xda\xc4C\x00\x00\x00\x00\x00\x00\x00\x00'
-    # input_length = len(input_bytes) # 160
-    test_obj = ext4_inode()
-    test_obj.decode(input_bytes)
+        """
+        c1 **final: 12 <class 'bytes'> b'\x00\x00\x00\x10\x00\x01\x00\x02\x00\x00\x86\x1e'
+        c2
+        {
+            "ee_block": 268435456, 
+            "ee_len": 256, 
+            "ee_start_hi": 512, 
+            "ee_start_lo": 512098304  # 是 0x1E860000
+        }
+        """
 
-    _input_data = ['a0', '81', '00', '00', '18', '1b', '00', '00',  '13', 'e4', '15', '62', '59', 'e4', '15', '62',
-                   '59', 'e4', '15', '62', '00', '00', '00', '00',  '00', '00', '01', '00', '10', '00', '00', '00',
-                   '00', '00', '08', '00', '01', '00', '00', '00',  '0a', 'f3', '02', '00', '04', '00', '00', '00',
-                   '00', '00', '00', '00', '00', '00', '00', '00',  '01', '00', '00', '00', '00', '88', '00', '00',
-                   '01', '00', '00', '00', '01', '00', '00', '00',  '00', '8a', '00', '00', '00', '00', '00', '00',
-                   '00', '00', '00', '00', '00', '00', '00', '00',  '00', '00', '00', '00', '00', '00', '00', '00',
-                   '00', '00', '00', '00', '05', '03', 'ac', 'b3',  '00', '00', '00', '00', '00', '00', '00', '00',
-                   '00', '00', '00', '00', '00', '00', '00', '00',  '00', '00', '00', '00', '67', 'e3', '00', '00',
-                   '20', '00', 'e9', 'a2', '28', 'aa', '96', 'd7',  '28', 'aa', '96', 'd7', 'ac', 'da', 'c4', '43',
-                   '13', 'e4', '15', '62', 'ac', 'da', 'c4', '43', '00', '00', '00', '00', '00', '00', '00', '00']
-    test_obj.print_cmp_with_hex(_input_data)
+        print("c3")  # 因为是小端对象，不能这么赋值了
+        c3 = ext4_extent__test()
+        c3.ee_block = FieldType.get_little_endian_int32(16)     # hex(268435456) '0x10000000'
+        c3.ee_len = FieldType.get_little_endian_int16(1)        # hex(256) '0x0100
+        c3.ee_start_hi = FieldType.get_little_endian_int16(2)   #  hex(512) '0x0200'
+        c3.ee_start_lo = FieldType.get_little_endian_int32(34334)  # 0x861E  ## hex(512098304) '0x1e860000'
+        data_c3 = c3.encode()
+        print('c3 **final:', len(data_c3), type(data_c3), data_c3)
 
-@my_try_except_warpper()
-def ext4_sb_hexdump_test():
-    print("\n\n========ext4_super_block_hexdump_test========")
-    test_obj = ext4_super_block()
-    hexdump_rst="test/hexdump_ext4_super_block.rst"
-    formater = FormatDecoderHexdump(hexdump_rst)
-    formater.parse_to_bytes()
-    test_obj.decode(formater.input_bytes)
-    formater.parse_to_hex_list()
-    test_obj.print_cmp_with_hex(formater.output_data)
+        print("c4")
+        c4 = ext4_extent__test()
+        c4.decode(data_c3)
+        c4.tojson_print1()
 
+        print("ttt")
+        ttt = ext4_extent__test()
+        formater = FormatDecoder()
+        tttbytes0 = formater.parse_chr_array_2_bytes('10000000010002001E860000')
+        print(tttbytes0)
+        tttbytes = formater.parse_chr_array_2_bytes('10 00 00 00  01 00 02 00  1E 86 00 00')
+        print(tttbytes)
+        ttt.decode(tttbytes[0])
+        ttt.tojson_print1()
 
-@my_try_except_warpper()
-def gernel_test():
-    ext4_test()
-    ext4_ccode_test1()
-    ext4_ccode_test2()
-    ext4_ccode_test3()
-    ext4_inode_hexdump_test()
-    # ext4_sb_hexdump_test()
+    @staticmethod
+    def ext4_ccode_test1():
+        print("ext4_ccode_test1 running====")
+        ccode = """
+            int i;
+            int cl;
+        struct ext4_extent_header_mytest {
+            __le16	eh_magic;	/* probably will support different formats
+                                (i add a new line)       #define EXT4_EXT_MAGIC		cpu_to_le16(0xf30a)
+                                */
+            __le16	eh_entries;	/* number of valid entries */
+            __le16	eh_max;		/* capacity of store in entries */
+            __le16	eh_depth;	/* has tree real underlying blocks? */
+                                // i add a new line
+            __le32	eh_generation;	// generation of the tree
+            unsigned       long long   test_field;
+        };
+        """
+        length = 0
+        ccode_result, class_name = FormatDecoder.parse_struct(ccode)
+        ccode_result += "\n"
+        ccode_result += "test_obj = {}()".format(class_name)
+        ccode_result += "\n"
+        ccode_result += "length = test_obj.calculate_size()"
+        ccode_result += "\n"
+        ccode_result += "print(length)"
+        # eval(ccode_result)  # eval new对象 - 报错 SyntaxError: invalid syntax
+        # eval("test_obj = {}()".format(class_name))
+        # eval("length = test_obj.calculate_size()")
+        # 换成exec，结合locals搞定
+        loc = locals()
+        exec(ccode_result)
+        class_ext4_extent_header_mytest = loc['ext4_extent_header_mytest']
+        print(class_ext4_extent_header_mytest)
+        test_obj =class_ext4_extent_header_mytest()
+        test_obj.calculate_size()
 
+    @staticmethod
+    def ext4_ccode_test2():
+        print("ext4_ccode_test2 running====")
+        test_obj = ext4_extent_header_mytest2()
+        length = test_obj.calculate_size()
+        print(length)
+
+    @staticmethod
+    def ext4_ccode_test3():
+        print("ext4_ccode_test3 running====")
+        exec("ext4_extent_header_mytest2().calculate_size()")
+        exec("test_obj = ext4_extent_header_mytest2(); test_obj.calculate_size()")
+
+        loc = locals()
+        exec("test_obj = ext4_extent_header_mytest2()")  # 这里exec的对象，下文中无法使用
+        # 为了修正这样的错误，你需要在调用 exec() 之前使用 locals() 函数来得到一个局部变量字典。 之后你就能从局部字典中获取修改过后的变量值了。
+        test_obj = loc['test_obj']
+        print(test_obj)
+        length = test_obj.calculate_size()
+        print(length)
+
+    @staticmethod
+    def ext4_inode_hexdump_test():
+        print("\n\next4_ccode_test3 running====")
+        print("\n========ext4_inode_hexdump_test========")
+        input_bytes = b'\xa0\x81\x00\x00\x18\x1b\x00\x00\x13\xe4\x15bY\xe4\x15bY\xe4\x15b\x00\x00\x00\x00\x00\x00\x01\x00\x10\x00\x00\x00\x00\x00\x08\x00\x01\x00\x00\x00\n\xf3\x02\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x88\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x00\x8a\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05\x03\xac\xb3\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00g\xe3\x00\x00 \x00\xe9\xa2(\xaa\x96\xd7(\xaa\x96\xd7\xac\xda\xc4C\x13\xe4\x15b\xac\xda\xc4C\x00\x00\x00\x00\x00\x00\x00\x00'
+        # input_length = len(input_bytes) # 160
+        test_obj = ext4_inode()
+        test_obj.decode(input_bytes)
+
+        _input_data = ['a0', '81', '00', '00', '18', '1b', '00', '00',  '13', 'e4', '15', '62', '59', 'e4', '15', '62',
+                       '59', 'e4', '15', '62', '00', '00', '00', '00',  '00', '00', '01', '00', '10', '00', '00', '00',
+                       '00', '00', '08', '00', '01', '00', '00', '00',  '0a', 'f3', '02', '00', '04', '00', '00', '00',
+                       '00', '00', '00', '00', '00', '00', '00', '00',  '01', '00', '00', '00', '00', '88', '00', '00',
+                       '01', '00', '00', '00', '01', '00', '00', '00',  '00', '8a', '00', '00', '00', '00', '00', '00',
+                       '00', '00', '00', '00', '00', '00', '00', '00',  '00', '00', '00', '00', '00', '00', '00', '00',
+                       '00', '00', '00', '00', '05', '03', 'ac', 'b3',  '00', '00', '00', '00', '00', '00', '00', '00',
+                       '00', '00', '00', '00', '00', '00', '00', '00',  '00', '00', '00', '00', '67', 'e3', '00', '00',
+                       '20', '00', 'e9', 'a2', '28', 'aa', '96', 'd7',  '28', 'aa', '96', 'd7', 'ac', 'da', 'c4', '43',
+                       '13', 'e4', '15', '62', 'ac', 'da', 'c4', '43', '00', '00', '00', '00', '00', '00', '00', '00']
+        test_obj.print_cmp_with_hex(_input_data)
+
+    @staticmethod
+    @my_try_except_warpper()
+    def ext4_sb_hexdump_test():
+        print("\n\next4_sb_hexdump_test running====")
+        print("\n========ext4_super_block_hexdump_test========")
+        test_obj = ext4_super_block()
+        hexdump_rst="test/hexdump_ext4_super_block.rst"
+        formater = FormatDecoderHexdump(hexdump_rst)
+        formater.parse_to_bytes()
+        test_obj.decode(formater.input_bytes)
+        formater.parse_to_hex_list()
+        test_obj.print_cmp_with_hex(formater.output_data)
+
+    @staticmethod
+    @my_try_except_warpper()
+    def gernel_test():
+        EXT4_TEST.ext4_test()
+        EXT4_TEST.ext4_ccode_test1()
+        EXT4_TEST.ext4_ccode_test2()
+        EXT4_TEST.ext4_ccode_test3()
+        EXT4_TEST.ext4_inode_hexdump_test()
+        EXT4_TEST.ext4_sb_hexdump_test()
 
 
 ## 拆分到basecode_structs始终还有问题，嵌套子类型不能声明在那边，eval的时候找不到
@@ -1116,10 +1128,10 @@ class ext4_extent_header(BaseCode):
 
 
 if __name__ == '__main__1':
-    gernel_test()
+    EXT4_TEST.gernel_test()
 
 # 不用动name了，直接在这改0和1
-TEST_SWITCH = 1
+TEST_SWITCH = 0
 
 
 def help(selfname):
@@ -1134,7 +1146,7 @@ def help(selfname):
 # python basecode.py -c ext4_super_block -r vi
 if __name__ == '__main__':
     if TEST_SWITCH:
-        gernel_test()
+        EXT4_TEST.gernel_test()
         exit(0)
 
     class_type = None
